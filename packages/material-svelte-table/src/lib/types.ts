@@ -585,9 +585,19 @@ export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
   row: MRT_Row<TData>;
 };
 
-export type MRT_AggregationOption = string & keyof typeof MRT_AggregationFns;
+export type MRT_AggregationOption = LiteralUnion<
+  string & keyof typeof MRT_AggregationFns
+>;
 
-export type MRT_AggregationFn = MRT_AggregationOption;
+/**
+ * A built-in or registered aggregation function name, `'auto'`, or (to compute
+ * several per column) a named descriptor. A column can also take an array of
+ * these; the cell value is then an object keyed by id.
+ */
+export type MRT_AggregationFn =
+  | MRT_AggregationOption
+  | 'auto'
+  | { aggregationFn: MRT_AggregationOption | 'auto'; id: string };
 
 export type MRT_SortOption = LiteralUnion<string & keyof typeof MRT_SortFns>;
 

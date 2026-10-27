@@ -57,3 +57,22 @@ export const makeTree = (): Employee[] =>
 
 export const people = makePeople(100);
 export const employees = makeEmployees(100);
+
+import type { MRT_ColumnDef } from '../src/lib';
+
+export const personColumns: MRT_ColumnDef<Person>[] = [
+  { accessorKey: 'firstName', header: 'First Name' },
+  { accessorKey: 'lastName', header: 'Last Name' },
+  { accessorKey: 'address', header: 'Address' },
+  { accessorKey: 'state', header: 'State' },
+  { accessorKey: 'phoneNumber', header: 'Phone Number' },
+];
+
+export const employeeColumns: MRT_ColumnDef<Employee>[] = [
+  { accessorKey: 'firstName', header: 'First Name' },
+  { accessorKey: 'lastName', header: 'Last Name' },
+  { accessorKey: 'gender', header: 'Gender' },
+  { accessorKey: 'state', header: 'State' },
+  { accessorKey: 'age', header: 'Age' },
+  { accessorKey: 'salary', header: 'Salary' },
+];

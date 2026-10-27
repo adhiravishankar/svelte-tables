@@ -41,12 +41,13 @@
   },
   "scripts": {
     "dev": "vite dev",
-    "build": "svelte-package -i src/lib -o dist",
+    "build": "node scripts/build-styles.mjs && svelte-package -i src/lib -o dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint .",
     "test": "vitest run",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "node scripts/build-styles.mjs && storybook dev -p 6006",
+    "build-storybook": "node scripts/build-styles.mjs && storybook build",
+    "styles": "node scripts/build-styles.mjs"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
