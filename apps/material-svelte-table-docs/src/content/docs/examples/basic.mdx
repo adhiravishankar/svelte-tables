@@ -1,0 +1,19 @@
+---
+title: Basic Example
+description: The default table: sorting, filtering, search, pagination and column actions with just columns and data.
+sidebar:
+  order: 1
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Basic from '../../../examples/Basic.svelte';
+
+This is all it takes. Every feature below is already on: click a header to sort, open the column menu for more
+actions, use the filter, search and density buttons in the toolbar, and page through the rows.
+
+<Example>
+  <Basic client:load />
+</Example>
+
+<ExampleSource name="Basic" />

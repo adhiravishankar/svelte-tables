@@ -1,0 +1,18 @@
+---
+title: Expanding Tree
+description: Nested rows from a `subRows` field.
+sidebar:
+  order: 8
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import ExpandingTree from '../../../examples/ExpandingTree.svelte';
+
+Give rows a `subRows` array, enable expanding, and tell the table where to find them with `getSubRows`.
+
+<Example>
+  <ExpandingTree client:load />
+</Example>
+
+<ExampleSource name="ExpandingTree" />

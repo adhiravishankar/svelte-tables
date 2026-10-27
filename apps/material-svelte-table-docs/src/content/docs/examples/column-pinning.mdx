@@ -1,0 +1,19 @@
+---
+title: Column Pinning
+description: Pin columns to the start or end of a scrolling table.
+sidebar:
+  order: 7
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import ColumnPinning from '../../../examples/ColumnPinning.svelte';
+
+Pin a column from its menu, from the show/hide columns menu, or start with some pinned through
+`initialState.columnPinning`. Display columns such as `mrt-row-select` can be pinned too. Scroll the table sideways.
+
+<Example>
+  <ColumnPinning client:load />
+</Example>
+
+<ExampleSource name="ColumnPinning" />

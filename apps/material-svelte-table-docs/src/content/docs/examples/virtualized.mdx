@@ -1,0 +1,18 @@
+---
+title: Row Virtualization
+description: 10,000 rows, with only the visible ones in the DOM.
+sidebar:
+  order: 5
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Virtualized from '../../../examples/Virtualized.svelte';
+
+Scroll the table: only the rows in view are rendered. See the [Virtualization guide](/guides/virtualization/).
+
+<Example>
+  <Virtualized client:load />
+</Example>
+
+<ExampleSource name="Virtualized" />

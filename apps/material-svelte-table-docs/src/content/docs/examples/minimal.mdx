@@ -1,0 +1,18 @@
+---
+title: Minimal Example
+description: The same table with every interactive feature turned off.
+sidebar:
+  order: 2
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Minimal from '../../../examples/Minimal.svelte';
+
+Turn off what you do not need and the table is a plain, styled grid. Useful for short, read-only lists.
+
+<Example>
+  <Minimal client:load />
+</Example>
+
+<ExampleSource name="Minimal" />

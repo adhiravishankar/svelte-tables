@@ -1,0 +1,21 @@
+---
+title: Remote Data
+description: Server-side pagination, sorting, filtering and search.
+sidebar:
+  order: 4
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Remote from '../../../examples/Remote.svelte';
+
+With `manualPagination`, `manualSorting` and `manualFiltering` the table does not process the data. It reports
+what the user asked for, and shows what the "server" sends back. Pass `rowCount` so the pager knows the total.
+
+The request below is a fake API with 400ms of latency. A newer request cancels an older one that is still in flight.
+
+<Example>
+  <Remote client:load />
+</Example>
+
+<ExampleSource name="Remote" />

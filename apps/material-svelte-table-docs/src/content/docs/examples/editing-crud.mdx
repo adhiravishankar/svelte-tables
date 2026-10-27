@@ -1,0 +1,20 @@
+---
+title: Editing (CRUD)
+description: Create, edit and delete rows in a dialog, with validation.
+sidebar:
+  order: 3
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import EditingCrud from '../../../examples/EditingCrud.svelte';
+
+Create, edit and delete users. Edits go through a dialog, validated in the save handler: returning without calling
+`exitEditingMode()` keeps it open. In a real app, replace the local `data` updates with requests.
+See the [Editing guide](/guides/editing/).
+
+<Example>
+  <EditingCrud client:load />
+</Example>
+
+<ExampleSource name="EditingCrud" />
