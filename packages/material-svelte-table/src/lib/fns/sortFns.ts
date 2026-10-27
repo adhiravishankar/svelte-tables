@@ -1,9 +1,5 @@
 import { type RankingInfo, compareItems } from '@tanstack/match-sorter-utils';
-import {
-  type Row,
-  sortFn_alphanumeric,
-  sortFns,
-} from '@tanstack/svelte-table';
+import { type Row, sortFn_alphanumeric, sortFns } from '@tanstack/svelte-table';
 import { type MRT_Row, type MRT_RowData } from '../types';
 
 const fuzzy = <TData extends MRT_RowData>(

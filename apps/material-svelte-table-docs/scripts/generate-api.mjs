@@ -7,9 +7,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-// TypeScript 7 has no stable JS compiler API, so the script uses a pinned 5.x copy.
-// (Alias of typescript@5.7.2, see devDependencies.)
-import ts from 'typescript-api';
+import ts from 'typescript';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const lib = join(root, '../../packages/material-svelte-table/src/lib');
@@ -17,7 +15,12 @@ const outDir = join(root, 'src/content/docs/api');
 mkdirSync(outDir, { recursive: true });
 
 const read = (file) =>
-  ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true);
+  ts.createSourceFile(
+    file,
+    readFileSync(file, 'utf8'),
+    ts.ScriptTarget.Latest,
+    true,
+  );
 
 const types = read(join(lib, 'types.ts'));
 const optionsSource = read(join(lib, 'tableOptions.ts'));
@@ -28,7 +31,11 @@ const oneLine = (text) => text.replace(/\s+/g, ' ').trim();
 function readDefaults() {
   const defaults = {};
   const visit = (node) => {
-    if (ts.isFunctionLike(node) && node.name === undefined && ts.isVariableDeclaration(node.parent)) {
+    if (
+      ts.isFunctionLike(node) &&
+      node.name === undefined &&
+      ts.isVariableDeclaration(node.parent)
+    ) {
       // arrow function assigned to a const
     }
     if (
@@ -55,14 +62,21 @@ const defaults = readDefaults();
 function docOf(node) {
   const docs = node.jsDoc;
   if (!docs?.length) return '';
-  const comment = docs.map((d) => (typeof d.comment === 'string' ? d.comment : ts.getTextOfJSDocComment(d.comment) ?? '')).join('\n');
+  const comment = docs
+    .map((d) =>
+      typeof d.comment === 'string'
+        ? d.comment
+        : (ts.getTextOfJSDocComment(d.comment) ?? ''),
+    )
+    .join('\n');
   return oneLine(comment);
 }
 
 function interfaceMembers(name) {
   let found;
   ts.forEachChild(types, (node) => {
-    if (ts.isInterfaceDeclaration(node) && node.name.text === name) found = node;
+    if (ts.isInterfaceDeclaration(node) && node.name.text === name)
+      found = node;
   });
   if (!found) throw new Error(`Interface ${name} not found in types.ts`);
   return found.members
@@ -73,18 +87,26 @@ function interfaceMembers(name) {
       optional: !!member.questionToken,
       type: oneLine(member.type?.getText(types) ?? 'unknown'),
     }))
-    .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+    .sort((a, b) =>
+      a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }),
+    );
 }
 
 // MDX treats `{` and `<` as syntax, `|` ends a table cell: keep text safe.
-const code = (text) => '`' + text.replace(/\|/g, '\\|').replace(/`/g, "'") + '`';
-const prose = (text) => text.replace(/\|/g, '\\|').replace(/[{}<>]/g, (c) => `\\${c}`);
+const code = (text) =>
+  '`' + text.replace(/\|/g, '\\|').replace(/`/g, "'") + '`';
+const prose = (text) =>
+  text.replace(/\|/g, '\\|').replace(/[{}<>]/g, (c) => `\\${c}`);
 
 function table(members, { withDefaults }) {
-  const head = withDefaults ? '| Option | Type | Default | Description |\n| --- | --- | --- | --- |' : '| Name | Type | Description |\n| --- | --- | --- |';
+  const head = withDefaults
+    ? '| Option | Type | Default | Description |\n| --- | --- | --- | --- |'
+    : '| Name | Type | Description |\n| --- | --- | --- |';
   const rows = members.map((m) => {
     const name = code(m.name + (m.optional ? '?' : ''));
-    const type = code(m.type.length > 160 ? m.type.slice(0, 157) + '…' : m.type);
+    const type = code(
+      m.type.length > 160 ? m.type.slice(0, 157) + '…' : m.type,
+    );
     const doc = prose(m.doc);
     if (!withDefaults) return `| ${name} | ${type} | ${doc} |`;
     const def = defaults[m.name] !== undefined ? code(defaults[m.name]) : '';
@@ -115,7 +137,8 @@ write(
   'table-options.mdx',
   page({
     body: table(tableOptions, { withDefaults: true }),
-    description: 'Every option of createMaterialSvelteTable and the MaterialSvelteTable component.',
+    description:
+      'Every option of createMaterialSvelteTable and the MaterialSvelteTable component.',
     intro: `Options for \`createMaterialSvelteTable\` and \`<MaterialSvelteTable options={…} />\`. Only \`columns\` and \`data\`
 are required.
 

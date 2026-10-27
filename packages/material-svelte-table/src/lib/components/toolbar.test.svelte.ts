@@ -60,7 +60,9 @@ describe('toolbars', () => {
 
   it('changes the page size', () => {
     const root = render();
-    const select = root.querySelector<HTMLSelectElement>('.mrt-rows-per-page select')!;
+    const select = root.querySelector<HTMLSelectElement>(
+      '.mrt-rows-per-page select',
+    )!;
     select.value = '25';
     select.dispatchEvent(new Event('change', { bubbles: true }));
     flushSync();
@@ -96,7 +98,9 @@ describe('toolbars', () => {
     expect(root.querySelector('.mrt-global-filter input')).toBeNull();
     button(root, 'Show/Hide search').click();
     flushSync();
-    const input = root.querySelector<HTMLInputElement>('.mrt-global-filter input')!;
+    const input = root.querySelector<HTMLInputElement>(
+      '.mrt-global-filter input',
+    )!;
     expect(input).not.toBeNull();
     input.value = 'Person 07';
     input.dispatchEvent(new Event('input', { bubbles: true }));

@@ -18,7 +18,9 @@ export async function fetchPeople(query: Query) {
 
   for (const { id, value } of query.filters) {
     rows = rows.filter((row) =>
-      String(row[id as keyof Person]).toLowerCase().includes(String(value).toLowerCase()),
+      String(row[id as keyof Person])
+        .toLowerCase()
+        .includes(String(value).toLowerCase()),
     );
   }
 
@@ -40,5 +42,8 @@ export async function fetchPeople(query: Query) {
   }
 
   const start = query.pageIndex * query.pageSize;
-  return { rowCount: rows.length, rows: rows.slice(start, start + query.pageSize) };
+  return {
+    rowCount: rows.length,
+    rows: rows.slice(start, start + query.pageSize),
+  };
 }

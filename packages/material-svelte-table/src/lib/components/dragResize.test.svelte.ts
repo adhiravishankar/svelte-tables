@@ -47,8 +47,16 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-const fire = (el: EventTarget, type: string, init: EventInit & Record<string, any> = {}) => {
-  const event = new MouseEvent(type, { bubbles: true, cancelable: true, ...init });
+const fire = (
+  el: EventTarget,
+  type: string,
+  init: EventInit & Record<string, any> = {},
+) => {
+  const event = new MouseEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    ...init,
+  });
   el.dispatchEvent(event);
   flushSync();
   return event;
@@ -70,17 +78,28 @@ const frame = () =>
     requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
   );
 const sizeVar = (root: HTMLElement, id: string) =>
-  root.querySelector<HTMLElement>('table')!.style.getPropertyValue(`--header-${id}-size`);
+  root
+    .querySelector<HTMLElement>('table')!
+    .style.getPropertyValue(`--header-${id}-size`);
 
 describe('column dragging', () => {
   it('shows a drag handle only when dragging is possible', () => {
-    expect(render().querySelectorAll('button[aria-label="Move"]')).toHaveLength(0);
+    expect(render().querySelectorAll('button[aria-label="Move"]')).toHaveLength(
+      0,
+    );
     document.body.innerHTML = '';
     const root = render({ enableColumnOrdering: true });
-    expect(root.querySelectorAll('thead button[aria-label="Move"]')).toHaveLength(3);
+    expect(
+      root.querySelectorAll('thead button[aria-label="Move"]'),
+    ).toHaveLength(3);
     document.body.innerHTML = '';
-    const off = render({ enableColumnDragging: false, enableColumnOrdering: true });
-    expect(off.querySelectorAll('thead button[aria-label="Move"]')).toHaveLength(0);
+    const off = render({
+      enableColumnDragging: false,
+      enableColumnOrdering: true,
+    });
+    expect(
+      off.querySelectorAll('thead button[aria-label="Move"]'),
+    ).toHaveLength(0);
   });
 
   it('reorders columns by dragging a header onto another', () => {
@@ -90,11 +109,15 @@ describe('column dragging', () => {
     // the dragged column is outlined
     expect(headCell(root, 'City').getAttribute('style')).toContain('dashed');
     fire(headCell(root, 'Name'), 'dragenter');
-    expect(headCell(root, 'Name').getAttribute('style')).toContain('2px dashed');
+    expect(headCell(root, 'Name').getAttribute('style')).toContain(
+      '2px dashed',
+    );
     fire(handle, 'dragend');
     expect(headers(root)).toEqual(['City', 'Name', 'Age']);
     // borders are cleared again
-    expect(headCell(root, 'City').getAttribute('style')).not.toContain('dashed');
+    expect(headCell(root, 'City').getAttribute('style')).not.toContain(
+      'dashed',
+    );
   });
 
   it('can drop on a body cell as well', () => {
@@ -108,7 +131,11 @@ describe('column dragging', () => {
 
   it('respects enableColumnOrdering: false on a column', () => {
     const root = render({
-      columns: [columns[0], { ...columns[1], enableColumnOrdering: false }, columns[2]],
+      columns: [
+        columns[0],
+        { ...columns[1], enableColumnOrdering: false },
+        columns[2],
+      ],
       enableColumnOrdering: true,
     });
     expect(
@@ -151,38 +178,60 @@ describe('row dragging and pinning', () => {
         },
       }),
     });
-    const handles = root.querySelectorAll<HTMLElement>('tbody button[aria-label="Move"]');
+    const handles = root.querySelectorAll<HTMLElement>(
+      'tbody button[aria-label="Move"]',
+    );
     expect(handles).toHaveLength(3);
     fire(handles[0], 'dragstart');
-    expect(root.querySelector('tbody tr')!.getAttribute('style')).toContain('opacity: 0.5');
+    expect(root.querySelector('tbody tr')!.getAttribute('style')).toContain(
+      'opacity: 0.5',
+    );
     fire(root.querySelectorAll('tbody tr')[2], 'dragenter');
     fire(handles[0], 'dragend');
     // the callback saw both rows before they were cleared
     expect(states).toEqual(['0->2']);
-    expect(root.querySelector('tbody tr')!.getAttribute('style')).not.toContain('opacity: 0.5');
+    expect(root.querySelector('tbody tr')!.getAttribute('style')).not.toContain(
+      'opacity: 0.5',
+    );
   });
 
   it('pins rows to the top', () => {
-    const root = render({ enableRowPinning: true, rowPinningDisplayMode: 'sticky' });
-    const pins = root.querySelectorAll<HTMLButtonElement>('tbody button[aria-label="Pin"]');
+    const root = render({
+      enableRowPinning: true,
+      rowPinningDisplayMode: 'sticky',
+    });
+    const pins = root.querySelectorAll<HTMLButtonElement>(
+      'tbody button[aria-label="Pin"]',
+    );
     expect(pins).toHaveLength(3);
     pins[2].click();
     flushSync();
     // a sticky pinned row keeps its place in the list and sticks when scrolled
     const rows = Array.from(root.querySelectorAll('tbody tr'));
-    expect(rows.map((r) => r.getAttribute('data-pinned'))).toEqual([null, null, 'true']);
+    expect(rows.map((r) => r.getAttribute('data-pinned'))).toEqual([
+      null,
+      null,
+      'true',
+    ]);
     expect(rows[2].getAttribute('style')).toContain('position: sticky');
     // the pinned row now offers to unpin
     expect(rows[2].querySelector('button[aria-label="Pin"]')).not.toBeNull();
-    rows[2].querySelector<HTMLButtonElement>('button[aria-label="Pin"]')!.click();
+    rows[2]
+      .querySelector<HTMLButtonElement>('button[aria-label="Pin"]')!
+      .click();
     flushSync();
     expect(root.querySelector('tbody tr[data-pinned]')).toBeNull();
   });
 
   it('offers top and bottom pins in top-and-bottom mode', () => {
-    const root = render({ enableRowPinning: true, rowPinningDisplayMode: 'top-and-bottom' });
+    const root = render({
+      enableRowPinning: true,
+      rowPinningDisplayMode: 'top-and-bottom',
+    });
     expect(
-      root.querySelector('tbody tr')!.querySelectorAll('button[aria-label="Pin"]'),
+      root
+        .querySelector('tbody tr')!
+        .querySelectorAll('button[aria-label="Pin"]'),
     ).toHaveLength(2);
   });
 });
@@ -205,10 +254,14 @@ describe('column resizing', () => {
     // while dragging, the column is outlined and body cells follow
     fire(document, 'mousemove', { clientX: 160 });
     expect(Number(sizeVar(root, 'name'))).toBe(240);
-    expect(headCell(root, 'Name').getAttribute('style')).toContain('border-right: 2px solid');
+    expect(headCell(root, 'Name').getAttribute('style')).toContain(
+      'border-right: 2px solid',
+    );
     fire(document, 'mouseup', { clientX: 160 });
     expect(Number(sizeVar(root, 'name'))).toBe(240);
-    expect(headCell(root, 'Name').getAttribute('style')).not.toContain('2px solid');
+    expect(headCell(root, 'Name').getAttribute('style')).not.toContain(
+      '2px solid',
+    );
     // other columns are untouched
     expect(Number(sizeVar(root, 'age'))).toBe(180);
   });
@@ -216,7 +269,11 @@ describe('column resizing', () => {
   it('respects min and max sizes', async () => {
     const root = render({
       ...resizeOptions,
-      columns: [{ ...columns[0], maxSize: 200, minSize: 100 }, columns[1], columns[2]],
+      columns: [
+        { ...columns[0], maxSize: 200, minSize: 100 },
+        columns[1],
+        columns[2],
+      ],
     });
     const handle = headCell(root, 'Name').querySelector('.mrt-resize-handle')!;
     fire(handle, 'mousedown', { clientX: 100 });
@@ -231,7 +288,9 @@ describe('column resizing', () => {
 
   it('only applies the size when released in onEnd mode', () => {
     const root = render({ ...resizeOptions, columnResizeMode: 'onEnd' });
-    const handle = headCell(root, 'Name').querySelector('.mrt-resize-handle')! as HTMLElement;
+    const handle = headCell(root, 'Name').querySelector(
+      '.mrt-resize-handle',
+    )! as HTMLElement;
     fire(handle, 'mousedown', { clientX: 100 });
     fire(document, 'mousemove', { clientX: 150 });
     expect(Number(sizeVar(root, 'name'))).toBe(180);
@@ -255,6 +314,8 @@ describe('column resizing', () => {
     const root = render(resizeOptions);
     expect(root.querySelector('table')!.style.display).toBe('grid');
     // the spacer column soaks up the remaining space
-    expect(root.querySelector('thead th:last-child')!.getAttribute('style')).toContain('flex: 1 0 auto');
+    expect(
+      root.querySelector('thead th:last-child')!.getAttribute('style'),
+    ).toContain('flex: 1 0 auto');
   });
 });

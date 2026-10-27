@@ -166,11 +166,11 @@ export type MRT_Ref<T> = { current: T | null };
 export type MRT_ColumnHelper<TData extends MRT_RowData> = {
   accessor: <
     TAccessor extends AccessorFn<TData> | DeepKeys<TData>,
-    TValue extends TAccessor extends AccessorFn<TData, infer TReturn>
+    TValue extends (TAccessor extends AccessorFn<TData, infer TReturn>
       ? TReturn
       : TAccessor extends DeepKeys<TData>
         ? DeepValue<TData, TAccessor>
-        : never,
+        : never),
   >(
     accessor: TAccessor,
     column: MRT_DisplayColumnDef<TData, TValue>,
@@ -322,8 +322,9 @@ export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
     >;
   };
 
-export interface MRT_TableState<TData extends MRT_RowData>
-  extends TableState<MRT_Features> {
+export interface MRT_TableState<
+  TData extends MRT_RowData,
+> extends TableState<MRT_Features> {
   actionCell: MRT_Cell<TData> | null;
   columnFilterFns: MRT_ColumnFilterFnsState;
   creatingRow: MRT_Row<TData> | null;
@@ -365,21 +366,23 @@ export interface MRT_ColumnContext<
   table: MRT_TableInstance<TData>;
 }
 
-export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
-  extends Omit<
-    ColumnDef<MRT_Features, TData, any>,
-    | 'accessorFn'
-    | 'accessorKey'
-    | 'aggregatedCell'
-    | 'aggregationFn'
-    | 'cell'
-    | 'columns'
-    | 'filterFn'
-    | 'footer'
-    | 'header'
-    | 'id'
-    | 'sortFn'
-  > {
+export interface MRT_ColumnDef<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> extends Omit<
+  ColumnDef<MRT_Features, TData, any>,
+  | 'accessorFn'
+  | 'accessorKey'
+  | 'aggregatedCell'
+  | 'aggregationFn'
+  | 'cell'
+  | 'columns'
+  | 'filterFn'
+  | 'footer'
+  | 'header'
+  | 'id'
+  | 'sortFn'
+> {
   /**
    * Either an `accessorKey` or a combination of an `accessorFn` and `id` are required for a data column definition.
    *
@@ -494,7 +497,10 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     ElementProps<'td'>,
     MRT_CellContext<TData, TValue>
   >;
-  tableFooterCellProps?: PropsOrFn<ElementProps<'td'>, MRT_ColumnContext<TData>>;
+  tableFooterCellProps?: PropsOrFn<
+    ElementProps<'td'>,
+    MRT_ColumnContext<TData>
+  >;
   tableHeadCellProps?: PropsOrFn<ElementProps<'th'>, MRT_ColumnContext<TData>>;
   PlaceholderCell?: Snippet<[MRT_CellContext<TData, TValue>]>;
   cellActionMenuItems?: Snippet<
@@ -648,18 +654,17 @@ type RowContext<TData extends MRT_RowData> = TableContext<TData> & {
  * prefix (e.g. `renderDetailPanel` is `detailPanel`), and every `muiXProps`
  * option is now `xProps`.
  */
-export interface MRT_TableOptions<TData extends MRT_RowData>
-  extends Omit<
-    Partial<TableOptions<MRT_Features, TData>>,
-    | 'columns'
-    | 'data'
-    | 'defaultColumn'
-    | 'enableRowSelection'
-    | 'getRowId'
-    | 'globalFilterFn'
-    | 'initialState'
-    | 'state'
-  > {
+export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
+  Partial<TableOptions<MRT_Features, TData>>,
+  | 'columns'
+  | 'data'
+  | 'defaultColumn'
+  | 'enableRowSelection'
+  | 'getRowId'
+  | 'globalFilterFn'
+  | 'initialState'
+  | 'state'
+> {
   /**
    * Custom aggregation functions, merged into the built-in ones. In TanStack
    * Table v9 these are registered once when the table is created and cannot
@@ -804,7 +809,10 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     RowContext<TData> & { isDetailPanel?: boolean; staticRowIndex: number }
   >;
   tableContainerProps?: PropsOrFn<ElementProps<'div'>, TableContext<TData>>;
-  tableFooterCellProps?: PropsOrFn<ElementProps<'td'>, MRT_ColumnContext<TData>>;
+  tableFooterCellProps?: PropsOrFn<
+    ElementProps<'td'>,
+    MRT_ColumnContext<TData>
+  >;
   tableFooterProps?: PropsOrFn<ElementProps<'tfoot'>, TableContext<TData>>;
   tableFooterRowProps?: PropsOrFn<
     ElementProps<'tr'>,

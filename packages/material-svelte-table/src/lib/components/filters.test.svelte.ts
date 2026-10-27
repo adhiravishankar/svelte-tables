@@ -12,10 +12,34 @@ type Person = {
 };
 
 const people: Person[] = [
-  { active: true, age: 30, born: new Date(1994, 0, 15), city: 'Paris', name: 'Carol' },
-  { active: false, age: 25, born: new Date(1999, 5, 1), city: 'Rome', name: 'Alice' },
-  { active: true, age: 41, born: new Date(1983, 11, 30), city: 'Paris', name: 'Bob' },
-  { active: false, age: 52, born: new Date(1972, 2, 3), city: 'Oslo', name: 'Dan' },
+  {
+    active: true,
+    age: 30,
+    born: new Date(1994, 0, 15),
+    city: 'Paris',
+    name: 'Carol',
+  },
+  {
+    active: false,
+    age: 25,
+    born: new Date(1999, 5, 1),
+    city: 'Rome',
+    name: 'Alice',
+  },
+  {
+    active: true,
+    age: 41,
+    born: new Date(1983, 11, 30),
+    city: 'Paris',
+    name: 'Bob',
+  },
+  {
+    active: false,
+    age: 52,
+    born: new Date(1972, 2, 3),
+    city: 'Oslo',
+    name: 'Dan',
+  },
 ];
 
 let target: HTMLElement;
@@ -69,7 +93,9 @@ const settle = (ms = 500) => {
 };
 
 const nameCol: MRT_ColumnDef<Person> = { accessorKey: 'name', header: 'Name' };
-const ageCol = (extra: Partial<MRT_ColumnDef<Person>> = {}): MRT_ColumnDef<Person> => ({
+const ageCol = (
+  extra: Partial<MRT_ColumnDef<Person>> = {},
+): MRT_ColumnDef<Person> => ({
   accessorFn: (row) => row.age,
   header: 'Age',
   id: 'age',
@@ -80,7 +106,9 @@ describe('text filter', () => {
   it('filters rows as you type, with a debounce', () => {
     vi.useFakeTimers();
     const root = render([nameCol, ageCol()]);
-    const input = root.querySelector<HTMLInputElement>('thead input[aria-label="Filter by Name"]')!;
+    const input = root.querySelector<HTMLInputElement>(
+      'thead input[aria-label="Filter by Name"]',
+    )!;
     expect(input).not.toBeNull();
     type(input, 'ali');
     expect(names(root)).toHaveLength(4);
@@ -96,7 +124,9 @@ describe('text filter', () => {
     settle();
     expect(root.querySelector('.mrt-filter-label')).not.toBeNull();
     root
-      .querySelector<HTMLButtonElement>('thead button[aria-label="Clear filter"]')!
+      .querySelector<HTMLButtonElement>(
+        'thead button[aria-label="Clear filter"]',
+      )!
       .click();
     flushSync();
     expect(names(root)).toHaveLength(4);
@@ -147,7 +177,10 @@ describe('select filters', () => {
 
   it('builds options from faceted values when none are given', () => {
     const root = render(
-      [nameCol, { accessorKey: 'city', filterVariant: 'select', header: 'City' }],
+      [
+        nameCol,
+        { accessorKey: 'city', filterVariant: 'select', header: 'City' },
+      ],
       { enableFacetedValues: true },
     );
     const labels = Array.from(root.querySelectorAll('thead select option')).map(
@@ -167,7 +200,11 @@ describe('select filters', () => {
     const items = Array.from(
       document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
     );
-    expect(items.map((i) => i.textContent?.trim())).toEqual(['Paris', 'Rome', 'Oslo']);
+    expect(items.map((i) => i.textContent?.trim())).toEqual([
+      'Paris',
+      'Rome',
+      'Oslo',
+    ]);
     items[0].click();
     flushSync();
     items[2].click();
@@ -256,7 +293,9 @@ describe('date filters', () => {
       columnFilterModeOptions: ['equals', 'greaterThan'],
       initialState: { showColumnFilters: true } as any,
     });
-    const input = root.querySelector<HTMLInputElement>('thead input[type="date"]')!;
+    const input = root.querySelector<HTMLInputElement>(
+      'thead input[type="date"]',
+    )!;
     expect(input).not.toBeNull();
   });
 
@@ -280,7 +319,10 @@ describe('autocomplete filter', () => {
   it('offers options in a datalist and filters by what is typed', () => {
     vi.useFakeTimers();
     const root = render(
-      [nameCol, { accessorKey: 'city', filterVariant: 'autocomplete', header: 'City' }],
+      [
+        nameCol,
+        { accessorKey: 'city', filterVariant: 'autocomplete', header: 'City' },
+      ],
       { enableFacetedValues: true },
     );
     const options = Array.from(root.querySelectorAll('datalist option')).map(
@@ -299,22 +341,26 @@ describe('filter modes', () => {
   it('changes the filter mode from the menu', () => {
     vi.useFakeTimers();
     const root = render([nameCol], { enableColumnFilterModes: true });
-    expect(root.querySelector('.mrt-filter-mode-label')?.textContent?.trim()).toBe(
-      'Filter Mode: Fuzzy',
-    );
+    expect(
+      root.querySelector('.mrt-filter-mode-label')?.textContent?.trim(),
+    ).toBe('Filter Mode: Fuzzy');
     root
-      .querySelector<HTMLButtonElement>('thead button[aria-label="Change filter mode"]')!
+      .querySelector<HTMLButtonElement>(
+        'thead button[aria-label="Change filter mode"]',
+      )!
       .click();
     flushSync();
     const items = Array.from(
       document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
     );
-    const startsWith = items.find((i) => i.textContent?.includes('Starts With'))!;
+    const startsWith = items.find((i) =>
+      i.textContent?.includes('Starts With'),
+    )!;
     startsWith.click();
     flushSync();
-    expect(root.querySelector('.mrt-filter-mode-label')?.textContent?.trim()).toBe(
-      'Filter Mode: Starts With',
-    );
+    expect(
+      root.querySelector('.mrt-filter-mode-label')?.textContent?.trim(),
+    ).toBe('Filter Mode: Starts With');
     type(root.querySelector<HTMLInputElement>('thead input')!, 'ob');
     settle();
     expect(names(root)).toEqual([]); // nobody's name starts with "ob"
@@ -329,7 +375,9 @@ describe('filter modes', () => {
       enableColumnFilterModes: true,
     });
     root
-      .querySelector<HTMLButtonElement>('thead button[aria-label="Change filter mode"]')!
+      .querySelector<HTMLButtonElement>(
+        'thead button[aria-label="Change filter mode"]',
+      )!
       .click();
     flushSync();
     const notEmpty = Array.from(
@@ -337,7 +385,9 @@ describe('filter modes', () => {
     ).find((i) => i.textContent?.includes('Not Empty'))!;
     notEmpty.click();
     flushSync();
-    expect(root.querySelector('thead .mrt-chip')?.textContent).toContain('Not Empty');
+    expect(root.querySelector('thead .mrt-chip')?.textContent).toContain(
+      'Not Empty',
+    );
     expect(names(root)).toHaveLength(4);
   });
 
@@ -348,7 +398,9 @@ describe('filter modes', () => {
       initialState: { showGlobalFilter: true } as any,
     });
     root
-      .querySelector<HTMLButtonElement>('button[aria-label="Change search mode"]')!
+      .querySelector<HTMLButtonElement>(
+        'button[aria-label="Change search mode"]',
+      )!
       .click();
     flushSync();
     const labels = Array.from(
@@ -367,11 +419,15 @@ describe('display modes', () => {
       initialState: {},
     });
     expect(root.querySelector('thead input')).toBeNull();
-    const button = root.querySelector<HTMLButtonElement>('.mrt-filter-label-button')!;
+    const button = root.querySelector<HTMLButtonElement>(
+      '.mrt-filter-label-button',
+    )!;
     expect(button).not.toBeNull();
     button.click();
     flushSync();
-    expect(document.body.querySelector('.mrt-filter-popover input')).not.toBeNull();
+    expect(
+      document.body.querySelector('.mrt-filter-popover input'),
+    ).not.toBeNull();
   });
 
   it('lets a Filter snippet replace the built-in input', async () => {
@@ -389,7 +445,9 @@ describe('custom filter functions', () => {
   it('keeps a column-level filterFn function and does not mutate column defs', () => {
     vi.useFakeTimers();
     const startsWith = (row: any, columnId: string, value: string) =>
-      String(row.getValue(columnId)).toLowerCase().startsWith(value.toLowerCase());
+      String(row.getValue(columnId))
+        .toLowerCase()
+        .startsWith(value.toLowerCase());
     const column: MRT_ColumnDef<Person> = {
       accessorKey: 'name',
       filterFn: startsWith as any,

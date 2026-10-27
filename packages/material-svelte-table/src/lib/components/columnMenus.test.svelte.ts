@@ -58,7 +58,8 @@ const menuItems = () =>
   Array.from(
     document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
   );
-const itemText = (el: HTMLElement) => el.textContent?.replace(/\s+/g, ' ').trim();
+const itemText = (el: HTMLElement) =>
+  el.textContent?.replace(/\s+/g, ' ').trim();
 const clickItem = (text: string) => {
   const item = menuItems().find((i) => itemText(i)?.includes(text));
   expect(item, `menu item "${text}"`).toBeTruthy();
@@ -67,7 +68,9 @@ const clickItem = (text: string) => {
 };
 const openActions = (root: HTMLElement, index = 0) => {
   root
-    .querySelectorAll<HTMLButtonElement>('thead button[aria-label="Column Actions"]')
+    .querySelectorAll<HTMLButtonElement>(
+      'thead button[aria-label="Column Actions"]',
+    )
     [index].click();
   flushSync();
 };
@@ -79,7 +82,9 @@ describe('column actions menu', () => {
       root.querySelectorAll('thead button[aria-label="Column Actions"]'),
     ).toHaveLength(3);
     const off = render({ enableColumnActions: false });
-    expect(off.querySelectorAll('thead button[aria-label="Column Actions"]')).toHaveLength(0);
+    expect(
+      off.querySelectorAll('thead button[aria-label="Column Actions"]'),
+    ).toHaveLength(0);
   });
 
   it('sorts from the menu', () => {
@@ -137,7 +142,9 @@ describe('column actions menu', () => {
     const getColumn = (id: string) => id;
     expect(getColumn('name')).toBe('name');
     openActions(root, 0);
-    const clear = menuItems().find((i) => itemText(i)?.includes('Clear filter'))!;
+    const clear = menuItems().find((i) =>
+      itemText(i)?.includes('Clear filter'),
+    )!;
     expect(clear.getAttribute('aria-disabled')).toBe('true');
   });
 
@@ -172,7 +179,9 @@ describe('show/hide columns menu', () => {
     const root = render({ enableTopToolbar: true, ...options });
     openMenu(root);
     root
-      .querySelector<HTMLButtonElement>('button[aria-label="Show/Hide columns"]')!
+      .querySelector<HTMLButtonElement>(
+        'button[aria-label="Show/Hide columns"]',
+      )!
       .click();
     flushSync();
     return root;
@@ -186,7 +195,9 @@ describe('show/hide columns menu', () => {
   it('lists the columns with switches', () => {
     render2();
     expect(switches()).toHaveLength(3);
-    expect(switches().every((s) => s.getAttribute('aria-checked') === 'true')).toBe(true);
+    expect(
+      switches().every((s) => s.getAttribute('aria-checked') === 'true'),
+    ).toBe(true);
   });
 
   it('toggles a column from its switch', () => {
@@ -200,9 +211,9 @@ describe('show/hide columns menu', () => {
   it('hides and shows all columns', () => {
     const root = render2();
     const button = (text: string) =>
-      Array.from(document.body.querySelectorAll<HTMLButtonElement>('button')).find(
-        (b) => b.textContent?.trim() === text,
-      )!;
+      Array.from(
+        document.body.querySelectorAll<HTMLButtonElement>('button'),
+      ).find((b) => b.textContent?.trim() === text)!;
     button('Hide all').click();
     flushSync();
     expect(headers(root)).toEqual([]);
@@ -214,7 +225,9 @@ describe('show/hide columns menu', () => {
   it('pins from the menu and unpins all', () => {
     const root = render2({ enableColumnPinning: true });
     document.body
-      .querySelectorAll<HTMLButtonElement>('button[aria-label="Pin to left"]')[2]
+      .querySelectorAll<HTMLButtonElement>(
+        'button[aria-label="Pin to left"]',
+      )[2]
       .click();
     flushSync();
     expect(headers(root)[0]).toBe('City');

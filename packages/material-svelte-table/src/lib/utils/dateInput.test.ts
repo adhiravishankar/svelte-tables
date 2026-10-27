@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  formatDateInput,
-  getDateInputType,
-  parseDateInput,
-} from './dateInput';
+import { formatDateInput, getDateInputType, parseDateInput } from './dateInput';
 
 describe('dateInput', () => {
   it('maps filter variants to input types', () => {

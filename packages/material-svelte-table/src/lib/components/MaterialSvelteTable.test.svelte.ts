@@ -60,9 +60,9 @@ describe('MaterialSvelteTable', () => {
     nameSort.click();
     flushSync();
     expect(bodyText(root)[0]).toBe('Alice|25');
-    expect(
-      root.querySelector('thead th')?.getAttribute('aria-sort'),
-    ).toBe('ascending');
+    expect(root.querySelector('thead th')?.getAttribute('aria-sort')).toBe(
+      'ascending',
+    );
     nameSort.click();
     flushSync();
     expect(bodyText(root)[0]).toBe('Carol|30');

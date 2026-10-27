@@ -52,10 +52,8 @@ export const prepareColumns = <TData extends MRT_RowData>({
     state?: { columnFilterFns?: Record<string, MRT_FilterOption> };
   };
 }): MRT_DefinedColumnDef<TData>[] => {
-  const {
-    defaultDisplayColumn,
-    state: { columnFilterFns = {} } = {},
-  } = tableOptions;
+  const { defaultDisplayColumn, state: { columnFilterFns = {} } = {} } =
+    tableOptions;
   // column defs are copied, never mutated: they are often module-level
   // constants shared between tables
   return columnDefs.map((originalColumnDef) => {

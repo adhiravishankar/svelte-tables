@@ -6,7 +6,10 @@ export default defineConfig({
   resolve: process.env.VITEST ? { conditions: ['browser'] } : undefined,
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.{ts,svelte.ts}', 'stories/**/*.test.{ts,svelte.ts}'],
+    include: [
+      'src/**/*.test.{ts,svelte.ts}',
+      'stories/**/*.test.{ts,svelte.ts}',
+    ],
     server: { deps: { inline: [/@smui/, /@material/] } },
   },
 });

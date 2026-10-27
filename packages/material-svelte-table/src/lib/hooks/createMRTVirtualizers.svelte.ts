@@ -50,13 +50,17 @@ export function createRowVirtualizer<TData extends MRT_RowData>(
             : undefined,
         overscan: 4,
         rangeExtractor: (range) => extraIndexRangeExtractor(range, index),
-        ...parseFromValuesOrFunc(table.options.rowVirtualizerOptions, { table }),
+        ...parseFromValuesOrFunc(table.options.rowVirtualizerOptions, {
+          table,
+        }),
       };
     },
   );
 
   // `virtualRows` is read lazily, so it is always current
-  const instance = untrack(() => virtualizer.instance) as unknown as MRT_RowVirtualizer;
+  const instance = untrack(
+    () => virtualizer.instance,
+  ) as unknown as MRT_RowVirtualizer;
   Object.defineProperty(instance, 'virtualRows', {
     configurable: true,
     get: () => instance.getVirtualItems(),
@@ -78,7 +82,8 @@ export function createRowVirtualizer<TData extends MRT_RowData>(
       return virtualizer.instance as unknown as MRT_RowVirtualizer;
     },
     get virtualRows() {
-      return (virtualizer.instance as unknown as MRT_RowVirtualizer).virtualRows;
+      return (virtualizer.instance as unknown as MRT_RowVirtualizer)
+        .virtualRows;
     },
   };
 }
@@ -95,7 +100,8 @@ export function createColumnVirtualizer<TData extends MRT_RowData>(
   const visibleColumns = $derived(table.getVisibleLeafColumns());
 
   const pinnedIndexes = $derived.by(() => {
-    if (!table.options.enableColumnPinning) return [[], []] as [number[], number[]];
+    if (!table.options.enableColumnPinning)
+      return [[], []] as [number[], number[]];
     table.atoms.columnPinning.get();
     return [
       table.getStartVisibleLeafColumns().map((c) => c.getPinnedIndex()),
@@ -127,7 +133,9 @@ export function createColumnVirtualizer<TData extends MRT_RowData>(
           if (!startIndexes.length && !endIndexes.length) return newIndexes;
           return [...new Set([...startIndexes, ...newIndexes, ...endIndexes])];
         },
-        ...parseFromValuesOrFunc(table.options.columnVirtualizerOptions, { table }),
+        ...parseFromValuesOrFunc(table.options.columnVirtualizerOptions, {
+          table,
+        }),
       };
     },
   );
@@ -144,8 +152,10 @@ export function createColumnVirtualizer<TData extends MRT_RowData>(
 
     const startNonPinnedStart = virtualColumns[numPinnedStart]?.start || 0;
     const startNonPinnedEnd = virtualColumns[numPinnedStart - 1]?.end || 0;
-    const endNonPinnedStart = virtualColumns[numColumns - numPinnedEnd]?.start || 0;
-    const endNonPinnedEnd = virtualColumns[numColumns - numPinnedEnd - 1]?.end || 0;
+    const endNonPinnedStart =
+      virtualColumns[numColumns - numPinnedEnd]?.start || 0;
+    const endNonPinnedEnd =
+      virtualColumns[numColumns - numPinnedEnd - 1]?.end || 0;
 
     return {
       end:
@@ -156,11 +166,22 @@ export function createColumnVirtualizer<TData extends MRT_RowData>(
     };
   };
 
-  const instance = untrack(() => virtualizer.instance) as unknown as MRT_ColumnVirtualizer;
+  const instance = untrack(
+    () => virtualizer.instance,
+  ) as unknown as MRT_ColumnVirtualizer;
   Object.defineProperties(instance, {
-    virtualColumns: { configurable: true, get: () => instance.getVirtualItems() },
-    virtualPaddingLeft: { configurable: true, get: () => padding(instance).start },
-    virtualPaddingRight: { configurable: true, get: () => padding(instance).end },
+    virtualColumns: {
+      configurable: true,
+      get: () => instance.getVirtualItems(),
+    },
+    virtualPaddingLeft: {
+      configurable: true,
+      get: () => padding(instance).start,
+    },
+    virtualPaddingRight: {
+      configurable: true,
+      get: () => padding(instance).end,
+    },
   });
 
   $effect(() => {
@@ -179,7 +200,9 @@ export function createColumnVirtualizer<TData extends MRT_RowData>(
   };
 }
 
-export type ColumnVirtualizerHandle = ReturnType<typeof createColumnVirtualizer>;
+export type ColumnVirtualizerHandle = ReturnType<
+  typeof createColumnVirtualizer
+>;
 
 const COLUMN_VIRTUALIZER = Symbol('mrt-column-virtualizer');
 

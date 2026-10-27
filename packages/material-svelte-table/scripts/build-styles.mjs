@@ -61,4 +61,6 @@ for (const name of packages) {
 const out = join(root, 'src/lib/styles.css');
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, parts.join('\n'));
-console.log(`styles.css: ${packages.length} packages, ${(parts.join('\n').length / 1024).toFixed(0)} KB`);
+console.log(
+  `styles.css: ${packages.length} packages, ${(parts.join('\n').length / 1024).toFixed(0)} KB`,
+);

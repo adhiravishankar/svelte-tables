@@ -8,7 +8,10 @@ import {
 
 export const parseCSSVarId = (id: string) => id.replace(/[^a-zA-Z0-9]/g, '_');
 
-export type StyleObject = Record<string, null | number | string | undefined | false>;
+export type StyleObject = Record<
+  string,
+  null | number | string | undefined | false
+>;
 
 const UNITLESS = new Set([
   'flex',
@@ -22,16 +25,23 @@ const UNITLESS = new Set([
 ]);
 
 const kebab = (key: string) =>
-  key.startsWith('--') ? key : key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+  key.startsWith('--')
+    ? key
+    : key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 
 /** Serializes a style object (camelCase or kebab-case keys) to a style attribute. */
 export const styleToString = (style: StyleObject): string =>
   Object.entries(style)
-    .filter(([, value]) => value !== undefined && value !== null && value !== false)
+    .filter(
+      ([, value]) => value !== undefined && value !== null && value !== false,
+    )
     .map(([key, value]) => {
       const prop = kebab(key);
       const css =
-        typeof value === 'number' && value !== 0 && !prop.startsWith('--') && !UNITLESS.has(prop)
+        typeof value === 'number' &&
+        value !== 0 &&
+        !prop.startsWith('--') &&
+        !UNITLESS.has(prop)
           ? `${value}px`
           : String(value);
       return `${prop}: ${css}`;
@@ -137,7 +147,9 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
         ? 0.5
         : 1,
     position: 'relative',
-    transition: enableColumnVirtualization ? 'none' : 'padding 150ms ease-in-out',
+    transition: enableColumnVirtualization
+      ? 'none'
+      : 'padding 150ms ease-in-out',
     width: `calc(${sizeVar} * 1px)`,
     zIndex:
       column.getIsResizing() || draggingColumn?.id === column.id

@@ -98,7 +98,8 @@ describe('createMaterialSvelteTable', () => {
         columns,
         data: people,
         onDensityChange: (updater) => {
-          ui.density = typeof updater === 'function' ? updater(ui.density) : updater;
+          ui.density =
+            typeof updater === 'function' ? updater(ui.density) : updater;
         },
         state: {
           get density() {
@@ -150,7 +151,10 @@ describe('createMaterialSvelteTable', () => {
 
   it('paginates once data arrives after an empty first render', () => {
     let data = $state<Person[]>([]);
-    const rows = Array.from({ length: 25 }, (_, i) => ({ age: i, name: `P${i}` }));
+    const rows = Array.from({ length: 25 }, (_, i) => ({
+      age: i,
+      name: `P${i}`,
+    }));
     const table = withRoot(() =>
       createMaterialSvelteTable({
         columns,

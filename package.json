@@ -6,10 +6,13 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "vp run material-svelte-table#build && vp run material-svelte-table-docs#build",
     "dev": "npm run dev -w material-svelte-table-docs",
-    "check": "turbo run check",
-    "test": "turbo run test",
+    "check": "npm run build && vp run -r check",
+    "test": "vp run -r test",
+    "test:watch": "npm run test:watch -w material-svelte-table",
+    "lint": "vp lint",
+    "lint:fix": "vp lint --fix",
     "docs:build": "npm run build -w material-svelte-table-docs",
     "docs:dev": "npm run dev -w material-svelte-table-docs",
     "docs:preview": "npm run preview -w material-svelte-table-docs",
@@ -17,7 +20,8 @@
     "lib:test": "npm run test -w material-svelte-table",
     "storybook": "npm run storybook -w material-svelte-table",
     "storybook:build": "npm run build-storybook -w material-svelte-table",
-    "format": "prettier --write \"**/*.{js,ts,md}\""
+    "format": "vp fmt",
+    "format:check": "vp fmt --check"
   },
   "devDependencies": {
     "vite-plus": "^1.4.0"

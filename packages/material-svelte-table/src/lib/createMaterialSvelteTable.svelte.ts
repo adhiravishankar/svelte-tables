@@ -185,7 +185,8 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
   // wraps `data` in a new proxy, rebuilding every row) whenever one of them
   // is invalidated.
   const boxes = {} as Record<MRT_StateKey, StateBox<any>>;
-  for (const key of MRT_STATE_KEYS) boxes[key] = new StateBox(initialMrtState[key]);
+  for (const key of MRT_STATE_KEYS)
+    boxes[key] = new StateBox(initialMrtState[key]);
 
   /**
    * The effective MRT state: controlled values from the `state` option win over
@@ -238,8 +239,7 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
         options.state?.grouping ??
         options.initialState?.grouping ??
         [],
-      pagination:
-        table?.atoms.pagination.get() ??
+      pagination: table?.atoms.pagination.get() ??
         options.state?.pagination ??
         options.initialState?.pagination ?? { pageIndex: 0, pageSize: 10 },
     };
@@ -388,13 +388,20 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
   });
 
   const opts = () => defined as MRT_DefinedTableOptions<TData>;
-  instance.setActionCell = makeSetter('actionCell', () => opts().onActionCellChange);
+  instance.setActionCell = makeSetter(
+    'actionCell',
+    () => opts().onActionCellChange,
+  );
   instance.setColumnFilterFns = makeSetter(
     'columnFilterFns',
     () => opts().onColumnFilterFnsChange,
   );
-  instance.setCreatingRow = (row: MRT_Updater<MRT_Row<TData> | null | true>) => {
-    const next = (row === true ? createRow(instance) : row) as MRT_Row<TData> | null;
+  instance.setCreatingRow = (
+    row: MRT_Updater<MRT_Row<TData> | null | true>,
+  ) => {
+    const next = (
+      row === true ? createRow(instance) : row
+    ) as MRT_Row<TData> | null;
     const handler = opts().onCreatingRowChange;
     if (handler) {
       handler(next);
@@ -407,9 +414,18 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     'draggingColumn',
     () => opts().onDraggingColumnChange,
   );
-  instance.setDraggingRow = makeSetter('draggingRow', () => opts().onDraggingRowChange);
-  instance.setEditingCell = makeSetter('editingCell', () => opts().onEditingCellChange);
-  instance.setEditingRow = makeSetter('editingRow', () => opts().onEditingRowChange);
+  instance.setDraggingRow = makeSetter(
+    'draggingRow',
+    () => opts().onDraggingRowChange,
+  );
+  instance.setEditingCell = makeSetter(
+    'editingCell',
+    () => opts().onEditingCellChange,
+  );
+  instance.setEditingRow = makeSetter(
+    'editingRow',
+    () => opts().onEditingRowChange,
+  );
   instance.setGlobalFilterFn = makeSetter(
     'globalFilterFn',
     () => opts().onGlobalFilterFnChange,
@@ -418,7 +434,10 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     'hoveredColumn',
     () => opts().onHoveredColumnChange,
   );
-  instance.setHoveredRow = makeSetter('hoveredRow', () => opts().onHoveredRowChange);
+  instance.setHoveredRow = makeSetter(
+    'hoveredRow',
+    () => opts().onHoveredRowChange,
+  );
   instance.setIsFullScreen = makeSetter(
     'isFullScreen',
     () => opts().onIsFullScreenChange,
@@ -504,7 +523,8 @@ function registerEffects<TData extends MRT_RowData>(
     if (!enablePagination || isLoading || showSkeletons) return;
     untrack(() => {
       const { pageIndex, pageSize } = table.atoms.pagination.get();
-      const totalPages = totalRowCount > 0 ? Math.ceil(totalRowCount / pageSize) : 1;
+      const totalPages =
+        totalRowCount > 0 ? Math.ceil(totalRowCount / pageSize) : 1;
       if (pageIndex < 0 || pageIndex >= totalPages) {
         table.setPageIndex(totalPages - 1);
       }

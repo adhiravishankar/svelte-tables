@@ -48,6 +48,7 @@
     "build": "node scripts/build-styles.mjs && svelte-package -i src/lib -o dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run",
+    "test:watch": "vitest",
     "storybook": "node scripts/build-styles.mjs && storybook dev -p 6006",
     "build-storybook": "node scripts/build-styles.mjs && storybook build",
     "styles": "node scripts/build-styles.mjs"

@@ -64,7 +64,9 @@ describe('select column', () => {
     flushSync();
     expect(rowCheckboxes(root)[1].checked).toBe(true);
     expect(
-      root.querySelector('tbody tr:nth-child(2)')?.getAttribute('data-selected'),
+      root
+        .querySelector('tbody tr:nth-child(2)')
+        ?.getAttribute('data-selected'),
     ).toBe('true');
     expect(selectAll(root).checked).toBe(false);
   });
@@ -84,7 +86,11 @@ describe('select column', () => {
     rowCheckboxes(root)[1].click();
     flushSync();
     rowCheckboxes(root)[4].dispatchEvent(
-      new MouseEvent('click', { bubbles: true, cancelable: true, shiftKey: true }),
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        shiftKey: true,
+      }),
     );
     flushSync();
     expect(rowCheckboxes(root).map((c) => c.checked)).toEqual([
@@ -122,7 +128,8 @@ describe('select column', () => {
 
 describe('expand column and detail panel', () => {
   const detailPanel = createRawSnippet<[{ row: any }]>((ctx) => ({
-    render: () => `<span class="detail">${ctx().row.original.name} details</span>`,
+    render: () =>
+      `<span class="detail">${ctx().row.original.name} details</span>`,
   }));
 
   it('expands a row to show the detail panel', () => {
@@ -155,9 +162,7 @@ describe('expand column and detail panel', () => {
 
   it('expands sub rows', () => {
     const root = render({
-      data: [
-        { age: 50, name: 'Parent', subRows: [{ age: 5, name: 'Child' }] },
-      ],
+      data: [{ age: 50, name: 'Parent', subRows: [{ age: 5, name: 'Child' }] }],
       enableExpanding: true,
     });
     expect(names(root)).toEqual(['Parent']);
@@ -193,7 +198,9 @@ describe('actions column', () => {
     }));
     const root = render({ enableRowActions: true, rowActionMenuItems });
     root
-      .querySelector<HTMLButtonElement>('tbody button[aria-label="Row Actions"]')!
+      .querySelector<HTMLButtonElement>(
+        'tbody button[aria-label="Row Actions"]',
+      )!
       .click();
     flushSync();
     expect(document.body.querySelector('.my-item')).not.toBeNull();

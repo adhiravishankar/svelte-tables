@@ -2,7 +2,11 @@ import { createRawSnippet, flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import MaterialSvelteTable from './MaterialSvelteTable.svelte';
 import { createMaterialSvelteTable } from '../createMaterialSvelteTable.svelte';
-import { type MRT_ColumnDef, type MRT_TableInstance, type MRT_TableOptions } from '../types';
+import {
+  type MRT_ColumnDef,
+  type MRT_TableInstance,
+  type MRT_TableOptions,
+} from '../types';
 
 type Person = { age: number; city: string; name: string };
 
@@ -61,7 +65,11 @@ const type = (input: HTMLInputElement, value: string) => {
   flushSync();
 };
 const bodyInputs = (root: HTMLElement) =>
-  Array.from(root.querySelectorAll<HTMLInputElement>('tbody input:not([type="checkbox"])'));
+  Array.from(
+    root.querySelectorAll<HTMLInputElement>(
+      'tbody input:not([type="checkbox"])',
+    ),
+  );
 const button = (root: ParentNode, label: string) =>
   root.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`)!;
 const buttonByText = (text: string) =>
@@ -75,7 +83,8 @@ describe('cell editing', () => {
     const { root } = render({
       editDisplayMode: 'cell',
       editTextFieldProps: () => ({
-        input$onblur: (e: FocusEvent) => blurred.push((e.target as HTMLInputElement).value),
+        input$onblur: (e: FocusEvent) =>
+          blurred.push((e.target as HTMLInputElement).value),
       }),
       enableEditing: true,
     });
@@ -94,13 +103,20 @@ describe('cell editing', () => {
   });
 
   it('commits on Enter', () => {
-    const { root, table } = render({ editDisplayMode: 'cell', enableEditing: true });
-    root.querySelector('tbody tr td')!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    const { root, table } = render({
+      editDisplayMode: 'cell',
+      enableEditing: true,
+    });
+    root
+      .querySelector('tbody tr td')!
+      .dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
     flushSync();
     const [input] = bodyInputs(root);
     type(input, 'X');
     input.focus();
-    input.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }));
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }),
+    );
     flushSync();
     expect(table.mrtState.editingCell).toBe(null);
   });
@@ -111,7 +127,9 @@ describe('cell editing', () => {
       editDisplayMode: 'cell',
       enableEditing: true,
     });
-    root.querySelector('tbody tr td')!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    root
+      .querySelector('tbody tr td')!
+      .dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
     flushSync();
     expect(bodyInputs(root)).toHaveLength(0);
   });
@@ -128,7 +146,9 @@ describe('row editing', () => {
     button(root, 'Edit').click();
     flushSync();
     // only the edited row has inputs; the other still has an edit button
-    expect(root.querySelectorAll('tbody tr')[0].querySelectorAll('input')).toHaveLength(2);
+    expect(
+      root.querySelectorAll('tbody tr')[0].querySelectorAll('input'),
+    ).toHaveLength(2);
     expect(button(root.querySelectorAll('tbody tr')[1], 'Edit')).toBeTruthy();
     const [name, age] = bodyInputs(root);
     type(name, 'Caroline');
@@ -196,8 +216,12 @@ describe('modal editing', () => {
     flushSync();
     const dialog = document.body.querySelector('.mdc-dialog')!;
     expect(dialog).not.toBeNull();
-    expect(dialog.querySelector('.mdc-dialog__title')?.textContent).toContain('Edit');
-    const inputs = Array.from(dialog.querySelectorAll<HTMLInputElement>('input'));
+    expect(dialog.querySelector('.mdc-dialog__title')?.textContent).toContain(
+      'Edit',
+    );
+    const inputs = Array.from(
+      dialog.querySelectorAll<HTMLInputElement>('input'),
+    );
     expect(inputs).toHaveLength(2);
     type(inputs[0], 'Caroline');
     inputs[0].dispatchEvent(new FocusEvent('blur'));
@@ -213,7 +237,11 @@ describe('modal editing', () => {
     const editRowDialogContent = createRawSnippet<[any]>(() => ({
       render: () => `<div class="custom-dialog">custom</div>`,
     }));
-    const { root } = render({ editDisplayMode: 'modal', editRowDialogContent, enableEditing: true });
+    const { root } = render({
+      editDisplayMode: 'modal',
+      editRowDialogContent,
+      enableEditing: true,
+    });
     button(root, 'Edit').click();
     flushSync();
     expect(document.body.querySelector('.custom-dialog')).not.toBeNull();
@@ -223,13 +251,21 @@ describe('modal editing', () => {
 
 describe('creating rows', () => {
   it('creates a row in a dialog', () => {
-    const onCreatingRowSave = vi.fn(({ exitCreatingMode }) => exitCreatingMode());
-    const { table } = render({ createDisplayMode: 'modal', enableEditing: true, onCreatingRowSave });
+    const onCreatingRowSave = vi.fn(({ exitCreatingMode }) =>
+      exitCreatingMode(),
+    );
+    const { table } = render({
+      createDisplayMode: 'modal',
+      enableEditing: true,
+      onCreatingRowSave,
+    });
     table.setCreatingRow(true);
     flushSync();
     const dialog = document.body.querySelector('.mdc-dialog')!;
     expect(dialog).not.toBeNull();
-    const [name] = Array.from(dialog.querySelectorAll<HTMLInputElement>('input'));
+    const [name] = Array.from(
+      dialog.querySelectorAll<HTMLInputElement>('input'),
+    );
     type(name, 'Zed');
     name.dispatchEvent(new FocusEvent('blur'));
     flushSync();
@@ -241,7 +277,9 @@ describe('creating rows', () => {
   });
 
   it('creates a row inline at the top', () => {
-    const onCreatingRowSave = vi.fn(({ exitCreatingMode }) => exitCreatingMode());
+    const onCreatingRowSave = vi.fn(({ exitCreatingMode }) =>
+      exitCreatingMode(),
+    );
     const { root, table } = render({
       createDisplayMode: 'row',
       enableEditing: true,
@@ -277,7 +315,9 @@ describe('creating rows', () => {
 
 describe('custom edit components', () => {
   it('renders an Edit snippet instead of the input', () => {
-    const Edit = createRawSnippet<[any]>(() => ({ render: () => `<i class="my-edit">edit</i>` }));
+    const Edit = createRawSnippet<[any]>(() => ({
+      render: () => `<i class="my-edit">edit</i>`,
+    }));
     const { root } = render({
       columns: [{ ...columns[0], Edit }, columns[1]],
       editDisplayMode: 'table',
@@ -292,7 +332,9 @@ describe('click to copy', () => {
     const writeText = vi.fn();
     Object.assign(navigator, { clipboard: { writeText } });
     const { root } = render({ enableClickToCopy: true });
-    const copy = root.querySelector<HTMLButtonElement>('tbody .mrt-copy-button')!;
+    const copy = root.querySelector<HTMLButtonElement>(
+      'tbody .mrt-copy-button',
+    )!;
     expect(copy.title).toBe('Click to copy');
     copy.click();
     flushSync();
@@ -306,8 +348,12 @@ describe('click to copy', () => {
       enableClickToCopy: true,
     });
     const firstRow = root.querySelector('tbody tr')!;
-    expect(firstRow.querySelectorAll('td')[0].querySelector('.mrt-copy-button')).toBeNull();
-    expect(firstRow.querySelectorAll('td')[1].querySelector('.mrt-copy-button')).not.toBeNull();
+    expect(
+      firstRow.querySelectorAll('td')[0].querySelector('.mrt-copy-button'),
+    ).toBeNull();
+    expect(
+      firstRow.querySelectorAll('td')[1].querySelector('.mrt-copy-button'),
+    ).not.toBeNull();
   });
 });
 
@@ -323,14 +369,18 @@ describe('cell action menu', () => {
     });
     root
       .querySelector('tbody tr td')!
-      .dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true }));
+      .dispatchEvent(
+        new MouseEvent('contextmenu', { bubbles: true, cancelable: true }),
+      );
     flushSync();
     expect(table.mrtState.actionCell?.id).toBeTruthy();
     const items = Array.from(
       document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
     ).map((i) => i.textContent?.trim());
     expect(items).toEqual(['Copy', 'Edit']);
-    Array.from(document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'))[0].click();
+    Array.from(
+      document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
+    )[0].click();
     flushSync();
     expect(writeText).toHaveBeenCalledWith('Carol');
     expect(table.mrtState.actionCell).toBe(null);
@@ -341,11 +391,15 @@ describe('loading overlay', () => {
   it('covers the table while loading', () => {
     const { root } = render({ state: { isLoading: true } });
     expect(root.querySelector('.mrt-loading-overlay')).not.toBeNull();
-    expect(root.querySelector('.mrt-table-container')!.getAttribute('aria-busy')).toBe('true');
+    expect(
+      root.querySelector('.mrt-table-container')!.getAttribute('aria-busy'),
+    ).toBe('true');
   });
 
   it('can be turned off', () => {
-    const { root } = render({ state: { isLoading: true, showLoadingOverlay: false } });
+    const { root } = render({
+      state: { isLoading: true, showLoadingOverlay: false },
+    });
     expect(root.querySelector('.mrt-loading-overlay')).toBeNull();
   });
 

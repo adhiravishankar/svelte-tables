@@ -47,12 +47,18 @@ const fakeViewport = (width: number, height: number, itemSize = 58) => {
   return {
     options: {
       measureElement: () => itemSize,
-      observeElementOffset: (_: unknown, cb: (offset: number, isScrolling: boolean) => void) => {
+      observeElementOffset: (
+        _: unknown,
+        cb: (offset: number, isScrolling: boolean) => void,
+      ) => {
         notify = cb;
         cb(0, false);
         return () => {};
       },
-      observeElementRect: (_: unknown, cb: (rect: { height: number; width: number }) => void) => {
+      observeElementRect: (
+        _: unknown,
+        cb: (rect: { height: number; width: number }) => void,
+      ) => {
         cb({ height, width });
         return () => {};
       },
@@ -67,9 +73,14 @@ const fakeViewport = (width: number, height: number, itemSize = 58) => {
 };
 
 const rows = (count: number): Row[] =>
-  Array.from({ length: count }, (_, i) => ({ id: `row-${i}`, name: `Person ${i}` }));
+  Array.from({ length: count }, (_, i) => ({
+    id: `row-${i}`,
+    name: `Person ${i}`,
+  }));
 const bodyRows = (root: HTMLElement) =>
-  Array.from(root.querySelectorAll<HTMLElement>('tbody tr:not(.mrt-detail-panel-row)'));
+  Array.from(
+    root.querySelectorAll<HTMLElement>('tbody tr:not(.mrt-detail-panel-row)'),
+  );
 const firstCell = (tr: Element) => tr.querySelector('td')?.textContent?.trim();
 
 const rowColumns: MRT_ColumnDef<Row>[] = [
@@ -106,7 +117,9 @@ describe('row virtualization', () => {
       enableRowVirtualization: true,
       rowVirtualizerOptions: fakeViewport(800, 300).options as any,
     });
-    expect(root.querySelector<HTMLElement>('table')!.style.display).toBe('grid');
+    expect(root.querySelector<HTMLElement>('table')!.style.display).toBe(
+      'grid',
+    );
     expect(root.querySelector('table')!.className).toContain('sticky-header');
   });
 
@@ -149,7 +162,9 @@ describe('row virtualization', () => {
       data: rows(500),
       enablePagination: false,
       enableRowVirtualization: true,
-      initialState: { columnFilters: [{ id: 'name', value: 'Person 49' }] } as any,
+      initialState: {
+        columnFilters: [{ id: 'name', value: 'Person 49' }],
+      } as any,
       rowVirtualizerOptions: viewport.options as any,
     });
     // "Person 49" and "Person 490".."Person 499" match: 11 rows, windowed
@@ -173,7 +188,9 @@ describe('row virtualization', () => {
     });
     expect(root.querySelector('.detail')).toBeNull();
     root
-      .querySelectorAll<HTMLButtonElement>('tbody button[aria-label="Expand"]')[1]
+      .querySelectorAll<HTMLButtonElement>(
+        'tbody button[aria-label="Expand"]',
+      )[1]
       .click();
     flushSync();
     const detail = root.querySelector<HTMLElement>('.detail');
@@ -188,13 +205,18 @@ describe('row virtualization', () => {
 });
 
 describe('column virtualization', () => {
-  const wideColumns: MRT_ColumnDef<Row>[] = Array.from({ length: 40 }, (_, i) => ({
-    accessorKey: `c${i}`,
-    header: `Col ${i}`,
-    size: 100,
-  }));
+  const wideColumns: MRT_ColumnDef<Row>[] = Array.from(
+    { length: 40 },
+    (_, i) => ({
+      accessorKey: `c${i}`,
+      header: `Col ${i}`,
+      size: 100,
+    }),
+  );
   const wideRow = (i: number): Row =>
-    Object.fromEntries(wideColumns.map((c, j) => [c.accessorKey as string, `r${i}c${j}`]));
+    Object.fromEntries(
+      wideColumns.map((c, j) => [c.accessorKey as string, `r${i}c${j}`]),
+    );
 
   it('renders only the columns in view, with padding for the rest', async () => {
     const viewport = fakeViewport(500, 400, 100);
@@ -265,7 +287,11 @@ describe('column virtualization', () => {
 
 describe('without virtualization', () => {
   it('renders everything', async () => {
-    const root = await render({ columns: rowColumns, data: rows(60), enablePagination: false });
+    const root = await render({
+      columns: rowColumns,
+      data: rows(60),
+      enablePagination: false,
+    });
     expect(bodyRows(root)).toHaveLength(60);
   });
 });

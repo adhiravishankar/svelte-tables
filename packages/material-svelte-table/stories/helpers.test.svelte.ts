@@ -47,7 +47,10 @@ const rowCount = (root: HTMLElement) =>
 
 describe('story helpers', () => {
   it('Sorting State Managed shows the sort state', () => {
-    const root = render(SortingStateManaged, { columns: personColumns, data: people });
+    const root = render(SortingStateManaged, {
+      columns: personColumns,
+      data: people,
+    });
     expect(root.querySelector('code')!.textContent).toBe('[]');
     root.querySelector<HTMLButtonElement>('thead .mrt-sort-label')!.click();
     flushSync();
@@ -56,7 +59,9 @@ describe('story helpers', () => {
 
   it('Pagination State Managed starts on the given page', () => {
     const root = render(PaginationStateManaged);
-    expect(root.querySelector('p')!.textContent).toContain('Page 3, 5 rows per page');
+    expect(root.querySelector('p')!.textContent).toContain(
+      'Page 3, 5 rows per page',
+    );
     expect(rowCount(root)).toBe(5);
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
@@ -65,16 +70,22 @@ describe('story helpers', () => {
 
   it('Manual Selection follows the state it owns', () => {
     const root = render(ManualSelection);
-    expect(root.querySelectorAll('tbody input[type="checkbox"]:checked')).toHaveLength(2);
+    expect(
+      root.querySelectorAll('tbody input[type="checkbox"]:checked'),
+    ).toHaveLength(2);
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
-    expect(root.querySelectorAll('tbody input[type="checkbox"]:checked')).toHaveLength(0);
+    expect(
+      root.querySelectorAll('tbody input[type="checkbox"]:checked'),
+    ).toHaveLength(0);
   });
 
   it('Column Ordering State Managed applies the order', () => {
     const root = render(ColumnOrderingStateManaged);
     const headers = () =>
-      Array.from(root.querySelectorAll('thead th .mrt-head-cell-label')).map((l) => l.textContent?.trim());
+      Array.from(root.querySelectorAll('thead th .mrt-head-cell-label')).map(
+        (l) => l.textContent?.trim(),
+      );
     expect(headers()[0]).toBe('Phone Number');
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
@@ -96,7 +107,9 @@ describe('story helpers', () => {
 
   it('Manual Filtering filters through the owned state', async () => {
     const root = render(ManualFiltering);
-    expect(root.querySelector('p')!.textContent).toContain(`${employees.length} rows`);
+    expect(root.querySelector('p')!.textContent).toContain(
+      `${employees.length} rows`,
+    );
   });
 
   it('External Set Filter Value drives the table from outside', () => {
@@ -131,7 +144,9 @@ describe('story helpers', () => {
       data: employees.slice(0, 5),
       detailPanel,
     });
-    const buttons = root.querySelectorAll<HTMLButtonElement>('tbody button[aria-label="Expand"]');
+    const buttons = root.querySelectorAll<HTMLButtonElement>(
+      'tbody button[aria-label="Expand"]',
+    );
     buttons[0].click();
     flushSync();
     expect(root.querySelectorAll('.detail')).toHaveLength(1);
@@ -143,8 +158,12 @@ describe('story helpers', () => {
   it('Row Ordering renders its rows and drag handles', () => {
     const root = render(RowOrdering, { selection: true });
     expect(rowCount(root)).toBe(15);
-    expect(root.querySelectorAll('tbody button[aria-label="Move"]')).toHaveLength(15);
-    expect(root.querySelectorAll('tbody input[type="checkbox"]')).toHaveLength(15);
+    expect(
+      root.querySelectorAll('tbody button[aria-label="Move"]'),
+    ).toHaveLength(15);
+    expect(root.querySelectorAll('tbody input[type="checkbox"]')).toHaveLength(
+      15,
+    );
   });
 
   it('Editing With Save writes edits back to its own copy of the data', () => {
@@ -153,14 +172,18 @@ describe('story helpers', () => {
       data: employees.slice(0, 5),
       editDisplayMode: 'row',
     });
-    root.querySelector<HTMLButtonElement>('tbody button[aria-label="Edit"]')!.click();
+    root
+      .querySelector<HTMLButtonElement>('tbody button[aria-label="Edit"]')!
+      .click();
     flushSync();
     const input = root.querySelector<HTMLInputElement>('tbody input')!;
     input.value = 'Zed';
     input.dispatchEvent(new Event('input', { bubbles: true }));
     input.dispatchEvent(new FocusEvent('blur'));
     flushSync();
-    root.querySelector<HTMLButtonElement>('tbody button[aria-label="Save"]')!.click();
+    root
+      .querySelector<HTMLButtonElement>('tbody button[aria-label="Save"]')!
+      .click();
     flushSync();
     // (the first cell is the actions column)
     expect(root.querySelector('tbody tr')!.textContent).toContain('Zed');
@@ -180,7 +203,10 @@ describe('story helpers', () => {
   });
 
   it('Async Editing renders', () => {
-    const root = render(AsyncEditing, { columns: employeeColumns, data: employees.slice(0, 5) });
+    const root = render(AsyncEditing, {
+      columns: employeeColumns,
+      data: employees.slice(0, 5),
+    });
     expect(rowCount(root)).toBe(5);
   });
 
@@ -222,7 +248,9 @@ describe('story helpers', () => {
 
   it('Column Ordering Custom shows the managed order', () => {
     const root = render(ColumnOrderingCustom);
-    expect(root.querySelector('code')!.textContent).toContain('firstName → lastName');
+    expect(root.querySelector('code')!.textContent).toContain(
+      'firstName → lastName',
+    );
   });
 
   it('Grouping Set State groups from the buttons', () => {

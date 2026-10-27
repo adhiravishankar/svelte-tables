@@ -144,13 +144,11 @@ export const getDisplayColumnDefs = <TData extends MRT_RowData>(
   trailing: MRT_ColumnDef<TData>[];
 } => ({
   leading: [
-    showRowPinningColumn(tableOptions) &&
-      getRowPinningColumnDef(tableOptions),
+    showRowPinningColumn(tableOptions) && getRowPinningColumnDef(tableOptions),
     showRowDragColumn(tableOptions) && getRowDragColumnDef(tableOptions),
     showRowActionsColumn(tableOptions) && getRowActionsColumnDef(tableOptions),
     showRowExpandColumn(tableOptions) && getRowExpandColumnDef(tableOptions),
-    showRowSelectionColumn(tableOptions) &&
-      getRowSelectColumnDef(tableOptions),
+    showRowSelectionColumn(tableOptions) && getRowSelectColumnDef(tableOptions),
     showRowNumbersColumn(tableOptions) && getRowNumbersColumnDef(tableOptions),
   ].filter(Boolean) as MRT_ColumnDef<TData>[],
   trailing: [
