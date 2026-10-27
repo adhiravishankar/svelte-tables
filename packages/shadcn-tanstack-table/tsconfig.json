@@ -4,6 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
+    "paths": { "$lib": ["./src/lib"], "$lib/*": ["./src/lib/*"] },
     "isolatedModules": true,
     "strict": true,
     "skipLibCheck": true,

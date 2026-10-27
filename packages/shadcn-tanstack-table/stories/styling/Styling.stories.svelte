@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Employee, employees, employeeColumns } from '../data';
 
   const { Story } = defineMeta({ title: 'Styling/Styling Examples' });
@@ -30,11 +30,11 @@
 
 <!-- alignment -->
 <Story name="Default Left">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Right Cells">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -45,7 +45,7 @@
 </Story>
 
 <Story name="Center Cells">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -56,7 +56,7 @@
 </Story>
 
 <Story name="Center Cells Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -68,7 +68,7 @@
 </Story>
 
 <Story name="Right Align Number Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'salary'
@@ -82,16 +82,16 @@
 
 <!-- caption / custom body -->
 <Story name="Bottom Caption">
-  <MaterialSvelteTable options={{ caption, columns, data }} />
+  <ShadcnSvelteTable options={{ caption, columns, data }} />
 </Story>
 
 <Story name="Custom Empty Rows">
-  <MaterialSvelteTable options={{ columns, data: [], emptyRowsFallback: emptyFallback }} />
+  <ShadcnSvelteTable options={{ columns, data: [], emptyRowsFallback: emptyFallback }} />
 </Story>
 
 <!-- column widths -->
 <Story name="Custom Widths Semantic">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name', size: 100 },
@@ -104,7 +104,7 @@
 </Story>
 
 <Story name="Custom Widths Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name', size: 100 },
@@ -118,7 +118,7 @@
 </Story>
 
 <Story name="Custom Widths Grid No Grow Individual Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', grow: false, header: 'First Name', size: 100 },
@@ -133,7 +133,7 @@
 
 <!-- sticky header / footer -->
 <Story name="Enable Sticky Header">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -144,7 +144,7 @@
 </Story>
 
 <Story name="Enable Sticky Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: String(c.header) })),
       data,
@@ -157,13 +157,13 @@
 
 <!-- rows / cells / head cells -->
 <Story name="Set Row Height">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, tableBodyRowProps: { style: 'height: 80px' } }}
   />
 </Story>
 
 <Story name="Disable Row Hover Effect">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -173,14 +173,14 @@
 </Story>
 
 <Story name="Style Custom Striped Rows">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
       tableBodyRowProps: ({ staticRowIndex }) => ({
         style:
           staticRowIndex % 2 === 0
-            ? 'background-color: color-mix(in srgb, var(--mdc-theme-primary) 8%, transparent) !important'
+            ? 'background-color: color-mix(in srgb, var(--primary) 8%, transparent) !important'
             : '',
       }),
     }}
@@ -188,7 +188,7 @@
 </Story>
 
 <Story name="Conditionally Style Rows">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -200,7 +200,7 @@
 </Story>
 
 <Story name="Style All Body Cells">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -210,7 +210,7 @@
 </Story>
 
 <Story name="Style Body Cell Conditionally In 1 Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'age'
@@ -228,7 +228,7 @@
 </Story>
 
 <Story name="Custom Cell Render">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'salary' ? { ...c, Cell: salary } : c,
@@ -239,17 +239,17 @@
 </Story>
 
 <Story name="Style All Head Cells">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
-      tableHeadCellProps: { style: 'background-color: color-mix(in srgb, var(--mdc-theme-primary) 15%, var(--mdc-theme-surface)); text-transform: uppercase' },
+      tableHeadCellProps: { style: 'background-color: color-mix(in srgb, var(--primary) 15%, var(--card)); text-transform: uppercase' },
     }}
   />
 </Story>
 
 <Story name="Custom Head Cell Renders">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, Header: headerWithEmoji })) as MRT_ColumnDef<Employee>[],
       data,
@@ -258,7 +258,7 @@
 </Story>
 
 <Story name="Customize Display Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -274,7 +274,7 @@
 
 <!-- dimensions / paper -->
 <Story name="Max Width And Centered">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -284,7 +284,7 @@
 </Story>
 
 <Story name="Max Height">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -295,7 +295,7 @@
 </Story>
 
 <Story name="No Box Shadow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -306,27 +306,27 @@
 
 <!-- theming -->
 <Story name="Default Theme">
-  <MaterialSvelteTable options={{ columns, data, enableRowSelection: true }} />
+  <ShadcnSvelteTable options={{ columns, data, enableRowSelection: true }} />
 </Story>
 
 <Story name="Custom Light Theme">
   <div
-    style="--mdc-theme-primary: #e91e63; --mdc-theme-surface: #fff8f9; --mdc-theme-on-surface: #3b0a1a"
+    style="--primary: #e91e63; --card: #fff8f9; --foreground: #3b0a1a"
   >
-    <MaterialSvelteTable options={{ columns, data, enableRowSelection: true }} />
+    <ShadcnSvelteTable options={{ columns, data, enableRowSelection: true }} />
   </div>
 </Story>
 
 <Story name="Custom Dark Theme">
   <div
-    style="--mdc-theme-primary: #00e5ff; --mdc-theme-surface: #0b1d26; --mdc-theme-on-surface: #e0f7fa; background: #0b1d26; padding: 1rem"
+    style="--primary: #00e5ff; --card: #0b1d26; --foreground: #e0f7fa; background: #0b1d26; padding: 1rem"
   >
-    <MaterialSvelteTable options={{ columns, data, enableRowSelection: true }} />
+    <ShadcnSvelteTable options={{ columns, data, enableRowSelection: true }} />
   </div>
 </Story>
 
 <Story name="Custom MRT Theme Colors">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,

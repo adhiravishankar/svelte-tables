@@ -1,5 +1,4 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Textfield from '@smui/textfield';
   import { untrack } from 'svelte';
   import type { MRT_Header, MRT_RowData, MRT_TableInstance } from '../../types';
   import {
@@ -19,6 +18,7 @@
   } from '../../utils/utils';
   import MRT_FilterModeButton from '../buttons/MRT_FilterModeButton.svelte';
   import MRT_IconButton from '../buttons/MRT_IconButton.svelte';
+  import MRT_TextField from './MRT_TextField.svelte';
 
   /**
    * The text-like column filter: text, number, date / datetime / time (native
@@ -81,8 +81,7 @@
 
   const filterPlaceholder = $derived(
     !isRangeFilter
-      ? (textFieldProps.input$placeholder ??
-          textFieldProps.placeholder ??
+      ? (textFieldProps.placeholder ??
           localization.filterByColumn?.replace('{column}', String(columnDef.header)))
       : rangeFilterIndex === 0
         ? localization.min
@@ -164,7 +163,7 @@
       }
     }
     handleChange(newValue);
-    textFieldProps.input$oninput?.(event);
+    textFieldProps.oninput?.(event);
   }
 
   function handleClear() {
@@ -243,22 +242,21 @@
   >
     <!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
     <div onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()}>
-      <Textfield
+      <MRT_TextField
         class="mrt-filter-textfield"
-        noLabel
         type={inputType as any}
         value={displayValue}
         variant="standard"
-        input$aria-label={filterPlaceholder}
-        input$autocomplete="off"
+        aria-label={filterPlaceholder}
+        autocomplete="off"
         disabled={!!filterChipLabel}
-        input$list={isAutocompleteFilter ? listId : undefined}
-        input$oninput={oninput}
-        input$placeholder={filterChipLabel ? undefined : filterPlaceholder}
-        input$title={filterPlaceholder}
+        list={isAutocompleteFilter ? listId : undefined}
+        {oninput}
+        placeholder={filterChipLabel ? undefined : filterPlaceholder}
+        title={filterPlaceholder}
         {...textFieldProps}
       >
-        {#snippet leadingIcon()}
+        {#snippet leading()}
           {#if showChangeModeButton}
             <span class="mrt-adornment">
               <MRT_FilterModeButton
@@ -280,7 +278,7 @@
             </span>
           {/if}
         {/snippet}
-        {#snippet trailingIcon()}
+        {#snippet trailing()}
           {#if !isAutocompleteFilter && !isDateFilter && !filterChipLabel}
             <span class="mrt-adornment" style:visibility={hasValue ? 'visible' : 'hidden'}>
               <MRT_IconButton
@@ -295,7 +293,7 @@
             </span>
           {/if}
         {/snippet}
-      </Textfield>
+      </MRT_TextField>
       {#if isAutocompleteFilter}
         <datalist id={listId}>
           {#each dropdownOptions ?? [] as option}

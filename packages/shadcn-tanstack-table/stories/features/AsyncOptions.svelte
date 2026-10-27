@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import {
     MRT_ActionMenuItem,
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_Row,
     type MRT_TableInstance,
@@ -67,7 +67,7 @@
   {/each}
 {/snippet}
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     get columns() {
       return columns;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnOrderState,
   } from '../../src/lib';
   import { people, personColumns } from '../data';
@@ -18,7 +18,7 @@
   Order: <code>{columnOrder.join(' → ')}</code>
   <button onclick={() => (columnOrder = [...columnOrder].reverse())}>Reverse</button>
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: personColumns,
     data: people,

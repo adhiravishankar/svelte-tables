@@ -2,7 +2,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
     MRT_ActionMenuItem,
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Cell,
     type MRT_ColumnDef,
     type MRT_Row,
@@ -62,7 +62,7 @@
 
 <!-- cell actions -->
 <Story name="Cell Actions Enabled Custom">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       cellActionMenuItems: cellMenu,
       columns,
@@ -83,7 +83,7 @@
 </Story>
 
 <Story name="Create With Custom Edit Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       createDisplayMode: 'modal',
@@ -98,7 +98,7 @@
 
 <!-- detail panel -->
 <Story name="Custom Expand Rotation">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -111,7 +111,7 @@
 </Story>
 
 <Story name="Detail Panel Enabled Conditional Hide">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -124,20 +124,20 @@
 </Story>
 
 <Story name="Detail Panel Expand All Disabled Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, detailPanel, enableExpandAll: false, layoutMode: 'grid' }}
   />
 </Story>
 
 <Story name="Detail Panel Expand All Disabled Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, detailPanel, enableExpandAll: false, layoutMode: 'grid-no-grow' }}
   />
 </Story>
 
 <!-- editing -->
 <Story name="Editing Enabled Edit Mode Row Custom Save">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -153,7 +153,7 @@
 </Story>
 
 <Story name="Editing Enabled Edit Mode Cell With Row Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -166,7 +166,7 @@
 </Story>
 
 <Story name="Edit Select Variant Alternate">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -189,7 +189,7 @@
 </Story>
 
 <Story name="Editing Nested Data">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: nestedColumns,
       data: nested,
@@ -201,7 +201,7 @@
 </Story>
 
 <Story name="Editing Enabled Edit Mode Table With Grouped Rows">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -214,7 +214,7 @@
 </Story>
 
 <Story name="Enable Editing Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -226,7 +226,7 @@
 </Story>
 
 <Story name="Enable Editing Conditionally Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -237,7 +237,7 @@
 </Story>
 
 <Story name="Enable Editing Conditionally Table">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -248,7 +248,7 @@
 </Story>
 
 <Story name="Editing Cell Manual On Change">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'firstName'
@@ -272,7 +272,7 @@
 
 <!-- row actions -->
 <Story name="Row Actions Enabled Conditionally Per Row">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -283,7 +283,7 @@
 </Story>
 
 <Story name="Row Actions Complete Override">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -296,19 +296,19 @@
 
 <!-- row dragging / numbers -->
 <Story name="Row Dragging Enabled Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowDragging: true, layoutMode: 'grid-no-grow' }}
   />
 </Story>
 
 <Story name="Enable Row Numbers Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowNumbers: data.length > 20 }}
   />
 </Story>
 
 <Story name="Enable Row Numbers Original Virtual">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -321,7 +321,7 @@
 </Story>
 
 <Story name="Enable Row Numbers Static Virtual">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -335,13 +335,13 @@
 
 <!-- row ordering / pinning -->
 <Story name="Row Ordering With Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowOrdering: true, enableRowPinning: true }}
   />
 </Story>
 
 <Story name="Row Ordering With Row Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -353,13 +353,13 @@
 </Story>
 
 <Story name="Row Ordering With Column Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableColumnVirtualization: true, enableRowOrdering: true }}
   />
 </Story>
 
 <Story name="Row Pinning Sticky Custom Row Height">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -371,7 +371,7 @@
 </Story>
 
 <Story name="Row Pinning Select Bottom Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -383,7 +383,7 @@
 </Story>
 
 <Story name="Row Pinning Sticky With Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -396,7 +396,7 @@
 </Story>
 
 <Story name="Row Pinning Top With Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -410,7 +410,7 @@
 
 <!-- search / filtering -->
 <Story name="Search Initialized State">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -421,7 +421,7 @@
 </Story>
 
 <Story name="Filtering Change Mode Enabled Faceted">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'state' ? { ...c, filterVariant: 'select' as const } : c,
@@ -435,7 +435,7 @@
 </Story>
 
 <Story name="Filtering Change Mode Enabled Hidden">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -448,7 +448,7 @@
 
 <!-- selection -->
 <Story name="Select All Mode All Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -459,7 +459,7 @@
 </Story>
 
 <Story name="Select All Disabled Custom Header">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -471,7 +471,7 @@
 </Story>
 
 <Story name="Select Checkbox Secondary Color">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -482,7 +482,7 @@
 </Story>
 
 <Story name="Custom Alert Banner Head Overlay">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -495,14 +495,14 @@
 
 <!-- sub row tree -->
 <Story name="Sub Row Tree Layout Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: tree, enableExpanding: true, layoutMode: 'grid-no-grow' }}
   />
 </Story>
 
 <Story name="Sub Row Tree Enabled Default RTL And Position Last">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{
         columns,
         data: tree,
@@ -514,7 +514,7 @@
 </Story>
 
 <Story name="Sub Row Tree Max Leaf Row Filter Depth 1">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -526,7 +526,7 @@
 </Story>
 
 <Story name="Sub Row Tree Max Leaf Row Filter Depth And Filter From Leaf Rows">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -539,7 +539,7 @@
 </Story>
 
 <Story name="Sub Row Tree With Selection No Sub Row Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -552,7 +552,7 @@
 
 <!-- loading -->
 <Story name="Loading 5">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -562,7 +562,7 @@
 </Story>
 
 <Story name="Loading With Detail Panel Example">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],

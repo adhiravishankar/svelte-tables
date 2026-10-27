@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { people, personColumns } from '../data';
 
   const { Story } = defineMeta({ title: 'Features/Search Examples' });
@@ -9,11 +9,11 @@
 </script>
 
 <Story name="Search Enabled Default">
-  <MaterialSvelteTable options={{ columns, data: people }} />
+  <ShadcnSvelteTable options={{ columns, data: people }} />
 </Story>
 
 <Story name="Search Initial State">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -23,13 +23,13 @@
 </Story>
 
 <Story name="Search Contains">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, globalFilterFn: 'contains' }}
   />
 </Story>
 
 <Story name="Custom Global Filter Fn">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -44,13 +44,13 @@
 </Story>
 
 <Story name="Search Global Filter Modes">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableGlobalFilterModes: true }}
   />
 </Story>
 
 <Story name="Search Global Filter Mode Options">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -61,13 +61,13 @@
 </Story>
 
 <Story name="Search Ranked Results Enabled By Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, initialState: { showGlobalFilter: true } }}
   />
 </Story>
 
 <Story name="Search Disable Ranked Results">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -78,13 +78,13 @@
 </Story>
 
 <Story name="Show Search Right Box By Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, initialState: { showGlobalFilter: true } }}
   />
 </Story>
 
 <Story name="Show Search Box Left By Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -95,7 +95,7 @@
 </Story>
 
 <Story name="Show Search Box Left By Default With Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -107,7 +107,7 @@
 </Story>
 
 <Story name="Just A Search Box">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -123,16 +123,16 @@
 </Story>
 
 <Story name="Search Disabled">
-  <MaterialSvelteTable options={{ columns, data: people, enableGlobalFilter: false }} />
+  <ShadcnSvelteTable options={{ columns, data: people, enableGlobalFilter: false }} />
 </Story>
 
 <Story name="Customize Search Text Box">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
       initialState: { showGlobalFilter: true },
-      searchTextFieldProps: { input$placeholder: 'Search every column…' },
+      searchTextFieldProps: { placeholder: 'Search every column…' },
     }}
   />
 </Story>

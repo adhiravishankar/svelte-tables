@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_PaginationState,
   } from '../../src/lib';
   import { people, personColumns } from '../data';
@@ -12,7 +12,7 @@
   Page {pagination.pageIndex + 1}, {pagination.pageSize} rows per page
   <button onclick={() => (pagination = { ...pagination, pageIndex: 0 })}>Back to first page</button>
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: personColumns,
     data: people,

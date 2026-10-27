@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Button, { Label } from '@smui/button';
+  import { Button } from '../ui/button';
   import type { MRT_Row, MRT_RowData, MRT_TableInstance } from '../../types';
   import MRT_Spinner from '../MRT_Spinner.svelte';
   import MRT_IconButton from './MRT_IconButton.svelte';
@@ -85,17 +85,16 @@
       </MRT_IconButton>
     {/if}
   {:else}
-    <Button onclick={handleCancel} style="min-width: 100px">
-      <Label>{localization.cancel}</Label>
+    <Button onclick={handleCancel} style="min-width: 100px" variant="outline">
+      {localization.cancel}
     </Button>
     <Button
       disabled={isSaving}
       onclick={handleSubmitRow}
       style="min-width: 100px"
-      variant="unelevated"
     >
       {#if isSaving}<MRT_Spinner />{/if}
-      <Label>{localization.save}</Label>
+      {localization.save}
     </Button>
   {/if}
 </div>

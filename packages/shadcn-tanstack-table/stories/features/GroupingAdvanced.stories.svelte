@@ -1,7 +1,7 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Cell,
     type MRT_ColumnDef,
     type MRT_Header,
@@ -53,7 +53,7 @@
 
 <!-- aggregation -->
 <Story name="Aggregation Expanded Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data,
@@ -64,7 +64,7 @@
 </Story>
 
 <Story name="Aggregation Remove Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data,
@@ -76,7 +76,7 @@
 </Story>
 
 <Story name="Aggregation False Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data,
@@ -88,7 +88,7 @@
 </Story>
 
 <Story name="Aggregation Remove Mode Custom Grouped Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data,
@@ -101,7 +101,7 @@
 </Story>
 
 <Story name="Aggregation Grouped And Expanded Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data,
@@ -113,7 +113,7 @@
 
 <!-- grouping -->
 <Story name="Grouping Column Mode Remove Custom Header">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: base,
       data,
@@ -126,7 +126,7 @@
 </Story>
 
 <Story name="Grouping Column Mode Remove Custom Grouped Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: base,
       data,
@@ -139,7 +139,7 @@
 </Story>
 
 <Story name="Column Grouping Enabled With Selection Remove">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: base,
       data,
@@ -152,7 +152,7 @@
 </Story>
 
 <Story name="Column Grouping Enabled Custom Aggregate">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'state', header: 'State' },
@@ -167,7 +167,7 @@
 </Story>
 
 <Story name="Column Grouping Drop Zone Always Visible">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: base,
       data,
@@ -183,7 +183,7 @@
 </Story>
 
 <Story name="Grouping And Dragging With Some Disabled Grouping">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'state', header: 'State' },

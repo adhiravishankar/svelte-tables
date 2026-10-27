@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_GroupingState,
   } from '../../src/lib';
   import { employees } from '../data';
@@ -13,7 +13,7 @@
   <button onclick={() => (grouping = ['gender', 'state'])}>Group by gender, then state</button>
   <button onclick={() => (grouping = [])}>Ungroup</button>
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: [
       { accessorKey: 'state', header: 'State' },

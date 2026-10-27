@@ -1,5 +1,4 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import MenuSurface from '@smui/menu-surface';
   import type { MRT_Header, MRT_RowData, MRT_TableInstance } from '../../types';
   import {
     getColumnFilterInfo,
@@ -7,6 +6,7 @@
   } from '../../utils/column.utils';
   import { getFilterModeLabel } from '../../utils/filterOptions';
   import { getValueAndLabel } from '../../utils/utils';
+  import * as Popover from '../ui/popover';
   import MRT_TableHeadCellFilterContainer from './MRT_TableHeadCellFilterContainer.svelte';
 
   /**
@@ -108,20 +108,20 @@
 {/if}
 
 {#if popover && anchorEl}
-  <MenuSurface
-    anchorCorner="TOP_START"
-    anchorElement={anchorEl}
-    fixed
-    onclick={(e: MouseEvent) => e.stopPropagation()}
-    onkeydown={(e: KeyboardEvent) => e.key === 'Enter' && (anchorEl = null)}
-    onSMUIMenuSurfaceClosed={() => (anchorEl = null)}
-    open
-    style="overflow: visible; background: {table.options.mrtTheme.menuBackgroundColor}"
-  >
-    <div class="mrt-filter-popover">
-      <MRT_TableHeadCellFilterContainer {header} {table} />
-    </div>
-  </MenuSurface>
+  <Popover.Root open onOpenChange={(open) => !open && (anchorEl = null)}>
+    <Popover.Content
+      align="start"
+      class="w-auto overflow-visible"
+      customAnchor={anchorEl}
+      onclick={(e: MouseEvent) => e.stopPropagation()}
+      onkeydown={(e: KeyboardEvent) => e.key === 'Enter' && (anchorEl = null)}
+      style="background: {table.options.mrtTheme.menuBackgroundColor}"
+    >
+      <div class="mrt-filter-popover">
+        <MRT_TableHeadCellFilterContainer {header} {table} />
+      </div>
+    </Popover.Content>
+  </Popover.Root>
 {/if}
 
 <style>

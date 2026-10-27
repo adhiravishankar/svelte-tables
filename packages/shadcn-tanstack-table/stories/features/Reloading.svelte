@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { employeeColumns, makeEmployees } from '../data';
 
   let data = $state(makeEmployees(15));
@@ -26,7 +26,7 @@
   <button onclick={reload}>Refetch (keeps the rows)</button>
   <button onclick={firstLoad}>First load (skeletons)</button>
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: employeeColumns,
     get data() {

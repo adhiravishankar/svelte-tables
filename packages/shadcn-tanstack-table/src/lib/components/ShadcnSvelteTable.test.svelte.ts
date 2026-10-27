@@ -1,6 +1,6 @@
 import { flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it } from 'vitest';
-import MaterialSvelteTable from './MaterialSvelteTable.svelte';
+import ShadcnSvelteTable from './ShadcnSvelteTable.svelte';
 import { type MRT_ColumnDef, type MRT_TableOptions } from '../types';
 
 type Person = { age: number; name: string };
@@ -22,7 +22,7 @@ let app: ReturnType<typeof mount> | undefined;
 const render = (options: MRT_TableOptions<Person>) => {
   target = document.createElement('div');
   document.body.appendChild(target);
-  app = mount(MaterialSvelteTable<Person>, { props: { options }, target });
+  app = mount(ShadcnSvelteTable<Person>, { props: { options }, target });
   flushSync();
   return target;
 };
@@ -40,7 +40,7 @@ const bodyText = (root: HTMLElement) =>
       .join('|'),
   );
 
-describe('MaterialSvelteTable', () => {
+describe('ShadcnSvelteTable', () => {
   it('renders headers, rows and the footer', () => {
     const root = render({ columns, data: people });
     expect(

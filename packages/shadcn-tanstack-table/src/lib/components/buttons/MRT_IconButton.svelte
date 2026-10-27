@@ -1,9 +1,9 @@
 <script lang="ts">
-  import IconButton from '@smui/icon-button';
   import type { Snippet } from 'svelte';
+  import { Button } from '../ui/button';
 
   /**
-   * The icon button used across MRT: an SMUI `IconButton` with a native
+   * The icon button used across MRT: a shadcn icon `Button` with a native
    * tooltip (`title`) and an accessible label.
    */
   let {
@@ -27,9 +27,16 @@
 </script>
 
 <span class="mrt-icon-button" title={title ?? label}>
-  <IconButton {...rest} aria-label={label} {disabled} {onclick} {size}>
+  <Button
+    {...rest}
+    aria-label={label}
+    {disabled}
+    {onclick}
+    size={size === 'mini' ? 'icon-sm' : 'icon'}
+    variant="ghost"
+  >
     {@render children()}
-  </IconButton>
+  </Button>
 </span>
 
 <style>

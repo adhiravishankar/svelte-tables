@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import Button, { Label } from '@smui/button';
+  import { Button } from '../../src/lib/components/ui/button';
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_TableInstance } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_TableInstance } from '../../src/lib';
   import { type Employee, employees, employeeColumns } from '../data';
   import ControlledFullScreen from './ControlledFullScreen.svelte';
 
@@ -18,12 +18,12 @@
 
 {#snippet topActions(ctx: { table: MRT_TableInstance<Employee> })}
   <div style="display: flex; gap: 0.5rem">
-    <Button variant="raised"><Label>Create</Label></Button>
+    <Button>Create</Button>
     <Button
       disabled={ctx.table.getSelectedRowModel().rows.length === 0}
-      variant="outlined"
+      variant="outline"
     >
-      <Label>Delete selected ({ctx.table.getSelectedRowModel().rows.length})</Label>
+      Delete selected ({ctx.table.getSelectedRowModel().rows.length})
     </Button>
   </div>
 {/snippet}
@@ -34,72 +34,72 @@
 
 <!-- layout mode -->
 <Story name="Default Semantic">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Grid">
-  <MaterialSvelteTable options={{ columns, data, layoutMode: 'grid' }} />
+  <ShadcnSvelteTable options={{ columns, data, layoutMode: 'grid' }} />
 </Story>
 
 <Story name="Grid No Grow">
-  <MaterialSvelteTable options={{ columns, data, layoutMode: 'grid-no-grow' }} />
+  <ShadcnSvelteTable options={{ columns, data, layoutMode: 'grid-no-grow' }} />
 </Story>
 
 <Story name="Grid With Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableColumnResizing: true, layoutMode: 'grid' }}
   />
 </Story>
 
 <Story name="Grid No Grow With Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableColumnResizing: true, layoutMode: 'grid-no-grow' }}
   />
 </Story>
 
 <!-- toolbars -->
 <Story name="Toolbar Enabled Default">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Top Toolbar Hidden">
-  <MaterialSvelteTable options={{ columns, data, enableTopToolbar: false }} />
+  <ShadcnSvelteTable options={{ columns, data, enableTopToolbar: false }} />
 </Story>
 
 <Story name="Bottom Toolbar Hidden">
-  <MaterialSvelteTable options={{ columns, data, enableBottomToolbar: false }} />
+  <ShadcnSvelteTable options={{ columns, data, enableBottomToolbar: false }} />
 </Story>
 
 <Story name="No Toolbars">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableBottomToolbar: false, enableTopToolbar: false }}
   />
 </Story>
 
 <Story name="Hide Toolbar Internal Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableToolbarInternalActions: false }}
   />
 </Story>
 
 <Story name="Table Title">
-  <MaterialSvelteTable options={{ columns, data, topToolbarCustomActions: title }} />
+  <ShadcnSvelteTable options={{ columns, data, topToolbarCustomActions: title }} />
 </Story>
 
 <Story name="Custom Top Toolbar Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowSelection: true, topToolbarCustomActions: topActions }}
   />
 </Story>
 
 <Story name="Custom Bottom Toolbar Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ bottomToolbarCustomActions: bottomActions, columns, data }}
   />
 </Story>
 
 <Story name="Toolbar Alert Banner Bottom">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -111,29 +111,29 @@
 
 <!-- density / full screen -->
 <Story name="Dense Padding Toggle Enabled Default">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Dense Padding Disabled">
-  <MaterialSvelteTable options={{ columns, data, enableDensityToggle: false }} />
+  <ShadcnSvelteTable options={{ columns, data, enableDensityToggle: false }} />
 </Story>
 
 <Story name="Default To Dense Padding">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, initialState: { density: 'compact' } }}
   />
 </Story>
 
 <Story name="Full Screen Toggle Enabled Default">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Disable Full Screen Toggle">
-  <MaterialSvelteTable options={{ columns, data, enableFullScreenToggle: false }} />
+  <ShadcnSvelteTable options={{ columns, data, enableFullScreenToggle: false }} />
 </Story>
 
 <Story name="Default Full Screen On">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, initialState: { isFullScreen: true } }}
   />
 </Story>

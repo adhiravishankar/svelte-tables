@@ -1,6 +1,6 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Button, { Label } from '@smui/button';
-  import { Separator } from '@smui/list';
+  import { Button } from '../ui/button';
+  import { DropdownMenuSeparator as Separator } from '../ui/dropdown-menu';
   import type {
     MRT_Column,
     MRT_RowData,
@@ -75,34 +75,42 @@
   <div class="mrt-show-hide-actions">
     {#if o.enableHiding}
       <Button
+        size="sm"
+        variant="ghost"
         disabled={!table.getIsSomeColumnsVisible()}
         onclick={() => handleToggleAllColumns(false)}
       >
-        <Label>{localization.hideAll}</Label>
+        {localization.hideAll}
       </Button>
     {/if}
     {#if o.enableColumnOrdering}
       <Button
+        size="sm"
+        variant="ghost"
         disabled={!hasColumnOrderChanged}
         onclick={() => table.setColumnOrder(getDefaultColumnOrderIds(table.options as any, true))}
       >
-        <Label>{localization.resetOrder}</Label>
+        {localization.resetOrder}
       </Button>
     {/if}
     {#if o.enableColumnPinning}
       <Button
+        size="sm"
+        variant="ghost"
         disabled={!table.getIsSomeColumnsPinned()}
         onclick={() => table.resetColumnPinning(true)}
       >
-        <Label>{localization.unpinAll}</Label>
+        {localization.unpinAll}
       </Button>
     {/if}
     {#if o.enableHiding}
       <Button
+        size="sm"
+        variant="ghost"
         disabled={table.getIsAllColumnsVisible()}
         onclick={() => handleToggleAllColumns(true)}
       >
-        <Label>{localization.showAll}</Label>
+        {localization.showAll}
       </Button>
     {/if}
   </div>

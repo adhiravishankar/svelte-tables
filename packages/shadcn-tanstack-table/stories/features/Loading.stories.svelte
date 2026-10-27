@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { employees, employeeColumns } from '../data';
   import Reloading from './Reloading.svelte';
 
@@ -11,21 +11,21 @@
 </script>
 
 <Story name="Loading">
-  <MaterialSvelteTable options={{ columns, data: [], state: { isLoading: true } }} />
+  <ShadcnSvelteTable options={{ columns, data: [], state: { isLoading: true } }} />
 </Story>
 
 <Story name="Loading With Some Data">
-  <MaterialSvelteTable options={{ columns, data, state: { isLoading: true } }} />
+  <ShadcnSvelteTable options={{ columns, data, state: { isLoading: true } }} />
 </Story>
 
 <Story name="Loading With Progress Bars">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, state: { showProgressBars: true } }}
   />
 </Story>
 
 <Story name="Loading With Progress Bars No Overlay">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -35,13 +35,13 @@
 </Story>
 
 <Story name="Loading With Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowSelection: true, state: { isLoading: true } }}
   />
 </Story>
 
 <Story name="Skeleton Display Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -53,7 +53,7 @@
 </Story>
 
 <Story name="Only Top Progress Bar">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,

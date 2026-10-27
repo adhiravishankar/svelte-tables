@@ -76,7 +76,7 @@
   .mrt-table {
     border-collapse: separate;
     border-spacing: 0;
-    font-family: var(--mdc-typography-body2-font-family, Roboto, sans-serif);
+    font-family: var(--font-sans, system-ui, sans-serif);
     font-size: 0.875rem;
     line-height: 1.43;
     position: relative;

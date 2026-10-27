@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_RowSelectionState,
   } from '../../src/lib';
   import { people, personColumns } from '../data';
@@ -13,7 +13,7 @@
   Selected row ids: <code>{Object.keys(rowSelection).filter((id) => rowSelection[id]).join(', ') || '(none)'}</code>
   <button onclick={() => (rowSelection = {})}>Clear</button>
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: personColumns,
     data: people,

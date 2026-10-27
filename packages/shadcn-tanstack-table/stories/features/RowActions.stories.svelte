@@ -2,7 +2,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
     MRT_ActionMenuItem,
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Cell,
     type MRT_Row,
     type MRT_TableInstance,
@@ -48,19 +48,19 @@
 
 <!-- row actions -->
 <Story name="Row Actions Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowActions: true, rowActionMenuItems }}
   />
 </Story>
 
 <Story name="Row Actions Enabled Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableRowActions: false, rowActionMenuItems }}
   />
 </Story>
 
 <Story name="Row Actions And Editing Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -74,7 +74,7 @@
 </Story>
 
 <Story name="Row Actions Last Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -86,11 +86,11 @@
 </Story>
 
 <Story name="Custom Row Action Buttons">
-  <MaterialSvelteTable options={{ columns, data, enableRowActions: true, rowActions }} />
+  <ShadcnSvelteTable options={{ columns, data, enableRowActions: true, rowActions }} />
 </Story>
 
 <Story name="Custom Row Action Buttons Last Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -118,13 +118,13 @@
 {/snippet}
 
 <Story name="Cell Actions Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ cellActionMenuItems, columns, data, enableCellActions: true }}
   />
 </Story>
 
 <Story name="Cell Actions Enabled Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       cellActionMenuItems,
       columns,
@@ -136,7 +136,7 @@
 </Story>
 
 <Story name="Cell Actions With Click To Copy">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -147,7 +147,7 @@
 </Story>
 
 <Story name="Cell Actions With Built Ins">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -161,17 +161,17 @@
 
 <!-- click to copy -->
 <Story name="Click To Copy Enabled">
-  <MaterialSvelteTable options={{ columns, data, enableClickToCopy: true }} />
+  <ShadcnSvelteTable options={{ columns, data, enableClickToCopy: true }} />
 </Story>
 
 <Story name="Click To Copy Enabled With Column Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableClickToCopy: true, enableColumnResizing: true }}
   />
 </Story>
 
 <Story name="Click To Copy Enabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', enableClickToCopy: true, header: 'First Name' },
@@ -184,7 +184,7 @@
 </Story>
 
 <Story name="Click To Copy Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },

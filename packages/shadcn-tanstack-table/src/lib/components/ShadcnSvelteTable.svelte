@@ -1,7 +1,7 @@
 <script lang="ts" generics="TData extends MRT_RowData">
   import { untrack } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
-  import { createMaterialSvelteTable } from '../createMaterialSvelteTable.svelte';
+  import { createShadcnSvelteTable } from '../createShadcnSvelteTable.svelte';
   import type {
     MRT_RowData,
     MRT_TableInstance,
@@ -11,7 +11,7 @@
 
   /**
    * Renders a table. Pass either options (a table is created for you) or a
-   * `table` made with `createMaterialSvelteTable` when you need the instance.
+   * `table` made with `createShadcnSvelteTable` when you need the instance.
    */
   type Props =
     | ({ table: MRT_TableInstance<TData>; options?: never } & HTMLAttributes<HTMLDivElement>)
@@ -21,7 +21,7 @@
 
   // the table is created once; reactive options must be passed as getters
   const table: MRT_TableInstance<TData> = untrack(
-    () => providedTable ?? createMaterialSvelteTable(options!),
+    () => providedTable ?? createShadcnSvelteTable(options!),
   );
 </script>
 

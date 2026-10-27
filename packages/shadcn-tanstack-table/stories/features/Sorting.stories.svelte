@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Person, people } from '../data';
   import SortingStateManaged from './SortingStateManaged.svelte';
 
@@ -18,15 +18,15 @@
 </script>
 
 <Story name="Sorting Enabled Default">
-  <MaterialSvelteTable options={{ columns, data: people }} />
+  <ShadcnSvelteTable options={{ columns, data: people }} />
 </Story>
 
 <Story name="Disable Sorting">
-  <MaterialSvelteTable options={{ columns, data: people, enableSorting: false }} />
+  <ShadcnSvelteTable options={{ columns, data: people, enableSorting: false }} />
 </Story>
 
 <Story name="Disable Sorting For Specific Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -41,17 +41,17 @@
 </Story>
 
 <Story name="Disable Multi Sorting">
-  <MaterialSvelteTable options={{ columns, data: people, enableMultiSort: false }} />
+  <ShadcnSvelteTable options={{ columns, data: people, enableMultiSort: false }} />
 </Story>
 
 <Story name="Disable Sorting Removal">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableSortingRemoval: false }}
   />
 </Story>
 
 <Story name="Sort Ranking">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [{ ...columns[0], sortFn: 'fuzzy' }, ...columns.slice(1)],
       data: people,

@@ -251,14 +251,14 @@
   .mrt-body-cell {
     border-bottom: 1px solid var(--mrt-divider);
     box-sizing: border-box;
-    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    color: var(--foreground);
     z-index: 0;
   }
   .mrt-body-cell:hover {
     text-overflow: clip;
   }
   .mrt-body-cell:focus-visible {
-    outline: 2px solid var(--mdc-theme-primary, #6200ee);
+    outline: 2px solid var(--primary);
     outline-offset: -2px;
   }
   .mrt-action-cell {
@@ -279,7 +279,7 @@
   :global(.mrt-body-row:hover) > .mrt-body-cell::after {
     background-color: var(
       --mrt-row-highlight-hover,
-      color-mix(in srgb, var(--mdc-theme-on-surface, #000) 6%, transparent)
+      color-mix(in srgb, var(--foreground) 6%, transparent)
     );
   }
   .mrt-skeleton {
@@ -287,7 +287,7 @@
     background: linear-gradient(
       90deg,
       var(--mrt-divider),
-      color-mix(in srgb, var(--mdc-theme-on-surface, #000) 4%, transparent),
+      color-mix(in srgb, var(--foreground) 4%, transparent),
       var(--mrt-divider)
     );
     background-size: 200% 100%;

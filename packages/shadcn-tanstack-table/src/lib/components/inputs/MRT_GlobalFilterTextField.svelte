@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Textfield from '@smui/textfield';
+  import MRT_TextField from './MRT_TextField.svelte';
   import { untrack } from 'svelte';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { debounce, parseFromValuesOrFunc } from '../../utils/utils';
@@ -62,18 +62,17 @@
 
 {#if showGlobalFilter}
   <div class="mrt-global-filter" {@attach attachInput}>
-    <Textfield
+    <MRT_TextField
       variant="outlined"
-      noLabel
       value={searchValue}
       class="mrt-global-filter-field"
-      input$autocomplete="off"
-      input$placeholder={localization.search}
-      input$aria-label={localization.search}
-      input$oninput={oninput}
+      autocomplete="off"
+      placeholder={localization.search}
+      aria-label={localization.search}
+      {oninput}
       {...textFieldProps}
     >
-      {#snippet leadingIcon()}
+      {#snippet leading()}
         {#if table.options.enableGlobalFilterModes}
           <MRT_IconButton
             label={localization.changeSearchMode}
@@ -87,7 +86,7 @@
           <SearchIcon class="mrt-global-filter-icon" />
         {/if}
       {/snippet}
-      {#snippet trailingIcon()}
+      {#snippet trailing()}
         <MRT_IconButton
           disabled={!searchValue?.length}
           label={localization.clearSearch}
@@ -97,7 +96,7 @@
           <CloseIcon />
         </MRT_IconButton>
       {/snippet}
-    </Textfield>
+    </MRT_TextField>
     <MRT_FilterOptionMenu
       anchorEl={modeAnchor}
       onSelect={handleClear}

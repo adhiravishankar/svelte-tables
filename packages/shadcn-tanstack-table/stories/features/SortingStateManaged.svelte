@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_SortingState,
   } from '../../src/lib';
@@ -13,7 +13,7 @@
 </script>
 
 <p>Sorting: <code>{JSON.stringify(sorting)}</code></p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import { Separator } from '@smui/list';
+  import { DropdownMenuSeparator as Separator } from '../../src/lib/components/ui/dropdown-menu';
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MRT_ActionMenuItem, MaterialSvelteTable, type MRT_Column, type MRT_TableInstance } from '../../src/lib';
+  import { MRT_ActionMenuItem, ShadcnSvelteTable, type MRT_Column, type MRT_TableInstance } from '../../src/lib';
   import { type Person, people, personColumns } from '../data';
 
   const { Story } = defineMeta({ title: 'Features/Column Actions Examples' });
@@ -38,15 +38,15 @@
 {/snippet}
 
 <Story name="Column Actions Enabled Default">
-  <MaterialSvelteTable options={{ columns, data: people }} />
+  <ShadcnSvelteTable options={{ columns, data: people }} />
 </Story>
 
 <Story name="Column Actions Disabled">
-  <MaterialSvelteTable options={{ columns, data: people, enableColumnActions: false }} />
+  <ShadcnSvelteTable options={{ columns, data: people, enableColumnActions: false }} />
 </Story>
 
 <Story name="Column Actions Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -59,7 +59,7 @@
 </Story>
 
 <Story name="Column Actions Enabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', enableColumnActions: true, header: 'First Name' },
@@ -73,13 +73,13 @@
 </Story>
 
 <Story name="Custom Column Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columnActionsMenuItems: withBuiltIns, columns, data: people }}
   />
 </Story>
 
 <Story name="Custom Column Actions Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', columnActionsMenuItems: logItem, header: 'First Name (custom)' },

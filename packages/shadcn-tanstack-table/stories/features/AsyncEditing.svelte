@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import type { Employee } from '../data';
 
   let {
@@ -13,7 +13,7 @@
   let isSaving = $state(false);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     get data() {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_ExpandedState,
     type MRT_Row,
@@ -22,7 +22,7 @@
 </script>
 
 <!-- only one detail panel is open at a time: opening another closes the first -->
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

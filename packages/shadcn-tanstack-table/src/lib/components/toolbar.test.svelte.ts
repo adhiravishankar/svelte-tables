@@ -1,6 +1,6 @@
 import { flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import MaterialSvelteTable from './MaterialSvelteTable.svelte';
+import ShadcnSvelteTable from './ShadcnSvelteTable.svelte';
 import { type MRT_ColumnDef, type MRT_TableOptions } from '../types';
 
 type Person = { age: number; name: string };
@@ -21,7 +21,7 @@ let app: ReturnType<typeof mount> | undefined;
 const render = (options: Partial<MRT_TableOptions<Person>> = {}) => {
   target = document.createElement('div');
   document.body.appendChild(target);
-  app = mount(MaterialSvelteTable<Person>, {
+  app = mount(ShadcnSvelteTable<Person>, {
     props: { options: { columns, data: people, ...options } },
     target,
   });

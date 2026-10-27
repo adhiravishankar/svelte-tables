@@ -1,15 +1,18 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import { Graphic, Item, Text } from '@smui/list';
   import type { Snippet } from 'svelte';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
+  import * as DropdownMenu from '../ui/dropdown-menu';
 
   let {
+    activated = false,
     icon,
     label,
     onOpenSubMenu,
     table,
     ...rest
   }: {
+    /** Highlights the item as the current choice. */
+    activated?: boolean;
     icon?: Snippet;
     label: string;
     onOpenSubMenu?: (event: Event) => void;
@@ -20,12 +23,15 @@
   const ArrowRightIcon = $derived(table.options.icons.ArrowRightIcon);
 </script>
 
-<Item class="mrt-action-menu-item" tabindex={0} {...rest}>
+<DropdownMenu.Item
+  class="mrt-action-menu-item {activated ? 'bg-accent' : ''}"
+  {...rest}
+>
   <span class="mrt-action-menu-item-label">
     {#if icon}
-      <Graphic>{@render icon()}</Graphic>
+      <span class="mrt-action-menu-item-icon">{@render icon()}</span>
     {/if}
-    <Text>{label}</Text>
+    <span>{label}</span>
   </span>
   {#if onOpenSubMenu}
     <button
@@ -38,7 +44,7 @@
       <ArrowRightIcon />
     </button>
   {/if}
-</Item>
+</DropdownMenu.Item>
 
 <style>
   :global(.mrt-action-menu-item) {
@@ -48,6 +54,10 @@
   .mrt-action-menu-item-label {
     align-items: center;
     display: flex;
+    gap: 0.75rem;
+  }
+  .mrt-action-menu-item-icon {
+    display: inline-flex;
   }
   .mrt-submenu-button {
     background: none;

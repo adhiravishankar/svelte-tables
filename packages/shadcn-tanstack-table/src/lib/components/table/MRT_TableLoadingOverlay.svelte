@@ -18,7 +18,7 @@
     aria-label={table.options.localization.noRecordsToDisplay}
     id="mrt-progress-{table.options.id}"
     role="progressbar"
-    style="color: var(--mdc-theme-primary, #6200ee)"
+    style="color: var(--primary)"
   >
     <MRT_Spinner size={progressProps?.size ?? 40} />
   </span>

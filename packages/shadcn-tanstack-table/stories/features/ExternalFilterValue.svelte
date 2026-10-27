@@ -1,12 +1,12 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
-    createMaterialSvelteTable,
+    ShadcnSvelteTable,
+    createShadcnSvelteTable,
   } from '../../src/lib';
   import { employeeColumns, employees } from '../data';
 
   // creating the table yourself gives you its API (`setColumnFilters`, ...)
-  const table = createMaterialSvelteTable({
+  const table = createShadcnSvelteTable({
     columns: employeeColumns,
     data: employees,
     initialState: { showColumnFilters: true },
@@ -22,4 +22,4 @@
   </button>
   <button onclick={() => table.resetColumnFilters(true)}>Clear filters</button>
 </div>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />

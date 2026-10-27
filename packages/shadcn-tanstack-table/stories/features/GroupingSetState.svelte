@@ -1,12 +1,12 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
-    createMaterialSvelteTable,
+    ShadcnSvelteTable,
+    createShadcnSvelteTable,
   } from '../../src/lib';
   import { employees } from '../data';
 
   // `setGrouping` is on the table instance, so any button can drive the grouping
-  const table = createMaterialSvelteTable({
+  const table = createShadcnSvelteTable({
     columns: [
       { accessorKey: 'state', header: 'State' },
       { accessorKey: 'gender', header: 'Gender' },
@@ -23,4 +23,4 @@
   <button onclick={() => table.setGrouping(['gender', 'state'])}>Group by gender, then state</button>
   <button onclick={() => table.resetGrouping(true)}>Clear</button>
 </p>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />

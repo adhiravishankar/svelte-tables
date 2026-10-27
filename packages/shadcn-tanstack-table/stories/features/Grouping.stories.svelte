@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Employee, employees } from '../data';
   import GroupingStateManaged from './GroupingStateManaged.svelte';
 
@@ -42,11 +42,11 @@
 {/snippet}
 
 <Story name="Column Grouping Enabled">
-  <MaterialSvelteTable options={{ columns, data: employees, enableGrouping: true }} />
+  <ShadcnSvelteTable options={{ columns, data: employees, enableGrouping: true }} />
 </Story>
 
 <Story name="Column Grouping Enabled Reorder">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -58,7 +58,7 @@
 </Story>
 
 <Story name="Grouping Column Mode Remove">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -70,7 +70,7 @@
 </Story>
 
 <Story name="Grouping Column Mode False">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -82,7 +82,7 @@
 </Story>
 
 <Story name="Grouping Column Mode Remove Paginate Pre Expand">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -95,13 +95,13 @@
 </Story>
 
 <Story name="Column Grouping Enabled With Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, enableGrouping: true, enableRowSelection: true }}
   />
 </Story>
 
 <Story name="Column Grouping No Drag Handles">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -112,7 +112,7 @@
 </Story>
 
 <Story name="Column Grouping Enabled Drop Zone Bottom">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -123,7 +123,7 @@
 </Story>
 
 <Story name="Column Grouping Banner On Bottom">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -139,7 +139,7 @@
 </Story>
 
 <Story name="Aggregation">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data: employees,
@@ -150,7 +150,7 @@
 </Story>
 
 <Story name="Aggregation With Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: aggregated,
       data: employees,
@@ -162,7 +162,7 @@
 </Story>
 
 <Story name="Multi Aggregation Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'state', header: 'State' },

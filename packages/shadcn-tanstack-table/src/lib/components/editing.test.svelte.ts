@@ -1,7 +1,7 @@
 import { createRawSnippet, flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import MaterialSvelteTable from './MaterialSvelteTable.svelte';
-import { createMaterialSvelteTable } from '../createMaterialSvelteTable.svelte';
+import ShadcnSvelteTable from './ShadcnSvelteTable.svelte';
+import { createShadcnSvelteTable } from '../createShadcnSvelteTable.svelte';
 import {
   type MRT_ColumnDef,
   type MRT_TableInstance,
@@ -34,7 +34,7 @@ let cleanup: (() => void) | undefined;
 const render = (options: Partial<MRT_TableOptions<Person>> = {}) => {
   let table!: MRT_TableInstance<Person>;
   cleanup = $effect.root(() => {
-    table = createMaterialSvelteTable<Person>({
+    table = createShadcnSvelteTable<Person>({
       columns,
       data: people,
       enableBottomToolbar: false,
@@ -44,7 +44,7 @@ const render = (options: Partial<MRT_TableOptions<Person>> = {}) => {
   });
   target = document.createElement('div');
   document.body.appendChild(target);
-  app = mount(MaterialSvelteTable<Person>, { props: { table }, target });
+  app = mount(ShadcnSvelteTable<Person>, { props: { table }, target });
   flushSync();
   return { root: target, table };
 };
@@ -83,7 +83,7 @@ describe('cell editing', () => {
     const { root } = render({
       editDisplayMode: 'cell',
       editTextFieldProps: () => ({
-        input$onblur: (e: FocusEvent) =>
+        onblur: (e: FocusEvent) =>
           blurred.push((e.target as HTMLInputElement).value),
       }),
       enableEditing: true,
@@ -211,12 +211,12 @@ describe('modal editing', () => {
       enableEditing: true,
       onEditingRowSave,
     });
-    expect(document.body.querySelector('.mdc-dialog')).toBeNull();
+    expect(document.body.querySelector('[data-slot="dialog-content"]')).toBeNull();
     button(root, 'Edit').click();
     flushSync();
-    const dialog = document.body.querySelector('.mdc-dialog')!;
+    const dialog = document.body.querySelector('[data-slot="dialog-content"]')!;
     expect(dialog).not.toBeNull();
-    expect(dialog.querySelector('.mdc-dialog__title')?.textContent).toContain(
+    expect(dialog.querySelector('[data-slot="dialog-title"]')?.textContent).toContain(
       'Edit',
     );
     const inputs = Array.from(
@@ -230,7 +230,7 @@ describe('modal editing', () => {
     flushSync();
     expect(onEditingRowSave.mock.calls[0][0].values.name).toBe('Caroline');
     expect(table.mrtState.editingRow).toBe(null);
-    expect(document.body.querySelector('.mdc-dialog--open')).toBeNull();
+    expect(document.body.querySelector('[data-slot="dialog-content"]')).toBeNull();
   });
 
   it('lets a snippet replace the dialog content', () => {
@@ -245,7 +245,7 @@ describe('modal editing', () => {
     button(root, 'Edit').click();
     flushSync();
     expect(document.body.querySelector('.custom-dialog')).not.toBeNull();
-    expect(document.body.querySelector('.mdc-dialog__title')).toBeNull();
+    expect(document.body.querySelector('[data-slot="dialog-title"]')).toBeNull();
   });
 });
 
@@ -261,7 +261,7 @@ describe('creating rows', () => {
     });
     table.setCreatingRow(true);
     flushSync();
-    const dialog = document.body.querySelector('.mdc-dialog')!;
+    const dialog = document.body.querySelector('[data-slot="dialog-content"]')!;
     expect(dialog).not.toBeNull();
     const [name] = Array.from(
       dialog.querySelectorAll<HTMLInputElement>('input'),
@@ -375,11 +375,11 @@ describe('cell action menu', () => {
     flushSync();
     expect(table.mrtState.actionCell?.id).toBeTruthy();
     const items = Array.from(
-      document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
+      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
     ).map((i) => i.textContent?.trim());
     expect(items).toEqual(['Copy', 'Edit']);
     Array.from(
-      document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
+      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
     )[0].click();
     flushSync();
     expect(writeText).toHaveBeenCalledWith('Carol');

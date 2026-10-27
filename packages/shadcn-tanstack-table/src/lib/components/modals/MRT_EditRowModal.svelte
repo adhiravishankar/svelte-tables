@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Dialog, { Actions, Content, Title } from '@smui/dialog';
+  import * as Dialog from '../ui/dialog';
   import type { MRT_Row, MRT_RowData, MRT_TableInstance } from '../../types';
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_EditActionButtons from '../buttons/MRT_EditActionButtons.svelte';
@@ -45,32 +45,35 @@
   }
 </script>
 
-<Dialog
-  aria-describedby="mrt-edit-dialog-content"
-  aria-labelledby="mrt-edit-dialog-title"
-  open
-  onSMUIDialogClosed={onclosed}
-  surface$style="width: 100%; max-width: 444px"
-  {...dialogProps}
->
-  {#if customContent}
-    {@render customContent({ internalEditCells, row, table })}
-  {:else}
-    <Title id="mrt-edit-dialog-title" style="text-align: center">
-      {localization.edit}
-    </Title>
-    <Content id="mrt-edit-dialog-content">
-      <form class="mrt-edit-form" onsubmit={(e) => e.preventDefault()}>
-        {#each internalEditCells as cell (cell.id)}
-          <MRT_EditCellTextField {cell} {table} />
-        {/each}
-      </form>
-    </Content>
-    <Actions style="padding: 1.25rem">
-      <MRT_EditActionButtons {row} {table} variant="text" />
-    </Actions>
-  {/if}
-</Dialog>
+<Dialog.Root open onOpenChange={(open) => !open && onclosed()}>
+  <Dialog.Content
+    aria-describedby="mrt-edit-dialog-content"
+    aria-labelledby="mrt-edit-dialog-title"
+    showCloseButton={false}
+    style="width: 100%; max-width: 444px"
+    {...dialogProps}
+  >
+    {#if customContent}
+      {@render customContent({ internalEditCells, row, table })}
+    {:else}
+      <Dialog.Header>
+        <Dialog.Title id="mrt-edit-dialog-title" class="text-center">
+          {localization.edit}
+        </Dialog.Title>
+      </Dialog.Header>
+      <div id="mrt-edit-dialog-content">
+        <form class="mrt-edit-form" onsubmit={(e) => e.preventDefault()}>
+          {#each internalEditCells as cell (cell.id)}
+            <MRT_EditCellTextField {cell} {table} />
+          {/each}
+        </form>
+      </div>
+      <Dialog.Footer style="padding: 1.25rem">
+        <MRT_EditActionButtons {row} {table} variant="text" />
+      </Dialog.Footer>
+    {/if}
+  </Dialog.Content>
+</Dialog.Root>
 
 <style>
   .mrt-edit-form {

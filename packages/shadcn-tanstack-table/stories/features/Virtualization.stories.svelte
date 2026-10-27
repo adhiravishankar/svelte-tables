@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { makeEmployees, employeeColumns } from '../data';
 
   const { Story } = defineMeta({ title: 'Features/Virtualization Examples' });
@@ -19,7 +19,7 @@
 </script>
 
 <Story name="Enable Row Virtualization Dense">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: rows,
@@ -32,7 +32,7 @@
 </Story>
 
 <Story name="Enable Row Virtualization Comfortable">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: rows,
@@ -44,7 +44,7 @@
 </Story>
 
 <Story name="Enable Row Virtualization Spacious">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: rows,
@@ -57,7 +57,7 @@
 </Story>
 
 <Story name="Enable Row Virtualization With Column Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: rows,
@@ -70,7 +70,7 @@
 </Story>
 
 <Story name="Enable Row Virtualization Sticky Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: String(c.header) })),
       data: rows,
@@ -83,7 +83,7 @@
 </Story>
 
 <Story name="Enable Column Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: wideColumns,
       data: wideData,
@@ -96,7 +96,7 @@
 </Story>
 
 <Story name="Enable Column Virtualization With Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: wideColumns,
       data: wideData,
@@ -109,7 +109,7 @@
 </Story>
 
 <Story name="Row And Column Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: wideColumns,
       data: wideData,
@@ -122,7 +122,7 @@
 </Story>
 
 <Story name="Row And Column Virtualization With Features">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: wideColumns,
       data: wideData,
@@ -138,7 +138,7 @@
 </Story>
 
 <Story name="Empty Data Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],

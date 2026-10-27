@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef, type MRT_Row } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef, type MRT_Row } from '../../src/lib';
   import { type Employee, employees, type Person, people, personColumns } from '../data';
   import ColumnOrderingCustom from './ColumnOrderingCustom.svelte';
 
@@ -38,11 +38,11 @@
 
 <!-- hiding -->
 <Story name="Column Hiding With Header Groups">
-  <MaterialSvelteTable options={{ columns: grouped, data }} />
+  <ShadcnSvelteTable options={{ columns: grouped, data }} />
 </Story>
 
 <Story name="Column Hiding With Columns Hidden And Not Visible In Show Hide">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -62,7 +62,7 @@
 </Story>
 
 <Story name="Column Pinning With Detail Panel">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -75,7 +75,7 @@
 
 <!-- resizing -->
 <Story name="Column Resizing Default On Change Grid With Individual Shrink">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       ...resizing,
       columns: [
@@ -91,7 +91,7 @@
 
 <Story name="Column Resizing Enabled Default On Change Grid RTL">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{ ...resizing, columnResizeDirection: 'rtl', layoutMode: 'grid' }}
     />
   </div>
@@ -99,19 +99,19 @@
 
 <Story name="Column Resizing Enabled Default On Change Semantic RTL">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{ ...resizing, columnResizeDirection: 'rtl', layoutMode: 'semantic' }}
     />
   </div>
 </Story>
 
 <Story name="Column Resizing With Header Groups Grid Grow">
-  <MaterialSvelteTable options={{ ...resizing, columns: grouped, layoutMode: 'grid' }} />
+  <ShadcnSvelteTable options={{ ...resizing, columns: grouped, layoutMode: 'grid' }} />
 </Story>
 
 <Story name="Column Resizing Layout Grid Grow RTL">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{ ...resizing, columnResizeDirection: 'rtl', layoutMode: 'grid' }}
     />
   </div>
@@ -119,31 +119,31 @@
 
 <!-- header groups -->
 <Story name="Header Groups With Column Ordering">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data, enableColumnOrdering: true }}
   />
 </Story>
 
 <Story name="Header Groups With Column Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data, enableColumnResizing: true }}
   />
 </Story>
 
 <Story name="Header Groups With Column Resizing Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data, enableColumnResizing: true, layoutMode: 'grid' }}
   />
 </Story>
 
 <Story name="Header Groups With Semantic Column Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data, enableColumnResizing: true, layoutMode: 'semantic' }}
   />
 </Story>
 
 <Story name="Header Groups With Column Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: grouped,
       data,
@@ -155,7 +155,7 @@
 
 <!-- column widths -->
 <Story name="Custom Widths Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name', size: 100 },
@@ -169,7 +169,7 @@
 </Story>
 
 <Story name="Custom Widths Grid Individual Shrink">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', grow: false, header: 'First Name', size: 100 },
@@ -183,7 +183,7 @@
 </Story>
 
 <Story name="Small Widths Semantic">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, minSize: 10, size: 20 })),
       data,
@@ -193,7 +193,7 @@
 </Story>
 
 <Story name="Small Widths Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, minSize: 10, size: 20 })),
       data,
@@ -203,7 +203,7 @@
 </Story>
 
 <Story name="Small Widths Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, minSize: 10, size: 20 })),
       data,
@@ -213,7 +213,7 @@
 </Story>
 
 <Story name="Small Widths Grid No Grow Individual Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c, i) => ({ ...c, grow: i === 2, minSize: 10, size: 20 })),
       data,
@@ -224,11 +224,11 @@
 
 <!-- alignment -->
 <Story name="Default Left Grid">
-  <MaterialSvelteTable options={{ columns, data, layoutMode: 'grid' }} />
+  <ShadcnSvelteTable options={{ columns, data, layoutMode: 'grid' }} />
 </Story>
 
 <Story name="Right Cells Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -240,7 +240,7 @@
 </Story>
 
 <Story name="Center Cells With Grab Handle">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -252,7 +252,7 @@
 </Story>
 
 <Story name="Center Cells With Grab Handle No Sorting">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -265,7 +265,7 @@
 </Story>
 
 <Story name="Center Cells No Column Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,

@@ -87,9 +87,9 @@
     transform: rotate(180deg);
   }
   .mrt-sort-badge {
-    background: var(--mdc-theme-primary, #6200ee);
+    background: var(--primary);
     border-radius: 10px;
-    color: var(--mdc-theme-on-primary, #fff);
+    color: var(--primary-foreground);
     font-size: 0.65rem;
     height: 1rem;
     line-height: 1rem;

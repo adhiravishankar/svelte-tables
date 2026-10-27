@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Employee, employees, employeeColumns, people, personColumns } from '../data';
   import ColumnOrderingStateManaged from './ColumnOrderingStateManaged.svelte';
 
@@ -12,27 +12,27 @@
 
 <!-- hiding -->
 <Story name="Column Hiding Enabled Default">
-  <MaterialSvelteTable options={{ columns, data: people }} />
+  <ShadcnSvelteTable options={{ columns, data: people }} />
 </Story>
 
 <Story name="Column Hiding Disabled">
-  <MaterialSvelteTable options={{ columns, data: people, enableHiding: false }} />
+  <ShadcnSvelteTable options={{ columns, data: people, enableHiding: false }} />
 </Story>
 
 <Story name="Column Hiding Disabled But With Ordering">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnOrdering: true, enableHiding: false }}
   />
 </Story>
 
 <Story name="Column Hiding Disabled But With Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnPinning: true, enableHiding: false }}
   />
 </Story>
 
 <Story name="Column Hiding Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -45,7 +45,7 @@
 </Story>
 
 <Story name="Column Hiding Columns Not Visible In Show Hide">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -58,7 +58,7 @@
 </Story>
 
 <Story name="Columns Initially Hidden">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -69,13 +69,13 @@
 
 <!-- ordering -->
 <Story name="Column Ordering Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnOrdering: true }}
   />
 </Story>
 
 <Story name="Display Column Ordering Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -87,7 +87,7 @@
 </Story>
 
 <Story name="Column Ordering Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -102,19 +102,19 @@
 </Story>
 
 <Story name="Column Ordering With Select">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnOrdering: true, enableRowSelection: true }}
   />
 </Story>
 
 <Story name="Column Ordering With Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnOrdering: true, enableColumnPinning: true }}
   />
 </Story>
 
 <Story name="Column Ordering No Drag Handles">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -129,7 +129,7 @@
 </Story>
 
 <Story name="Column Ordering Enabled With Column Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: Array.from({ length: 40 }, (_, i) => ({
         accessorKey: `c${i}`,
@@ -146,13 +146,13 @@
 
 <!-- dragging -->
 <Story name="Column Dragging Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnDragging: true }}
   />
 </Story>
 
 <Story name="Column Dragging Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -167,13 +167,13 @@
 
 <!-- pinning -->
 <Story name="Column Pinning Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: people, enableColumnPinning: true }}
   />
 </Story>
 
 <Story name="Column Pinning Initial">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,
@@ -184,7 +184,7 @@
 </Story>
 
 <Story name="Column Pinning Disabled Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -198,7 +198,7 @@
 </Story>
 
 <Story name="Column Pinning With Select">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: people,

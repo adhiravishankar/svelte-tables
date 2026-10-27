@@ -1,7 +1,7 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Row,
     type MRT_TableInstance,
     MRT_ActionMenuItem,
@@ -46,7 +46,7 @@
 
 <!-- click propagation -->
 <Story name="Row Click And Row Menu Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -61,7 +61,7 @@
 </Story>
 
 <Story name="Row Click And Row Button Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -77,7 +77,7 @@
 
 <!-- data types -->
 <Story name="Null Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -92,7 +92,7 @@
 
 <!-- dragging -->
 <Story name="Dragging Row When Filtered">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -112,13 +112,13 @@
     >
       Fixed app bar — full screen must cover this
     </header>
-    <MaterialSvelteTable options={{ columns, data }} />
+    <ShadcnSvelteTable options={{ columns, data }} />
   </div>
 </Story>
 
 <!-- grid alignment -->
 <Story name="Center Align In Grid Layout Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({
         ...c,
@@ -132,7 +132,7 @@
 </Story>
 
 <Story name="Right Align In Grid Layout Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({
         ...c,
@@ -147,13 +147,13 @@
 
 <!-- loading with initial state -->
 <Story name="Nested Loading Data With Initial Expanded">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: [], ...loadingNested, initialState: { expanded: true } }}
   />
 </Story>
 
 <Story name="Nested Loading Data With Initial Filter">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -164,7 +164,7 @@
 </Story>
 
 <Story name="Nested Loading Data With Initial Group">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -176,7 +176,7 @@
 </Story>
 
 <Story name="Nested Loading Data With Initial Page">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -187,7 +187,7 @@
 </Story>
 
 <Story name="Nested Loading Data With Initial Sort">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: [],
@@ -198,7 +198,7 @@
 </Story>
 
 <Story name="Accessor Key While Loading">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'name.first', header: 'First' },
@@ -212,7 +212,7 @@
 
 <!-- sticky footer -->
 <Story name="Pinned Columns With Sticky Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: c.header, size: 220 })),
       data: employees,

@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { people, personColumns } from '../data';
 
   const { Story } = defineMeta({ title: 'Features/Column Resizing Examples' });
@@ -10,29 +10,29 @@
 </script>
 
 <Story name="Column Resizing Enabled Default On Change">
-  <MaterialSvelteTable options={resizing} />
+  <ShadcnSvelteTable options={resizing} />
 </Story>
 
 <Story name="Column Resizing Enabled Default On Change RTL">
   <div dir="rtl">
-    <MaterialSvelteTable options={{ ...resizing, columnResizeDirection: 'rtl' }} />
+    <ShadcnSvelteTable options={{ ...resizing, columnResizeDirection: 'rtl' }} />
   </div>
 </Story>
 
 <Story name="Column Resizing Enabled Default On Change Grid">
-  <MaterialSvelteTable options={{ ...resizing, layoutMode: 'grid' }} />
+  <ShadcnSvelteTable options={{ ...resizing, layoutMode: 'grid' }} />
 </Story>
 
 <Story name="Column Resizing Enabled Default On Change Semantic">
-  <MaterialSvelteTable options={{ ...resizing, layoutMode: 'semantic' }} />
+  <ShadcnSvelteTable options={{ ...resizing, layoutMode: 'semantic' }} />
 </Story>
 
 <Story name="Column Resizing Enabled No Column Actions">
-  <MaterialSvelteTable options={{ ...resizing, enableColumnActions: false }} />
+  <ShadcnSvelteTable options={{ ...resizing, enableColumnActions: false }} />
 </Story>
 
 <Story name="Column Resizing Disabled Some Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       ...resizing,
       columns: [
@@ -46,19 +46,19 @@
 </Story>
 
 <Story name="Column Resizing Enabled On End">
-  <MaterialSvelteTable options={{ ...resizing, columnResizeMode: 'onEnd' }} />
+  <ShadcnSvelteTable options={{ ...resizing, columnResizeMode: 'onEnd' }} />
 </Story>
 
 <Story name="Column Resizing Enabled On End RTL">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{ ...resizing, columnResizeDirection: 'rtl', columnResizeMode: 'onEnd' }}
     />
   </div>
 </Story>
 
 <Story name="Column Resizing Custom Default Widths">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       ...resizing,
       columns: [
@@ -72,7 +72,7 @@
 </Story>
 
 <Story name="Column Resizing With Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       ...resizing,
       enableColumnPinning: true,
@@ -82,7 +82,7 @@
 </Story>
 
 <Story name="Column Resizing With Header Groups">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       ...resizing,
       columns: [
@@ -106,5 +106,5 @@
 </Story>
 
 <Story name="Column Resizing Layout Grid Grow">
-  <MaterialSvelteTable options={{ ...resizing, layoutMode: 'grid' }} />
+  <ShadcnSvelteTable options={{ ...resizing, layoutMode: 'grid' }} />
 </Story>

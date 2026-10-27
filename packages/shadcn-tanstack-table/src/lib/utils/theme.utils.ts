@@ -1,15 +1,16 @@
 import { type MRT_Theme } from '../types';
 
 /**
- * Default MRT theme colors, derived from the SMUI / Material theme CSS
- * variables (`--mdc-theme-*`). Override any of them with the `mrtTheme` option.
+ * Default MRT theme colors, derived from the shadcn theme CSS variables
+ * (`--card`, `--primary`, `--foreground`). Override any of them with the
+ * `mrtTheme` option.
  */
 export const getMRTTheme = (
   mrtTheme?: Partial<MRT_Theme>,
 ): Required<MRT_Theme> => {
-  const surface = 'var(--mdc-theme-surface, #ffffff)';
-  const primary = 'var(--mdc-theme-primary, #6200ee)';
-  const onSurface = 'var(--mdc-theme-on-surface, #000000)';
+  const surface = 'var(--card)';
+  const primary = 'var(--primary)';
+  const onSurface = 'var(--foreground)';
   return {
     baseBackgroundColor: surface,
     cellNavigationOutlineColor: primary,

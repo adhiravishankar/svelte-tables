@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnFiltersState,
   } from '../../src/lib';
   import { employeeColumns, employees } from '../data';
@@ -21,7 +21,7 @@
 </script>
 
 <p>Filters sent to the "server": <code>{JSON.stringify(columnFilters)}</code> → {data.length} rows</p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: employeeColumns,
     get data() {

@@ -109,7 +109,7 @@ export type ElementProps<K extends keyof HTMLElementTagNameMap> =
   HTMLAttributes<HTMLElementTagNameMap[K]>;
 
 /**
- * Props forwarded to an SMUI component. SMUI components accept any attribute of
+ * Props forwarded to a shadcn-svelte component. They accept any attribute of
  * their root element plus their own props, so these are intentionally loose.
  */
 export type SmuiProps = Record<string, any>;
@@ -644,7 +644,7 @@ type RowContext<TData extends MRT_RowData> = TableContext<TData> & {
  * or through a `$state` object so the table stays in sync:
  *
  * ```ts
- * const table = createMaterialSvelteTable({
+ * const table = createShadcnSvelteTable({
  *   columns,
  *   get data() { return data },
  * });
@@ -752,9 +752,9 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
    * Changes which kind of CSS layout is used to render the table. `semantic` uses default semantic HTML elements, while `grid` adds CSS grid and flexbox styles
    */
   layoutMode?: 'grid' | 'grid-no-grow' | 'semantic';
-  /** A locale imported from `material-svelte-table/locales/*` or a custom locale object. */
+  /** A locale imported from `shadcn-svelte-tanstack-table/locales/*` or a custom locale object. */
   localization?: Partial<MRT_Localization>;
-  /** Override MRT's theme colors. Defaults are derived from SMUI/Material CSS variables. */
+  /** Override MRT's theme colors. Defaults are derived from the shadcn CSS variables. */
   mrtTheme?: Partial<MRT_Theme>;
 
   bottomToolbarProps?: PropsOrFn<ElementProps<'div'>, TableContext<TData>>;

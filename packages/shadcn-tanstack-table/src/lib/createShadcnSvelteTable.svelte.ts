@@ -99,7 +99,7 @@ const omitMrtState = (state: Record<string, any> | undefined) => {
 };
 
 /**
- * Creates a Material Svelte Table instance. This is the Svelte 5 counterpart of
+ * Creates a shadcn Svelte Table instance. This is the Svelte 5 counterpart of
  * `useMaterialReactTable`.
  *
  * It must be called while a component is initializing (it registers effects),
@@ -108,7 +108,7 @@ const omitMrtState = (state: Record<string, any> | undefined) => {
  *
  * ```ts
  * let data = $state(initialData);
- * const table = createMaterialSvelteTable({
+ * const table = createShadcnSvelteTable({
  *   columns,
  *   get data() { return data },
  * });
@@ -117,7 +117,7 @@ const omitMrtState = (state: Record<string, any> | undefined) => {
  * The set of option keys is read once at creation; options that are absent
  * then cannot be added later (give them a value, even `undefined`, up front).
  */
-export function createMaterialSvelteTable<TData extends MRT_RowData>(
+export function createShadcnSvelteTable<TData extends MRT_RowData>(
   options: MRT_TableOptions<TData>,
 ): MRT_TableInstance<TData> {
   const id = createTableId();

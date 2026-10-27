@@ -34,10 +34,10 @@
     class={['mrt-drop-zone', rest.class]}
     style={mergeStyles(
       {
-        backgroundColor: `color-mix(in srgb, var(--mdc-theme-primary, #6200ee) ${
+        backgroundColor: `color-mix(in srgb, var(--primary) ${
           hoveredColumn?.id === 'drop-zone' ? 20 : 10
         }%, transparent)`,
-        border: 'dashed var(--mdc-theme-primary, #6200ee) 2px',
+        border: 'dashed var(--primary) 2px',
       },
       rest.style,
     )}

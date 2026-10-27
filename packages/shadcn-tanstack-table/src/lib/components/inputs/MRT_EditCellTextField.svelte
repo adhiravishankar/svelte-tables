@@ -1,8 +1,8 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Textfield from '@smui/textfield';
   import { untrack } from 'svelte';
   import type { MRT_Cell, MRT_RowData, MRT_TableInstance } from '../../types';
   import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_TextField from './MRT_TextField.svelte';
 
   /**
    * The input used to edit a cell: a text field, or a native select with
@@ -54,7 +54,7 @@
   }
 
   function oninput(event: Event) {
-    textFieldProps.input$oninput?.(event);
+    textFieldProps.oninput?.(event);
     value = (event.target as HTMLInputElement).value;
   }
 
@@ -65,13 +65,13 @@
   }
 
   function onblur(event: FocusEvent) {
-    textFieldProps.input$onblur?.(event);
+    textFieldProps.onblur?.(event);
     saveInputValueToRowCache(value);
     table.setEditingCell(null);
   }
 
   function onkeydown(event: KeyboardEvent) {
-    textFieldProps.input$onkeydown?.(event);
+    textFieldProps.onkeydown?.(event);
     if (event.key === 'Enter' && !event.shiftKey && completesComposition) {
       table.refs.editInputRefs.current?.[column.id]?.blur();
     }
@@ -120,23 +120,24 @@
         </select>
       </label>
     {:else}
-      <Textfield
-        class="mrt-edit-textfield"
-        {disabled}
-        input$autocomplete="off"
-        input$name={column.id}
-        input$placeholder={labelled ? undefined : columnDef.header}
-        label={labelled ? columnDef.header : undefined}
-        noLabel={!labelled}
-        value={value === null || value === undefined ? '' : String(value)}
-        variant={labelled ? 'outlined' : 'standard'}
-        {...textFieldProps}
-        input$onblur={onblur}
-        input$oncompositionend={() => (completesComposition = true)}
-        input$oncompositionstart={() => (completesComposition = false)}
-        input$oninput={oninput}
-        input$onkeydown={onkeydown}
-      />
+      <label class="mrt-edit-select-label">
+        {#if labelled}<span class="mrt-edit-label">{columnDef.header}</span>{/if}
+        <MRT_TextField
+          class="mrt-edit-textfield"
+          {disabled}
+          autocomplete="off"
+          name={column.id}
+          placeholder={labelled ? undefined : columnDef.header}
+          value={value === null || value === undefined ? '' : String(value)}
+          variant={labelled ? 'outlined' : 'standard'}
+          {...textFieldProps}
+          {onblur}
+          oncompositionend={() => (completesComposition = true)}
+          oncompositionstart={() => (completesComposition = false)}
+          {oninput}
+          {onkeydown}
+        />
+      </label>
     {/if}
   </div>
 {/if}
@@ -150,11 +151,6 @@
   }
   .mrt-edit-inline :global(.mrt-edit-textfield) {
     height: 2.25rem;
-  }
-  /* edit mode "table" looks like plain cells until focused */
-  .mrt-edit-table :global(.mdc-line-ripple),
-  .mrt-edit-table :global(.mdc-text-field__ripple) {
-    display: none;
   }
   .mrt-edit-select-label {
     display: flex;

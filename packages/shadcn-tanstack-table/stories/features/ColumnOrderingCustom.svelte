@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnOrderState,
   } from '../../src/lib';
   import { people, personColumns } from '../data';
@@ -18,7 +18,7 @@
 </script>
 
 <p>Order: <code>{columnOrder.join(' → ')}</code> (first name always stays first)</p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: personColumns,
     data: people.slice(0, 20),

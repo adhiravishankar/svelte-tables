@@ -84,10 +84,10 @@
   .mrt-footer-cell {
     border-bottom: 1px solid var(--mrt-divider);
     box-sizing: border-box;
-    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    color: var(--foreground);
   }
   .mrt-footer-cell:focus-visible {
-    outline: 2px solid var(--mdc-theme-primary, #6200ee);
+    outline: 2px solid var(--primary);
     outline-offset: -2px;
   }
 </style>

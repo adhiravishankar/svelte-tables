@@ -1,8 +1,8 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import Button, { Label } from '@smui/button';
+  import { Button } from '../../src/lib/components/ui/button';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Row,
     type MRT_TableInstance,
   } from '../../src/lib';
@@ -19,7 +19,7 @@
 </script>
 
 {#snippet internalActions(ctx: { table: MRT_TableInstance<Employee> })}
-  <Button onclick={() => alert('custom action')}><Label>Custom</Label></Button>
+  <Button onclick={() => alert('custom action')}>Custom</Button>
 {/snippet}
 
 {#snippet selectionActions(ctx: { table: MRT_TableInstance<Employee> })}
@@ -27,7 +27,7 @@
     disabled={ctx.table.getSelectedRowModel().rows.length === 0}
     onclick={() => alert(`${ctx.table.getSelectedRowModel().rows.length} selected`)}
   >
-    <Label>Act on selection</Label>
+    Act on selection
   </Button>
 {/snippet}
 
@@ -45,11 +45,11 @@
 
 <!-- toolbar -->
 <Story name="Custom Toolbar Internal Actions">
-  <MaterialSvelteTable options={{ columns, data, toolbarInternalActions: internalActions }} />
+  <ShadcnSvelteTable options={{ columns, data, toolbarInternalActions: internalActions }} />
 </Story>
 
 <Story name="Custom Top Toolbar Selection Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -60,7 +60,7 @@
 </Story>
 
 <Story name="Custom Bottom Toolbar Selection Actions">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       bottomToolbarCustomActions: selectionActions,
       columns,
@@ -71,7 +71,7 @@
 </Story>
 
 <Story name="Toolbar Alert Banner Bottom With Actions Also Bottom">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       bottomToolbarCustomActions: selectionActions,
       columns,
@@ -84,16 +84,16 @@
 </Story>
 
 <Story name="Render Custom Top Toolbar">
-  <MaterialSvelteTable options={{ columns, data, topToolbar: customTop }} />
+  <ShadcnSvelteTable options={{ columns, data, topToolbar: customTop }} />
 </Story>
 
 <Story name="Render Custom Bottom Toolbar">
-  <MaterialSvelteTable options={{ bottomToolbar: customBottom, columns, data }} />
+  <ShadcnSvelteTable options={{ bottomToolbar: customBottom, columns, data }} />
 </Story>
 
 <!-- pagination -->
 <Story name="Pagination Enabled Default Big Data Language">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: manyRows,
@@ -103,13 +103,13 @@
 </Story>
 
 <Story name="Pagination Enabled Default No Rows Per Page">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, paginationProps: { showRowsPerPage: false } }}
   />
 </Story>
 
 <Story name="Pagination Enabled Customize Rows Per Page">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -120,7 +120,7 @@
 </Story>
 
 <Story name="Pagination Pages Display Mode No Pages Per Row">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -131,7 +131,7 @@
 </Story>
 
 <Story name="Custom Pagination Pages Display Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -142,7 +142,7 @@
 </Story>
 
 <Story name="Custom Pagination Pages Display Mode More Data">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: manyRows,
@@ -153,13 +153,13 @@
 </Story>
 
 <Story name="Pagination Disabled Or Overriden">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, paginationProps: { disabled: true } }}
   />
 </Story>
 
 <Story name="Customize Pagination Components">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -170,7 +170,7 @@
 
 <!-- row virtualization -->
 <Story name="Enable Row Virtualization Tall Content">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -182,7 +182,7 @@
 </Story>
 
 <Story name="Virtualization Conditionally Wont Toggle">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -193,7 +193,7 @@
 </Story>
 
 <Story name="Enable Row Virtualization With Detail Panel">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -206,7 +206,7 @@
 
 <!-- column virtualization -->
 <Story name="Enable Column Virtualization Short Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: Array.from({ length: 30 }, (_, i) => ({
         accessorFn: (row: Employee) => row.firstName + i,
@@ -222,7 +222,7 @@
 </Story>
 
 <Story name="Enable Column Virtualization With Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: c.header })),
       data,
@@ -233,7 +233,7 @@
 </Story>
 
 <Story name="Enable Column Virtualization Sticky Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: c.header })),
       data: employees,
@@ -245,7 +245,7 @@
 </Story>
 
 <Story name="Max Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: Array.from({ length: 50 }, (_, i) => ({
         accessorFn: (row: Employee) => `${row.firstName} ${i}`,

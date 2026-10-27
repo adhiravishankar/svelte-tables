@@ -1,6 +1,6 @@
 import { flushSync } from 'svelte';
 import { describe, expect, it } from 'vitest';
-import { createMaterialSvelteTable } from './createMaterialSvelteTable.svelte';
+import { createShadcnSvelteTable } from './createShadcnSvelteTable.svelte';
 import { type MRT_ColumnDef } from './types';
 
 type Person = { age: number; name: string };
@@ -28,10 +28,10 @@ const withRoot = <T>(fn: () => T): T => {
   return result;
 };
 
-describe('createMaterialSvelteTable', () => {
+describe('createShadcnSvelteTable', () => {
   it('builds rows and headers from columns and data', () => {
     const table = withRoot(() =>
-      createMaterialSvelteTable({ columns, data: people }),
+      createShadcnSvelteTable({ columns, data: people }),
     );
     expect(table.getRowModel().rows).toHaveLength(3);
     const headers = table.getHeaderGroups()[0].headers.map((h) => h.id);
@@ -41,7 +41,7 @@ describe('createMaterialSvelteTable', () => {
   it('follows reactive data through a getter', () => {
     let data = $state(people);
     const table = withRoot(() =>
-      createMaterialSvelteTable({
+      createShadcnSvelteTable({
         columns,
         get data() {
           return data;
@@ -56,7 +56,7 @@ describe('createMaterialSvelteTable', () => {
 
   it('sorts and fuzzy-filters with the registered MRT functions', () => {
     const table = withRoot(() =>
-      createMaterialSvelteTable({ columns, data: people }),
+      createShadcnSvelteTable({ columns, data: people }),
     );
     table.setSorting([{ desc: false, id: 'name' }]);
     flushSync();
@@ -74,7 +74,7 @@ describe('createMaterialSvelteTable', () => {
 
   it('keeps MRT-only state and setters working', () => {
     const table = withRoot(() =>
-      createMaterialSvelteTable({ columns, data: people }),
+      createShadcnSvelteTable({ columns, data: people }),
     );
     expect(table.mrtState.density).toBe('comfortable');
     table.setDensity('compact');
@@ -94,7 +94,7 @@ describe('createMaterialSvelteTable', () => {
       density: 'spacious',
     });
     const table = withRoot(() =>
-      createMaterialSvelteTable({
+      createShadcnSvelteTable({
         columns,
         data: people,
         onDensityChange: (updater) => {
@@ -117,7 +117,7 @@ describe('createMaterialSvelteTable', () => {
 
   it('adds display columns and orders them first', () => {
     const table = withRoot(() =>
-      createMaterialSvelteTable({
+      createShadcnSvelteTable({
         columns,
         data: people,
         enableRowNumbers: true,
@@ -140,7 +140,7 @@ describe('createMaterialSvelteTable', () => {
 
   it('shows skeleton rows while loading with no data', () => {
     const table = withRoot(() =>
-      createMaterialSvelteTable({
+      createShadcnSvelteTable({
         columns,
         data: [],
         state: { isLoading: true },
@@ -156,7 +156,7 @@ describe('createMaterialSvelteTable', () => {
       name: `P${i}`,
     }));
     const table = withRoot(() =>
-      createMaterialSvelteTable({
+      createShadcnSvelteTable({
         columns,
         get data() {
           return data;

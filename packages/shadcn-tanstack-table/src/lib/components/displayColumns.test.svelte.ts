@@ -1,6 +1,6 @@
 import { createRawSnippet, flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it } from 'vitest';
-import MaterialSvelteTable from './MaterialSvelteTable.svelte';
+import ShadcnSvelteTable from './ShadcnSvelteTable.svelte';
 import { type MRT_ColumnDef, type MRT_TableOptions } from '../types';
 
 type Person = { age: number; name: string; subRows?: Person[] };
@@ -21,7 +21,7 @@ let app: ReturnType<typeof mount> | undefined;
 const render = (options: Partial<MRT_TableOptions<Person>> = {}) => {
   target = document.createElement('div');
   document.body.appendChild(target);
-  app = mount(MaterialSvelteTable<Person>, {
+  app = mount(ShadcnSvelteTable<Person>, {
     props: {
       options: {
         columns,
@@ -43,48 +43,54 @@ afterEach(() => {
   target?.remove();
 });
 
+// bits-ui syncs checkbox attributes in a microtask after the state changes
+const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
 const rowCheckboxes = (root: HTMLElement) =>
   Array.from(
     root.querySelectorAll<HTMLInputElement>(
-      'tbody tr td:first-child input[type="checkbox"]',
+      'tbody tr td:first-child button[role="checkbox"]',
     ),
   );
 const selectAll = (root: HTMLElement) =>
-  root.querySelector<HTMLInputElement>('thead input[type="checkbox"]')!;
+  root.querySelector<HTMLInputElement>('thead button[role="checkbox"]')!;
 const names = (root: HTMLElement) =>
   Array.from(root.querySelectorAll('tbody tr:not(.mrt-detail-panel-row)')).map(
     (tr) => tr.querySelectorAll('td')[1]?.textContent?.trim(),
   );
 
-describe('select column', () => {
-  it('selects rows and updates the select-all state', () => {
+describe('select column', async () => {
+  it('selects rows and updates the select-all state', async () => {
     const root = render({ enableRowSelection: true });
     expect(rowCheckboxes(root)).toHaveLength(6);
     rowCheckboxes(root)[1].click();
     flushSync();
-    expect(rowCheckboxes(root)[1].checked).toBe(true);
+    await settle();
+    expect(rowCheckboxes(root)[1].getAttribute('aria-checked') === 'true').toBe(true);
     expect(
       root
         .querySelector('tbody tr:nth-child(2)')
         ?.getAttribute('data-selected'),
     ).toBe('true');
-    expect(selectAll(root).checked).toBe(false);
+    expect(selectAll(root).getAttribute('aria-checked') === 'true').toBe(false);
   });
 
-  it('selects all rows on the page', () => {
+  it('selects all rows on the page', async () => {
     const root = render({ enableRowSelection: true });
     selectAll(root).click();
     flushSync();
-    expect(rowCheckboxes(root).every((c) => c.checked)).toBe(true);
+    await settle();
+    expect(rowCheckboxes(root).every((c) => c.getAttribute('aria-checked') === 'true')).toBe(true);
     selectAll(root).click();
     flushSync();
-    expect(rowCheckboxes(root).some((c) => c.checked)).toBe(false);
+    await settle();
+    expect(rowCheckboxes(root).some((c) => c.getAttribute('aria-checked') === 'true')).toBe(false);
   });
 
-  it('selects a range with shift-click', () => {
+  it('selects a range with shift-click', async () => {
     const root = render({ enableRowSelection: true });
     rowCheckboxes(root)[1].click();
     flushSync();
+    await settle();
     rowCheckboxes(root)[4].dispatchEvent(
       new MouseEvent('click', {
         bubbles: true,
@@ -93,7 +99,8 @@ describe('select column', () => {
       }),
     );
     flushSync();
-    expect(rowCheckboxes(root).map((c) => c.checked)).toEqual([
+    await settle();
+    expect(rowCheckboxes(root).map((c) => c.getAttribute('aria-checked') === 'true')).toEqual([
       false,
       true,
       true,
@@ -103,16 +110,16 @@ describe('select column', () => {
     ]);
   });
 
-  it('renders radios for single selection', () => {
+  it('renders radios for single selection', async () => {
     const root = render({
       enableMultiRowSelection: false,
       enableRowSelection: true,
     });
     expect(root.querySelectorAll('tbody input[type="radio"]')).toHaveLength(6);
-    expect(root.querySelector('thead input[type="checkbox"]')).toBeNull();
+    expect(root.querySelector('thead button[role="checkbox"]')).toBeNull();
   });
 
-  it('reports the selection in the banner', () => {
+  it('reports the selection in the banner', async () => {
     const root = render({
       enableRowSelection: true,
       enableTopToolbar: true,
@@ -120,6 +127,7 @@ describe('select column', () => {
     rowCheckboxes(root)[0].click();
     rowCheckboxes(root)[2].click();
     flushSync();
+    await settle();
     expect(root.querySelector('.mrt-alert-open')?.textContent).toContain(
       '2 of 6 row(s) selected',
     );

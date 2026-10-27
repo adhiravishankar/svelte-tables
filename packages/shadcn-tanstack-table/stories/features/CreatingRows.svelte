@@ -1,9 +1,9 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import Button, { Label } from '@smui/button';
+  import { Button } from '../../src/lib/components/ui/button';
   import {
-    MaterialSvelteTable,
-    createMaterialSvelteTable,
+    ShadcnSvelteTable,
+    createShadcnSvelteTable,
     type MRT_ColumnDef,
   } from '../../src/lib';
   import type { Employee } from '../data';
@@ -25,7 +25,7 @@
 
   // the table instance is needed to start creating from a toolbar button
   // (props are read once: the story is re-mounted when they change)
-  const table = untrack(() => createMaterialSvelteTable<Employee>({
+  const table = untrack(() => createShadcnSvelteTable<Employee>({
     columns,
     createDisplayMode: displayMode,
     get data() {
@@ -47,9 +47,9 @@
 </script>
 
 {#snippet createButton()}
-  <Button onclick={() => table.setCreatingRow(true)} variant="raised">
-    <Label>Create new user</Label>
+  <Button onclick={() => table.setCreatingRow(true)}>
+    Create new user
   </Button>
 {/snippet}
 
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />

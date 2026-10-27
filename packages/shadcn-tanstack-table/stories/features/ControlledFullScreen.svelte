@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { employeeColumns, employees } from '../data';
 
   let isFullScreen = $state(false);
@@ -11,7 +11,7 @@
   </button>
   (also try the toolbar button, or press Escape)
 </p>
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: employeeColumns,
     data: employees.slice(0, 25),

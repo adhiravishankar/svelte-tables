@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import { Separator } from '@smui/list';
+  import { DropdownMenuSeparator as Separator } from '../ui/dropdown-menu';
   import type {
     MRT_FilterOption,
     MRT_Header,

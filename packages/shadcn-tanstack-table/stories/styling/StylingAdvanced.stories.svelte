@@ -1,7 +1,7 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Row,
     type MRT_TableInstance,
   } from '../../src/lib';
@@ -30,11 +30,11 @@
 {/snippet}
 
 <Story name="Top Caption">
-  <MaterialSvelteTable options={{ caption, columns, data }} />
+  <ShadcnSvelteTable options={{ caption, columns, data }} />
 </Story>
 
 <Story name="Custom Table Body">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -45,24 +45,24 @@
 </Story>
 
 <Story name="Custom Empty Rows JSX">
-  <MaterialSvelteTable options={{ columns, data: [], emptyRowsFallback: emptyRows }} />
+  <ShadcnSvelteTable options={{ columns, data: [], emptyRowsFallback: emptyRows }} />
 </Story>
 
 <!-- sticky -->
 <Story name="Sticky Header Disabled Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableStickyHeader: false, tableContainerProps: { style: 'max-height: 300px' } }}
   />
 </Story>
 
 <Story name="Sticky Header Shorter Table">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, enableStickyHeader: true, tableContainerProps: { style: 'max-height: 200px' } }}
   />
 </Story>
 
 <Story name="Disable Sticky Footer">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) => ({ ...c, footer: c.header })),
       data,
@@ -74,11 +74,11 @@
 
 <!-- body cells -->
 <Story name="Default Table Body Cell Styles">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Style All Table Body Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -88,7 +88,7 @@
 </Story>
 
 <Story name="Style Table Body Cell Conditionally In 1 Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c) =>
         c.accessorKey === 'salary'
@@ -107,17 +107,17 @@
 
 <!-- body rows -->
 <Story name="Default Table Body Row Styles">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Style Table Body Row">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, tableBodyRowProps: { style: 'height: 56px; cursor: pointer' } }}
   />
 </Story>
 
 <Story name="Style Custom Striped Rows Detail Panel">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -128,7 +128,7 @@
 </Story>
 
 <Story name="Conditionally Style Table Row">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -141,23 +141,23 @@
 
 <!-- head cells -->
 <Story name="Default Table Head Cell Styles">
-  <MaterialSvelteTable options={{ columns, data }} />
+  <ShadcnSvelteTable options={{ columns, data }} />
 </Story>
 
 <Story name="Color Sort Icon">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
       initialState: { sorting: [{ desc: false, id: 'firstName' }] },
       mrtTheme: { selectedRowBackgroundColor: 'rgba(0, 150, 136, 0.2)' },
-      tableHeadCellProps: { style: '--mdc-theme-primary: tomato' },
+      tableHeadCellProps: { style: '--primary: tomato' },
     }}
   />
 </Story>
 
 <Story name="Style All Table Head Cell">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -167,7 +167,7 @@
 </Story>
 
 <Story name="Style Table Head Cells Individually">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: columns.map((c, i) => ({
         ...c,
@@ -180,14 +180,14 @@
 
 <!-- dimensions -->
 <Story name="Min Height">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: data.slice(0, 3), tableContainerProps: { style: 'min-height: 400px' } }}
   />
 </Story>
 
 <Story name="Min Height Parent">
   <div style="height: 600px">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{
         columns,
         data: data.slice(0, 3),
@@ -198,7 +198,7 @@
 </Story>
 
 <Story name="Container Height">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data, tableContainerProps: { style: 'height: 250px; max-height: none' } }}
   />
 </Story>

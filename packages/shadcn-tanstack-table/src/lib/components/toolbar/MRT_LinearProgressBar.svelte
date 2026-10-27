@@ -1,5 +1,4 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import LinearProgress from '@smui/linear-progress';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { parseFromValuesOrFunc } from '../../utils/utils';
 
@@ -27,16 +26,40 @@
   style:height="4px"
 >
   {#if visible}
-    <LinearProgress
+    <div
       aria-busy="true"
       aria-label="Loading"
-      indeterminate
+      class="mrt-progress-track"
+      role="progressbar"
       {...progressProps}
-    />
+    >
+      <div class="mrt-progress-bar"></div>
+    </div>
   {/if}
 </div>
 
 <style>
+  .mrt-progress-track {
+    background: color-mix(in srgb, var(--primary) 20%, transparent);
+    height: 4px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .mrt-progress-bar {
+    animation: mrt-progress-indeterminate 1.5s ease-in-out infinite;
+    background: var(--primary);
+    height: 100%;
+    width: 40%;
+  }
+  @keyframes mrt-progress-indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(250%);
+    }
+  }
   .mrt-progress {
     left: 0;
     position: absolute;

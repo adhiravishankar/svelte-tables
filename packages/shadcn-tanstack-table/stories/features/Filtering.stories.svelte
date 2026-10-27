@@ -1,7 +1,7 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_Column,
     type MRT_ColumnDef,
   } from '../../src/lib';
@@ -47,17 +47,17 @@
 {/snippet}
 
 <Story name="Filtering Enabled Default">
-  <MaterialSvelteTable options={{ columns, data: employees }} />
+  <ShadcnSvelteTable options={{ columns, data: employees }} />
 </Story>
 
 <Story name="Popover Display Mode">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columnFilterDisplayMode: 'popover', columns, data: employees }}
   />
 </Story>
 
 <Story name="Popover Display Mode No Sorting">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columnFilterDisplayMode: 'popover',
       columns,
@@ -68,17 +68,17 @@
 </Story>
 
 <Story name="Column Filtering Disabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, enableColumnFilters: false }}
   />
 </Story>
 
 <Story name="Filtering Disabled">
-  <MaterialSvelteTable options={{ columns, data: employees, enableFilters: false }} />
+  <ShadcnSvelteTable options={{ columns, data: employees, enableFilters: false }} />
 </Story>
 
 <Story name="Filter Highlighting Disabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -89,7 +89,7 @@
 </Story>
 
 <Story name="Filter Fn And Filter Variants">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: variantColumns,
       data: employees,
@@ -99,7 +99,7 @@
 </Story>
 
 <Story name="Filter Fn And Filter Variants Faceted">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -115,7 +115,7 @@
 </Story>
 
 <Story name="Filtering Change Mode Enabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: variantColumns,
       data: employees,
@@ -126,7 +126,7 @@
 </Story>
 
 <Story name="Disable Some Filter Types For Certain Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         {
@@ -149,7 +149,7 @@
 </Story>
 
 <Story name="Filtering Disabled For Certain Columns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -164,7 +164,7 @@
 </Story>
 
 <Story name="Custom Filter Function Per Column">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         {
@@ -183,7 +183,7 @@
 </Story>
 
 <Story name="Custom Filter Fns">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', filterFn: 'startsWithLetter', header: 'First Name (letter)' },
@@ -214,7 +214,7 @@
 {/snippet}
 
 <Story name="Custom Filter Component">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -228,10 +228,10 @@
 </Story>
 
 <Story name="Customize Filter Text Fields">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
-        { accessorKey: 'firstName', filterTextFieldProps: { input$placeholder: 'Type a first name…' }, header: 'First Name' },
+        { accessorKey: 'firstName', filterTextFieldProps: { placeholder: 'Type a first name…' }, header: 'First Name' },
         { accessorKey: 'age', filterTextFieldProps: { type: 'number' }, filterVariant: 'range', header: 'Age' },
       ],
       data: employees,
@@ -249,7 +249,7 @@
 </Story>
 
 <Story name="Initial Filters">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,

@@ -80,13 +80,13 @@
     top: 10px;
   }
   .mrt-range-fill {
-    background: var(--mdc-theme-primary, #6200ee);
+    background: var(--primary);
     border-radius: 2px;
     height: 100%;
     position: absolute;
   }
   input[type='range'] {
-    accent-color: var(--mdc-theme-primary, #6200ee);
+    accent-color: var(--primary);
     appearance: none;
     background: none;
     height: 24px;
@@ -99,7 +99,7 @@
   }
   input[type='range']::-webkit-slider-thumb {
     appearance: none;
-    background: var(--mdc-theme-primary, #6200ee);
+    background: var(--primary);
     border-radius: 50%;
     cursor: pointer;
     height: 16px;
@@ -107,7 +107,7 @@
     width: 16px;
   }
   input[type='range']::-moz-range-thumb {
-    background: var(--mdc-theme-primary, #6200ee);
+    background: var(--primary);
     border: 0;
     border-radius: 50%;
     cursor: pointer;

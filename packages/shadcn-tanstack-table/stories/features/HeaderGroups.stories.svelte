@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Person, people } from '../data';
 
   const { Story } = defineMeta({ title: 'Features/Header Group Examples' });
@@ -61,21 +61,21 @@
 </script>
 
 <Story name="Header Groups">
-  <MaterialSvelteTable options={{ columns: grouped, data: people }} />
+  <ShadcnSvelteTable options={{ columns: grouped, data: people }} />
 </Story>
 
 <Story name="Header Groups With Sticky Header">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data: people, enableStickyHeader: true }}
   />
 </Story>
 
 <Story name="Header And Footer Groups">
-  <MaterialSvelteTable options={{ columns: withFooters, data: people }} />
+  <ShadcnSvelteTable options={{ columns: withFooters, data: people }} />
 </Story>
 
 <Story name="Header Groups With Column Pinning">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: grouped,
       data: people,
@@ -85,13 +85,13 @@
 </Story>
 
 <Story name="Header Groups With Column Resizing">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns: grouped, data: people, enableColumnResizing: true }}
   />
 </Story>
 
 <Story name="Mixed Header Groups">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         { accessorKey: 'firstName', header: 'First Name' },
@@ -103,11 +103,11 @@
 </Story>
 
 <Story name="Deep Mixed Header Groups">
-  <MaterialSvelteTable options={{ columns: deep, data: people }} />
+  <ShadcnSvelteTable options={{ columns: deep, data: people }} />
 </Story>
 
 <Story name="Header Groups With Row Virtualization">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: grouped,
       data: people,

@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Button from '@smui/button';
+  import { Button } from '../ui/button';
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { getMRT_SelectAllHandler } from '../../utils/row.utils';
@@ -57,7 +57,8 @@
     <Button
       onclick={(event: MouseEvent) =>
         getMRT_SelectAllHandler({ table })(event, false, true)}
-      style="padding: 2px; min-width: 0"
+      size="sm"
+      variant="ghost"
     >
       {localization.clearSelection}
     </Button>
@@ -143,8 +144,8 @@
     overflow: hidden;
   }
   .mrt-alert {
-    background: color-mix(in srgb, var(--mdc-theme-primary, #6200ee) 12%, var(--mdc-theme-surface, #fff));
-    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    background: color-mix(in srgb, var(--primary) 12%, var(--card));
+    color: var(--card-foreground);
     font-size: 1rem;
     position: relative;
     width: 100%;

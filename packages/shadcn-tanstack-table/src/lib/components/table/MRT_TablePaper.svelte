@@ -56,82 +56,24 @@
   .mrt-paper {
     --mrt-divider: color-mix(
       in srgb,
-      var(--mdc-theme-on-surface, #000) 12%,
+      var(--foreground) 12%,
       transparent
     );
     --mrt-text-secondary: color-mix(
       in srgb,
-      var(--mdc-theme-on-surface, #000) 60%,
+      var(--foreground) 60%,
       transparent
     );
-    /* The Material components hard-code dark ink; point them at the theme so
-       they follow light and dark themes. Scoped to the table, so a theme set
-       on any ancestor applies. */
-    --mrt-ink: var(--mdc-theme-on-surface, #000);
-    --mrt-ink-secondary: color-mix(in srgb, var(--mrt-ink) 60%, transparent);
-    --mrt-ink-hint: color-mix(in srgb, var(--mrt-ink) 42%, transparent);
-    --mdc-checkbox-unchecked-color: color-mix(in srgb, var(--mrt-ink) 54%, transparent);
-    --mdc-checkbox-checked-color: var(--mdc-theme-primary, #6200ee);
-    --mdc-checkbox-ink-color: var(--mdc-theme-on-primary, #fff);
-    --mdc-checkbox-disabled-color: color-mix(in srgb, var(--mrt-ink) 26%, transparent);
+    /* Derived from the shadcn tokens so the table follows light and dark
+       themes. Scoped to the table, so a theme set on any ancestor applies. */
     border-radius: 4px;
     box-shadow:
       0 3px 1px -2px rgba(0, 0, 0, 0.2),
       0 2px 2px 0 rgba(0, 0, 0, 0.14),
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    color: var(--foreground);
     overflow: hidden;
     transition: all 100ms ease-in-out;
-  }
-  /* text fields (filters, search, editing) */
-  .mrt-paper :global(.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input) {
-    caret-color: var(--mdc-theme-primary, #6200ee);
-    color: var(--mrt-ink);
-  }
-  .mrt-paper :global(.mdc-text-field .mdc-text-field__input::placeholder) {
-    color: var(--mrt-ink-secondary);
-  }
-  .mrt-paper :global(.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label) {
-    color: var(--mrt-ink-secondary);
-  }
-  .mrt-paper :global(.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label) {
-    color: var(--mdc-theme-primary, #6200ee);
-  }
-  .mrt-paper :global(.mdc-text-field:not(.mdc-text-field--disabled) .mdc-line-ripple::before) {
-    border-bottom-color: var(--mrt-ink-hint);
-  }
-  .mrt-paper :global(.mdc-text-field--disabled .mdc-text-field__input) {
-    color: var(--mrt-ink-hint);
-  }
-  .mrt-paper
-    :global(
-      .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
-        .mdc-notched-outline
-        > *
-    ) {
-    border-color: var(--mrt-ink-hint);
-  }
-  .mrt-paper
-    :global(.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline > *) {
-    border-color: var(--mdc-theme-primary, #6200ee);
-  }
-  .mrt-paper :global(.mdc-text-field__icon) {
-    color: var(--mrt-ink-secondary);
-  }
-  /* menus and dialogs */
-  .mrt-paper :global(.mdc-form-field),
-  .mrt-paper :global(.mdc-form-field > label),
-  .mrt-paper :global(.mdc-deprecated-list-item),
-  .mrt-paper :global(.mdc-deprecated-list-item__text),
-  .mrt-paper :global(.mdc-deprecated-list-item__graphic),
-  .mrt-paper :global(.mdc-dialog__title),
-  .mrt-paper :global(.mdc-dialog__content) {
-    color: var(--mrt-ink);
-  }
-  .mrt-paper :global(.mdc-dialog__surface),
-  .mrt-paper :global(.mdc-menu-surface) {
-    background-color: var(--mdc-theme-surface, #fff);
-    color: var(--mrt-ink);
   }
   .mrt-paper-fullscreen {
     border-radius: 0;

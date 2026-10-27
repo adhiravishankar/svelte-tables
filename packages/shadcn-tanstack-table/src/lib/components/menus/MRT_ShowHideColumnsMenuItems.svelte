@@ -1,7 +1,6 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import FormField from '@smui/form-field';
-  import { Item } from '@smui/list';
-  import Switch from '@smui/switch';
+  import { Label } from '../ui/label';
+  import { Switch } from '../ui/switch';
   import type { MRT_Column, MRT_RowData, MRT_TableInstance } from '../../types';
   import { reorderColumn } from '../../utils/column.utils';
   import MRT_ColumnPinningButtons from '../buttons/MRT_ColumnPinningButtons.svelte';
@@ -88,10 +87,9 @@
 
 {#if visible}
   <div bind:this={menuItem} role="presentation" ondragenter={handleDragEnter}>
-    <Item
-      disabled={false}
-      nonInteractive
-      style="align-items: center; justify-content: flex-start; opacity: {isDragging
+    <div
+      class="mrt-show-hide-row"
+      style="opacity: {isDragging
         ? 0.5
         : 1}; outline: {outline}; outline-offset: -2px; padding-inline-start: {(column.depth + 0.5) * 2}rem"
     >
@@ -115,24 +113,22 @@
           {/if}
         {/if}
         {#if o.enableHiding}
-          <FormField>
+          <Label class="gap-2">
             <Switch
               checked={switchChecked}
               disabled={!column.getCanHide()}
-              onSMUISwitchChange={handleToggleColumnHidden}
+              onCheckedChange={handleToggleColumnHidden}
               title={o.localization.toggleVisibility}
             />
-            {#snippet label()}
-              <span style:opacity={columnDefType !== 'display' ? 1 : 0.5}>
-                {columnDef.header}
-              </span>
-            {/snippet}
-          </FormField>
+            <span style:opacity={columnDefType !== 'display' ? 1 : 0.5}>
+              {columnDef.header}
+            </span>
+          </Label>
         {:else}
           <span class="mrt-show-hide-name">{columnDef.header}</span>
         {/if}
       </div>
-    </Item>
+    </div>
   </div>
 {/if}
 {#each column.columns ?? [] as childColumn, i (`${i}-${childColumn.id}`)}
@@ -147,6 +143,13 @@
 {/each}
 
 <style>
+  .mrt-show-hide-row {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    padding-block: 0.25rem;
+    padding-inline-end: 0.5rem;
+  }
   .mrt-show-hide-item {
     align-items: center;
     display: flex;

@@ -1,7 +1,7 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_Row,
     type MRT_TableInstance,
@@ -27,23 +27,23 @@
 
 <!-- detail panel -->
 <Story name="Detail Panel Enabled Semantic">
-  <MaterialSvelteTable options={{ columns, data: employees, detailPanel }} />
+  <ShadcnSvelteTable options={{ columns, data: employees, detailPanel }} />
 </Story>
 
 <Story name="Detail Panel Enabled Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, detailPanel, layoutMode: 'grid' }}
   />
 </Story>
 
 <Story name="Detail Panel Enabled Grid No Grow">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, detailPanel, layoutMode: 'grid-no-grow' }}
   />
 </Story>
 
 <Story name="Detail Panel Enabled Conditional">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: employees,
@@ -59,32 +59,32 @@
 </Story>
 
 <Story name="Detail Panel Expand Column Last">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, detailPanel, positionExpandColumn: 'last' }}
   />
 </Story>
 
 <Story name="Detail Panel Expanded By Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, detailPanel, initialState: { expanded: true } }}
   />
 </Story>
 
 <Story name="Detail Panel Expand All Disabled">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: employees, detailPanel, enableExpandAll: false }}
   />
 </Story>
 
 <!-- sub rows -->
 <Story name="Sub Row Tree Enabled Default">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{ columns, data: tree, enableExpanding: true, getSubRows: (row) => row.subRows }}
   />
 </Story>
 
 <Story name="Sub Row Tree Layout Grid">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -96,7 +96,7 @@
 </Story>
 
 <Story name="Sub Row Tree Enabled Position Last">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -109,7 +109,7 @@
 
 <Story name="Sub Row Tree Enabled Default RTL">
   <div dir="rtl">
-    <MaterialSvelteTable
+    <ShadcnSvelteTable
       options={{
         columnResizeDirection: 'rtl',
         columns,
@@ -122,7 +122,7 @@
 </Story>
 
 <Story name="Sub Row Tree Disable Expand All">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -134,7 +134,7 @@
 </Story>
 
 <Story name="Sub Row Tree Filter From Leaf Rows">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -147,7 +147,7 @@
 </Story>
 
 <Story name="Sub Row Tree Max Leaf Row Filter Depth 0">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -160,7 +160,7 @@
 </Story>
 
 <Story name="Sub Row Tree With Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,
@@ -172,7 +172,7 @@
 </Story>
 
 <Story name="Sub Row Tree With Single Selection">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data: tree,

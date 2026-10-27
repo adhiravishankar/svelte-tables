@@ -71,12 +71,12 @@ describe('story helpers', () => {
   it('Manual Selection follows the state it owns', () => {
     const root = render(ManualSelection);
     expect(
-      root.querySelectorAll('tbody input[type="checkbox"]:checked'),
+      root.querySelectorAll('tbody button[role="checkbox"][aria-checked="true"]'),
     ).toHaveLength(2);
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
     expect(
-      root.querySelectorAll('tbody input[type="checkbox"]:checked'),
+      root.querySelectorAll('tbody button[role="checkbox"][aria-checked="true"]'),
     ).toHaveLength(0);
   });
 
@@ -161,7 +161,7 @@ describe('story helpers', () => {
     expect(
       root.querySelectorAll('tbody button[aria-label="Move"]'),
     ).toHaveLength(15);
-    expect(root.querySelectorAll('tbody input[type="checkbox"]')).toHaveLength(
+    expect(root.querySelectorAll('tbody button[role="checkbox"]')).toHaveLength(
       15,
     );
   });
@@ -197,7 +197,9 @@ describe('story helpers', () => {
       data: employees.slice(0, 5),
     });
     const before = rowCount(root);
-    root.querySelector<HTMLButtonElement>('.mdc-button')!.click();
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((b) => b.textContent?.includes('Create new user'))!
+      .click();
     flushSync();
     expect(rowCount(root)).toBe(before + 1);
   });

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import { MaterialSvelteTable } from '../../src/lib';
+  import { ShadcnSvelteTable } from '../../src/lib';
   import { employeeColumns, employees } from '../data';
 
   let {
@@ -12,7 +12,7 @@
 </script>
 
 <!-- dragging a row onto another moves it: the table tells you which two rows -->
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: employeeColumns,
     get data() {

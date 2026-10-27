@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import { type Employee, employees, states } from '../data';
   import AsyncEditing from './AsyncEditing.svelte';
   import CreatingRows from './CreatingRows.svelte';
@@ -46,7 +46,7 @@
 </Story>
 
 <Story name="Editing Feature Enabled Conditionally">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns,
       data,
@@ -63,12 +63,12 @@
 </Story>
 
 <Story name="Editing Customize Input">
-  <MaterialSvelteTable
+  <ShadcnSvelteTable
     options={{
       columns: [
         {
           accessorKey: 'firstName',
-          editTextFieldProps: { input$placeholder: 'A first name', input$maxlength: 12 },
+          editTextFieldProps: { placeholder: 'A first name', maxlength: 12 },
           header: 'First Name',
         },
         { accessorKey: 'lastName', header: 'Last Name' },

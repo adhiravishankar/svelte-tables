@@ -62,7 +62,7 @@
     z-index: 4;
   }
   .mrt-resize-handle:active > .mrt-resize-divider {
-    background: var(--mdc-theme-primary, #6200ee);
+    background: var(--primary);
     opacity: 0;
   }
   .mrt-resize-handle.mrt-resize-active:active > .mrt-resize-divider {

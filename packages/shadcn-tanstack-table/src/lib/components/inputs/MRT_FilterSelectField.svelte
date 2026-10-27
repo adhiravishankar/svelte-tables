@@ -1,5 +1,4 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import { Item, Text } from '@smui/list';
   import { untrack } from 'svelte';
   import type { MRT_Header, MRT_RowData, MRT_TableInstance } from '../../types';
   import {
@@ -11,6 +10,7 @@
   import MRT_FilterModeButton from '../buttons/MRT_FilterModeButton.svelte';
   import MRT_IconButton from '../buttons/MRT_IconButton.svelte';
   import MRT_Menu from '../menus/MRT_Menu.svelte';
+  import * as DropdownMenu from '../ui/dropdown-menu';
 
   /** The `select` and `multi-select` column filters. */
   let {
@@ -165,7 +165,10 @@
       {table}
     >
       {#each options as option, index (`${index}-${option.value}`)}
-        <Item onclick={() => toggle(option.value)} tabindex={0}>
+        <DropdownMenu.Item
+          closeOnSelect={false}
+          onSelect={() => toggle(option.value)}
+        >
           <input
             aria-label={option.label}
             checked={selected.includes(option.value)}
@@ -175,11 +178,11 @@
             tabindex={-1}
             type="checkbox"
           />
-          <Text>
+          <span>
             {option.label}
             {option.count !== undefined ? ` (${option.count})` : ''}
-          </Text>
-        </Item>
+          </span>
+        </DropdownMenu.Item>
       {/each}
     </MRT_Menu>
   {/if}
@@ -225,7 +228,7 @@
     padding: 2px 10px;
   }
   .mrt-menu-check {
-    accent-color: var(--mdc-theme-primary, #6200ee);
+    accent-color: var(--primary);
     margin-inline-end: 0.5rem;
     pointer-events: none;
   }

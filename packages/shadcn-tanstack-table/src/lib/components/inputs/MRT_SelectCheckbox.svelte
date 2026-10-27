@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import Checkbox from '@smui/checkbox';
+  import { Checkbox } from '../ui/checkbox';
   import type { MRT_Row, MRT_RowData, MRT_TableInstance } from '../../types';
   import {
     getIsRowSelected,
@@ -62,13 +62,21 @@
   );
 
   // `click` (not `change`) because it carries `shiftKey` for range selection
-  function onclick(event: MouseEvent) {
+  function onclick(event: MouseEvent, checked?: boolean) {
     event.stopPropagation();
     if (row) {
       getMRT_RowSelectionHandler({ row, staticRowIndex, table })(event);
     } else {
-      getMRT_SelectAllHandler({ table })(event);
+      getMRT_SelectAllHandler({ table })(event, checked);
     }
+  }
+
+  // The shadcn checkbox toggles itself after `click` handlers have run, so the
+  // selection is applied from its change callback, with the click for `shiftKey`.
+  let lastClick: MouseEvent | undefined;
+  function onCheckboxChange(checked: boolean) {
+    if (lastClick) onclick(lastClick, checked);
+    lastClick = undefined;
   }
 </script>
 
@@ -85,20 +93,25 @@
     />
   {:else}
     <Checkbox
+      aria-label={label}
       checked={isChecked}
       indeterminate={isIndeterminate}
       {disabled}
-      input$aria-label={label}
-      input$onclick={onclick}
-      touch
+      onclick={(event: MouseEvent) => {
+        event.stopPropagation();
+        lastClick = event;
+      }}
+      onCheckedChange={onCheckboxChange}
     />
   {/if}
 </span>
 
 <style>
   .mrt-select {
+    align-items: center;
     display: inline-flex;
     height: 2.5rem;
+    justify-content: center;
     margin: -0.4rem;
     width: 2.5rem;
   }
@@ -108,7 +121,7 @@
     width: 1.75rem;
   }
   .mrt-radio {
-    accent-color: var(--mdc-theme-primary, #6200ee);
+    accent-color: var(--primary);
     height: 1.25rem;
     margin: auto;
     width: 1.25rem;

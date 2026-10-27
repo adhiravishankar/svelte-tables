@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import { MaterialSvelteTable, type MRT_ColumnDef } from '../../src/lib';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from '../../src/lib';
   import type { Employee } from '../data';
 
   let {
@@ -19,7 +19,7 @@
   let data = $state(untrack(() => structuredClone($state.snapshot(initial))));
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     get data() {
@@ -38,7 +38,7 @@
     editTextFieldProps: ({ cell }) =>
       editDisplayMode === 'cell'
         ? {
-            input$onblur: (event: FocusEvent) => {
+            onblur: (event: FocusEvent) => {
               const value = (event.target as HTMLInputElement).value;
               data[cell.row.index] = { ...data[cell.row.index], [cell.column.id]: value };
             },

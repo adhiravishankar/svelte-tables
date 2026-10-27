@@ -88,6 +88,6 @@
   .mrt-detail-panel-cell {
     border-bottom: 1px solid var(--mrt-divider);
     box-sizing: border-box;
-    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    color: var(--foreground);
   }
 </style>

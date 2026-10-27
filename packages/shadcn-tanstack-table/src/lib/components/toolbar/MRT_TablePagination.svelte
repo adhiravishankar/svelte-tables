@@ -265,10 +265,10 @@
   .mrt-page-current {
     background: color-mix(
       in srgb,
-      var(--mdc-theme-primary, #6200ee) 14%,
+      var(--primary) 14%,
       transparent
     );
-    color: var(--mdc-theme-primary, #6200ee);
+    color: var(--primary);
   }
   .mrt-page-gap {
     padding: 0 4px;

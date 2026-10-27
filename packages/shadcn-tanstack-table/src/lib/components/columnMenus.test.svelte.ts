@@ -1,6 +1,6 @@
 import { createRawSnippet, flushSync, mount, unmount } from 'svelte';
 import { afterEach, describe, expect, it } from 'vitest';
-import MaterialSvelteTable from './MaterialSvelteTable.svelte';
+import ShadcnSvelteTable from './ShadcnSvelteTable.svelte';
 import { type MRT_ColumnDef, type MRT_TableOptions } from '../types';
 
 type Person = { age: number; city: string; name: string };
@@ -23,7 +23,7 @@ let app: ReturnType<typeof mount> | undefined;
 const render = (options: Partial<MRT_TableOptions<Person>> = {}) => {
   target = document.createElement('div');
   document.body.appendChild(target);
-  app = mount(MaterialSvelteTable<Person>, {
+  app = mount(ShadcnSvelteTable<Person>, {
     props: {
       options: {
         columns,
@@ -56,7 +56,7 @@ const firstColumn = (root: HTMLElement) =>
   );
 const menuItems = () =>
   Array.from(
-    document.body.querySelectorAll<HTMLElement>('.mdc-deprecated-list-item'),
+    document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
   );
 const itemText = (el: HTMLElement) =>
   el.textContent?.replace(/\s+/g, ' ').trim();
@@ -95,7 +95,7 @@ describe('column actions menu', () => {
     expect(labels).toContain('Sort by Name ascending');
     clickItem('Sort by Name ascending');
     expect(firstColumn(root)).toEqual(['Alice', 'Bob', 'Carol']);
-    expect(document.body.querySelector('.mdc-menu-surface--open')).toBeNull();
+    expect(document.body.querySelector('[data-slot="dropdown-menu-content"]')).toBeNull();
     openActions(root, 0);
     clickItem('Sort by Name descending');
     expect(firstColumn(root)).toEqual(['Carol', 'Bob', 'Alice']);
@@ -189,7 +189,7 @@ describe('show/hide columns menu', () => {
 
   const switches = () =>
     Array.from(
-      document.body.querySelectorAll<HTMLElement>('.mdc-switch[role="switch"]'),
+      document.body.querySelectorAll<HTMLElement>('[role="switch"]'),
     );
 
   it('lists the columns with switches', () => {
@@ -242,7 +242,7 @@ describe('show/hide columns menu', () => {
     const root = render2({ enableColumnOrdering: true });
     const handles = Array.from(
       document.body.querySelectorAll<HTMLElement>(
-        '.mdc-menu-surface button[aria-label="Move"]',
+        '[data-slot="dropdown-menu-content"] button[aria-label="Move"]',
       ),
     );
     expect(handles).toHaveLength(3);
