@@ -53,11 +53,13 @@
 
   function handleDragEnd() {
     isDragging = false;
+    // props are live: read the drop target before clearing it
+    const dropTarget = hoveredColumn;
     setHoveredColumn(null);
-    if (hoveredColumn) {
+    if (dropTarget) {
       const reorderedColumns = reorderColumn(
         column,
-        hoveredColumn,
+        dropTarget,
         table.atoms.columnOrder.get(),
       );
       table.setColumnOrder(reorderedColumns);

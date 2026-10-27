@@ -12,6 +12,8 @@
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_DisplayHeader from './MRT_DisplayHeader.svelte';
   import MRT_TableHeadCellColumnActionsButton from './MRT_TableHeadCellColumnActionsButton.svelte';
+  import MRT_TableHeadCellGrabHandle from './MRT_TableHeadCellGrabHandle.svelte';
+  import MRT_TableHeadCellResizeHandle from './MRT_TableHeadCellResizeHandle.svelte';
   import MRT_TableHeadCellFilterContainer from './MRT_TableHeadCellFilterContainer.svelte';
   import MRT_TableHeadCellFilterLabel from './MRT_TableHeadCellFilterLabel.svelte';
   import MRT_TableHeadCellSortLabel from './MRT_TableHeadCellSortLabel.svelte';
@@ -54,6 +56,59 @@
       columnDef.enableColumnActions !== false,
   );
   const align = $derived(columnDefType === 'group' ? 'center' : 'start');
+
+  const draggingColumn = $derived(table.mrtState.draggingColumn);
+  const hoveredColumn = $derived(table.mrtState.hoveredColumn);
+  const resizingColumn = $derived(table.atoms.columnResizing.get().isResizingColumn);
+  const grouping = $derived(table.atoms.grouping.get());
+
+  const showDragHandle = $derived(
+    table.options.enableColumnDragging !== false &&
+      columnDef.enableColumnDragging !== false &&
+      (table.options.enableColumnDragging ||
+        (table.options.enableColumnOrdering && columnDef.enableColumnOrdering !== false) ||
+        (table.options.enableGrouping &&
+          columnDef.enableGrouping !== false &&
+          !grouping.includes(column.id))),
+  );
+
+  const draggingBorders = $derived.by(() => {
+    const color = table.options.mrtTheme.draggingBorderColor;
+    const showResizeBorder =
+      resizingColumn === column.id &&
+      table.options.columnResizeMode === 'onChange' &&
+      !header.subHeaders.length;
+    const borderStyle = showResizeBorder
+      ? `2px solid ${color} !important`
+      : draggingColumn?.id === column.id
+        ? '1px dashed rgba(128, 128, 128, 0.8)'
+        : hoveredColumn?.id === column.id
+          ? `2px dashed ${color}`
+          : undefined;
+    if (showResizeBorder) {
+      return table.options.columnResizeDirection === 'ltr'
+        ? { borderRight: borderStyle }
+        : { borderLeft: borderStyle };
+    }
+    return borderStyle
+      ? { borderLeft: borderStyle, borderRight: borderStyle, borderTop: borderStyle }
+      : undefined;
+  });
+
+  function ondragenter(event: DragEvent & { currentTarget: HTMLTableCellElement }) {
+    cellProps.ondragenter?.(event as any);
+    if (table.options.enableGrouping && hoveredColumn?.id === 'drop-zone') {
+      table.setHoveredColumn(null);
+    }
+    if (table.options.enableColumnOrdering && draggingColumn && columnDefType !== 'group') {
+      table.setHoveredColumn(columnDef.enableColumnOrdering !== false ? column : null);
+    }
+  }
+
+  function ondragover(event: DragEvent & { currentTarget: HTMLTableCellElement }) {
+    cellProps.ondragover?.(event as any);
+    if (columnDef.enableColumnOrdering !== false) event.preventDefault();
+  }
 
   const paddingBottom = $derived(
     columnDefType === 'display'
@@ -102,6 +157,8 @@
   tabindex={table.options.enableKeyboardShortcuts ? 0 : undefined}
   {...cellProps}
   {onkeydown}
+  {ondragenter}
+  {ondragover}
   {@attach attach}
   class={['mrt-head-cell', cellProps.class]}
   style={mergeStyles(
@@ -118,6 +175,7 @@
       verticalAlign: 'top',
     },
     getCommonMRTCellStyles({ align, column, header, table }),
+    draggingBorders,
     cellProps.style,
   )}
 >
@@ -152,10 +210,18 @@
           <MRT_TableHeadCellSortLabel {header} {table} />
         {/if}
       </div>
-      {#if columnDefType !== 'group' && showColumnActions}
+      {#if columnDefType !== 'group' && (showDragHandle || showColumnActions)}
         <div class="mrt-head-cell-actions">
-          <MRT_TableHeadCellColumnActionsButton {header} {table} />
+          {#if showDragHandle}
+            <MRT_TableHeadCellGrabHandle {column} {table} />
+          {/if}
+          {#if showColumnActions}
+            <MRT_TableHeadCellColumnActionsButton {header} {table} />
+          {/if}
         </div>
+      {/if}
+      {#if column.getCanResize()}
+        <MRT_TableHeadCellResizeHandle {header} {table} />
       {/if}
     </div>
   {/if}

@@ -1,5 +1,7 @@
 <script lang="ts" generics="TData extends MRT_RowData">
   import type { MRT_Cell, MRT_RowData, MRT_TableInstance } from '../../types';
+  import MRT_TableBodyRowGrabHandle from './MRT_TableBodyRowGrabHandle.svelte';
+  import MRT_TableBodyRowPinButton from './MRT_TableBodyRowPinButton.svelte';
   import MRT_ExpandButton from '../buttons/MRT_ExpandButton.svelte';
   import MRT_ToggleRowActionMenuButton from '../buttons/MRT_ToggleRowActionMenuButton.svelte';
   import MRT_SelectCheckbox from '../inputs/MRT_SelectCheckbox.svelte';
@@ -42,6 +44,10 @@
   <MRT_SelectCheckbox {row} {staticRowIndex} {table} />
 {:else if column.id === 'mrt-row-numbers'}
   {rowNumber}
+{:else if column.id === 'mrt-row-drag'}
+  <MRT_TableBodyRowGrabHandle {row} {table} />
+{:else if column.id === 'mrt-row-pin'}
+  <MRT_TableBodyRowPinButton {row} {table} />
 {:else if column.id === 'mrt-row-actions'}
   <MRT_ToggleRowActionMenuButton {cell} {row} {staticRowIndex} {table} />
 {:else if column.id === 'mrt-row-expand'}

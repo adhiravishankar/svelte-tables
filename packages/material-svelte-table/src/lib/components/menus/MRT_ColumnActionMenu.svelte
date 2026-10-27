@@ -70,8 +70,10 @@
   }
 
   function handleFilterByColumn() {
+    // read before closing: the menu (and its derived state) is torn down
+    const inputKey = `${column.id}-0`;
     table.setShowColumnFilters(true);
-    queueMicrotask(() => table.refs.filterInputRefs.current?.[`${column.id}-0`]?.focus());
+    queueMicrotask(() => table.refs.filterInputRefs.current?.[inputKey]?.focus());
     close();
   }
 

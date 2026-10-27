@@ -7,6 +7,7 @@
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_LinearProgressBar from './MRT_LinearProgressBar.svelte';
   import MRT_TablePagination from './MRT_TablePagination.svelte';
+  import MRT_ToolbarDropZone from './MRT_ToolbarDropZone.svelte';
   import MRT_ToolbarAlertBanner from './MRT_ToolbarAlertBanner.svelte';
 
   let {
@@ -48,6 +49,9 @@
   <MRT_LinearProgressBar isTopToolbar={false} {table} />
   {#if o.positionToolbarAlertBanner === 'bottom'}
     <MRT_ToolbarAlertBanner {stackAlertBanner} {table} />
+  {/if}
+  {#if ['both', 'bottom'].includes(o.positionToolbarDropZone ?? '')}
+    <MRT_ToolbarDropZone {table} />
   {/if}
   <div class="mrt-toolbar-row">
     {#if o.bottomToolbarCustomActions}

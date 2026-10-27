@@ -57,3 +57,9 @@ export { default as MRT_ShowHideColumnsButton } from './components/buttons/MRT_S
 export { default as MRT_ColumnPinningButtons } from './components/buttons/MRT_ColumnPinningButtons.svelte';
 export { default as MRT_GrabHandleButton } from './components/buttons/MRT_GrabHandleButton.svelte';
 export { default as MRT_TableHeadCellColumnActionsButton } from './components/head/MRT_TableHeadCellColumnActionsButton.svelte';
+export { default as MRT_TableHeadCellGrabHandle } from './components/head/MRT_TableHeadCellGrabHandle.svelte';
+export { default as MRT_TableHeadCellResizeHandle } from './components/head/MRT_TableHeadCellResizeHandle.svelte';
+export { default as MRT_TableBodyRowGrabHandle } from './components/body/MRT_TableBodyRowGrabHandle.svelte';
+export { default as MRT_TableBodyRowPinButton } from './components/body/MRT_TableBodyRowPinButton.svelte';
+export { default as MRT_RowPinButton } from './components/buttons/MRT_RowPinButton.svelte';
+export { default as MRT_ToolbarDropZone } from './components/toolbar/MRT_ToolbarDropZone.svelte';

@@ -145,9 +145,10 @@ describe('column actions menu', () => {
     const root = render({ enableGrouping: true });
     openActions(root, 2);
     clickItem('Group by City');
-    expect(headers(root)[0]).toBe('Expand');
-    const rows = firstColumn(root);
-    expect(rows).toHaveLength(2); // Paris and Rome groups
+    // like TanStack's 'reorder' mode, the grouped column comes first
+    expect(headers(root)[0]).toBe('City');
+    expect(root.querySelectorAll('thead th')).toHaveLength(4); // + expand column
+    expect(firstColumn(root)).toHaveLength(2); // Paris and Rome groups
   });
 
   it('lets a snippet replace or extend the items', () => {
@@ -179,13 +180,13 @@ describe('show/hide columns menu', () => {
 
   const switches = () =>
     Array.from(
-      document.body.querySelectorAll<HTMLInputElement>('.mdc-switch input'),
+      document.body.querySelectorAll<HTMLElement>('.mdc-switch[role="switch"]'),
     );
 
   it('lists the columns with switches', () => {
     render2();
     expect(switches()).toHaveLength(3);
-    expect(switches().every((s) => s.checked)).toBe(true);
+    expect(switches().every((s) => s.getAttribute('aria-checked') === 'true')).toBe(true);
   });
 
   it('toggles a column from its switch', () => {
@@ -193,7 +194,7 @@ describe('show/hide columns menu', () => {
     switches()[1].click();
     flushSync();
     expect(headers(root)).toEqual(['Name', 'City']);
-    expect(switches()[1].checked).toBe(false);
+    expect(switches()[1].getAttribute('aria-checked')).toBe('false');
   });
 
   it('hides and shows all columns', () => {
@@ -227,7 +228,9 @@ describe('show/hide columns menu', () => {
   it('reorders columns by dragging in the menu', () => {
     const root = render2({ enableColumnOrdering: true });
     const handles = Array.from(
-      document.body.querySelectorAll<HTMLElement>('button[aria-label="Move"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '.mdc-menu-surface button[aria-label="Move"]',
+      ),
     );
     expect(handles).toHaveLength(3);
     const items = Array.from(

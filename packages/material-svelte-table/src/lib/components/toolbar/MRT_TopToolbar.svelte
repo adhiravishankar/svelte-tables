@@ -9,6 +9,7 @@
   import MRT_LinearProgressBar from './MRT_LinearProgressBar.svelte';
   import MRT_TablePagination from './MRT_TablePagination.svelte';
   import MRT_ToolbarAlertBanner from './MRT_ToolbarAlertBanner.svelte';
+  import MRT_ToolbarDropZone from './MRT_ToolbarDropZone.svelte';
   import MRT_ToolbarInternalButtons from './MRT_ToolbarInternalButtons.svelte';
 
   let {
@@ -57,6 +58,9 @@
 >
   {#if o.positionToolbarAlertBanner === 'top'}
     <MRT_ToolbarAlertBanner {stackAlertBanner} {table} />
+  {/if}
+  {#if ['both', 'top'].includes(o.positionToolbarDropZone ?? '')}
+    <MRT_ToolbarDropZone {table} />
   {/if}
   <div class="mrt-toolbar-row" class:mrt-stacked={stackAlertBanner}>
     {#if o.enableGlobalFilter && o.positionGlobalFilter === 'left'}
