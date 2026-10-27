@@ -875,11 +875,11 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     ]
   >;
   createRowDialogContent?: Snippet<
-    [RowContext<TData> & { internalEditComponents: Snippet[] }]
+    [RowContext<TData> & { internalEditCells: MRT_Cell<TData>[] }]
   >;
   detailPanel?: Snippet<[RowContext<TData>]>;
   editRowDialogContent?: Snippet<
-    [RowContext<TData> & { internalEditComponents: Snippet[] }]
+    [RowContext<TData> & { internalEditCells: MRT_Cell<TData>[] }]
   >;
   emptyRowsFallback?: Snippet<[TableContext<TData>]>;
   globalFilterModeMenuItems?: Snippet<

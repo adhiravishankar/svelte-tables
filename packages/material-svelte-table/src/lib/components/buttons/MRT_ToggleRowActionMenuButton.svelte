@@ -46,7 +46,7 @@
 
   function handleStartEditMode(event: MouseEvent) {
     event.stopPropagation();
-    table.setEditingRow({ ...row });
+    table.setEditingRow(row);
     anchorEl = null;
   }
 

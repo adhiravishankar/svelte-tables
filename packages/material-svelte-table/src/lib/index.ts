@@ -63,3 +63,8 @@ export { default as MRT_TableBodyRowGrabHandle } from './components/body/MRT_Tab
 export { default as MRT_TableBodyRowPinButton } from './components/body/MRT_TableBodyRowPinButton.svelte';
 export { default as MRT_RowPinButton } from './components/buttons/MRT_RowPinButton.svelte';
 export { default as MRT_ToolbarDropZone } from './components/toolbar/MRT_ToolbarDropZone.svelte';
+export { default as MRT_EditCellTextField } from './components/inputs/MRT_EditCellTextField.svelte';
+export { default as MRT_EditRowModal } from './components/modals/MRT_EditRowModal.svelte';
+export { default as MRT_CopyButton } from './components/buttons/MRT_CopyButton.svelte';
+export { default as MRT_CellActionMenu } from './components/menus/MRT_CellActionMenu.svelte';
+export { default as MRT_TableLoadingOverlay } from './components/table/MRT_TableLoadingOverlay.svelte';

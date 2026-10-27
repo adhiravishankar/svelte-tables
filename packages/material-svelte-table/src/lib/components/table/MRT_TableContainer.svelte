@@ -4,7 +4,10 @@
   import { mergeStyles } from '../../utils/style.utils';
   import { attachRef } from '../../utils/refs';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_CellActionMenu from '../menus/MRT_CellActionMenu.svelte';
+  import MRT_EditRowModal from '../modals/MRT_EditRowModal.svelte';
   import MRT_Table from './MRT_Table.svelte';
+  import MRT_TableLoadingOverlay from './MRT_TableLoadingOverlay.svelte';
 
   let {
     table,
@@ -20,6 +23,13 @@
   const loading = $derived(
     table.mrtState.showLoadingOverlay !== false &&
       (table.mrtState.isLoading || table.mrtState.showLoadingOverlay),
+  );
+
+  const createModalOpen = $derived(
+    table.options.createDisplayMode === 'modal' && !!table.mrtState.creatingRow,
+  );
+  const editModalOpen = $derived(
+    table.options.editDisplayMode === 'modal' && !!table.mrtState.editingRow,
   );
 
   // Sticky headers and full screen need to know the height taken by the toolbars.
@@ -54,7 +64,16 @@
     containerProps.style,
   )}
 >
+  {#if loading}
+    <MRT_TableLoadingOverlay {table} />
+  {/if}
   <MRT_Table {table} />
+  {#if createModalOpen || editModalOpen}
+    <MRT_EditRowModal {table} />
+  {/if}
+  {#if table.options.enableCellActions && table.mrtState.actionCell}
+    <MRT_CellActionMenu {table} />
+  {/if}
 </div>
 
 <style>

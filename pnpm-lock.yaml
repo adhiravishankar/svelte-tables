@@ -295,6 +295,9 @@ importers:
       '@smui/data-table':
         specifier: ^9.0.6
         version: 9.0.6
+      '@smui/dialog':
+        specifier: ^9.0.6
+        version: 9.0.6
       '@smui/form-field':
         specifier: ^9.0.6
         version: 9.0.6
@@ -1386,6 +1389,9 @@ packages:
 
   '@smui/data-table@9.0.6':
     resolution: {integrity: sha512-kUwWGUQm9gsVE+1DvYkvpPrmN6JfR5Pp1DIM9cSCi/7jFTY7HAd2qTuLod8iNMhMxObqESOdfboausM/1XFNGQ==}
+
+  '@smui/dialog@9.0.6':
+    resolution: {integrity: sha512-MokL/uGGarO841KEDPA6HhvXpQfMCZFDIyNdaBn7zR1kn4uLp7T5T/hUTerZ7LmBk2Pj8D3n3pfTPc53omKzLw==}
 
   '@smui/floating-label@9.0.6':
     resolution: {integrity: sha512-mTVZaIEKE3psbWnrveLjeOK0e1AHk54f+b4phCuNOojgKHwMwTcrAu5PvkHqxMsZl9DdzPNhxIXUX4pG4vBVjw==}
@@ -5511,6 +5517,14 @@ snapshots:
       '@smui/menu': 9.0.6
       '@smui/ripple': 9.0.6
       '@smui/select': 9.0.6
+      '@smui/touch-target': 9.0.6
+
+  '@smui/dialog@9.0.6':
+    dependencies:
+      '@smui/button': 9.0.6
+      '@smui/common': 9.0.6
+      '@smui/icon-button': 9.0.6
+      '@smui/ripple': 9.0.6
       '@smui/touch-target': 9.0.6
 
   '@smui/floating-label@9.0.6':

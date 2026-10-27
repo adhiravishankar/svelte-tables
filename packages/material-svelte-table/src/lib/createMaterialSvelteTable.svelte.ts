@@ -250,12 +250,37 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
   // ---------------------------------------------------------------------------
   // don't recompute column defs while resizing a column or dragging a column/row
   let lastColumns: MRT_ColumnDef<TData>[] = [];
+
+  // Only state that changes the column *definitions* may invalidate `columns`.
+  // Anything else (hover, editing, density, ...) would give TanStack new
+  // columns, and TanStack Table v9 then rebuilds every row, discarding values
+  // being edited. These are tracked as primitives so they only change when the
+  // definitions really do.
+  const groupingKey = $derived(
+    JSON.stringify(
+      table?.atoms.grouping.get() ??
+        options.state?.grouping ??
+        options.initialState?.grouping ??
+        [],
+    ),
+  );
+  const filterFnsKey = $derived(JSON.stringify(mrtState.columnFilterFns));
+  const hasCreatingRow = $derived(!!mrtState.creatingRow);
+  const isColumnsFrozen = $derived(
+    !!(
+      table?.atoms.columnResizing.get().isResizingColumn ||
+      mrtState.draggingColumn ||
+      mrtState.draggingRow
+    ),
+  );
+
   const columns = $derived.by(() => {
-    const stateful = getStatefulOptions();
-    const { columnResizing, draggingColumn, draggingRow } = stateful.state;
-    if ((columnResizing as any)?.isResizingColumn || draggingColumn || draggingRow) {
-      return lastColumns;
-    }
+    void groupingKey;
+    void filterFnsKey;
+    void hasCreatingRow;
+    void defined;
+    if (isColumnsFrozen) return lastColumns;
+    const stateful = untrack(() => getStatefulOptions());
     const { leading, trailing } = getDisplayColumnDefs(stateful);
     lastColumns = prepareColumns({
       columnDefs: [...leading, ...stateful.columns, ...trailing],

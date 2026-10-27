@@ -15,6 +15,8 @@
     mergeStyles,
   } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_CopyButton from '../buttons/MRT_CopyButton.svelte';
+  import MRT_EditCellTextField from '../inputs/MRT_EditCellTextField.svelte';
   import MRT_DisplayCell from './MRT_DisplayCell.svelte';
   import MRT_TableBodyCellValue from './MRT_TableBodyCellValue.svelte';
 
@@ -61,6 +63,26 @@
     parseFromValuesOrFunc(table.options.enableCellActions, cell),
   );
   const isEditable = $derived(isCellEditable({ cell, table }));
+  const isEditing = $derived(
+    isEditable &&
+      !['custom', 'modal'].includes(table.options.editDisplayMode as string) &&
+      (table.options.editDisplayMode === 'table' ||
+        table.mrtState.editingRow?.id === row.id ||
+        table.mrtState.editingCell?.id === cell.id) &&
+      !row.getIsGrouped(),
+  );
+  const isCreating = $derived(
+    isEditable &&
+      table.options.createDisplayMode === 'row' &&
+      table.mrtState.creatingRow?.id === row.id,
+  );
+  const showClickToCopyButton = $derived(
+    (parseFromValuesOrFunc(table.options.enableClickToCopy, cell) === true ||
+      parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) === true) &&
+      !['context-menu', false].includes(
+        parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) as any,
+      ),
+  );
   const isActionCell = $derived(table.mrtState.actionCell?.id === cell.id);
 
   const draggingColumn = $derived(table.mrtState.draggingColumn);
@@ -211,6 +233,12 @@
     {:else}
       <MRT_DisplayCell {cell} {staticColumnIndex} {staticRowIndex} {table} />
     {/if}
+  {:else if isCreating || isEditing}
+    <MRT_EditCellTextField {cell} {table} />
+  {:else if showClickToCopyButton && columnDef.enableClickToCopy !== false}
+    <MRT_CopyButton {cell} {table}>
+      <MRT_TableBodyCellValue {cell} {staticColumnIndex} {staticRowIndex} {table} />
+    </MRT_CopyButton>
   {:else}
     <MRT_TableBodyCellValue {cell} {staticColumnIndex} {staticRowIndex} {table} />
   {/if}

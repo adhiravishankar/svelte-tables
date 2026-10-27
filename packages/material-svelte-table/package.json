@@ -51,6 +51,7 @@
     "@smui/checkbox": "^9.0.6",
     "@smui/common": "^9.0.6",
     "@smui/data-table": "^9.0.6",
+    "@smui/dialog": "^9.0.6",
     "@smui/form-field": "^9.0.6",
     "@smui/icon-button": "^9.0.6",
     "@smui/linear-progress": "^9.0.6",
