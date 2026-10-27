@@ -1,0 +1,23 @@
+/*
+ * Base styles for the SMUI components Material Svelte Table is built on.
+ *
+ * Import this once in your app:
+ *
+ *   import 'material-svelte-table/styles.css';
+ *
+ * The components read the standard Material theme variables with sensible
+ * fallbacks, so you can theme the table by defining any of these on :root (or
+ * any ancestor): --mdc-theme-primary, --mdc-theme-secondary,
+ * --mdc-theme-surface, --mdc-theme-on-surface, --mdc-theme-on-primary.
+ */
+@import '@smui/button/bare.css';
+@import '@smui/checkbox/bare.css';
+@import '@smui/dialog/bare.css';
+@import '@smui/form-field/bare.css';
+@import '@smui/icon-button/bare.css';
+@import '@smui/linear-progress/bare.css';
+@import '@smui/list/bare.css';
+@import '@smui/menu/bare.css';
+@import '@smui/menu-surface/bare.css';
+@import '@smui/switch/bare.css';
+@import '@smui/textfield/bare.css';

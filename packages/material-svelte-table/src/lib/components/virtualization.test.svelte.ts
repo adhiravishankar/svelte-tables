@@ -8,7 +8,7 @@ type Row = Record<string, string>;
 let target: HTMLElement;
 let app: ReturnType<typeof mount> | undefined;
 
-const render = (options: Partial<MRT_TableOptions<Row>>) => {
+const render = async (options: Partial<MRT_TableOptions<Row>>) => {
   target = document.createElement('div');
   document.body.appendChild(target);
   app = mount(MaterialSvelteTable<Row>, {
@@ -24,6 +24,10 @@ const render = (options: Partial<MRT_TableOptions<Row>>) => {
     target,
   });
   flushSync();
+  // the scroll container is attached by a parent a tick after the body mounts
+  await Promise.resolve();
+  await Promise.resolve();
+  flushSync();
   return target;
 };
 
@@ -38,10 +42,11 @@ afterEach(() => {
  * jsdom has no layout, so give the virtualizer a fake viewport and a way to
  * scroll it: `scrollTo(n)` pretends the container was scrolled to offset n.
  */
-const fakeViewport = (width: number, height: number) => {
+const fakeViewport = (width: number, height: number, itemSize = 58) => {
   let notify: ((offset: number, isScrolling: boolean) => void) | undefined;
   return {
     options: {
+      measureElement: () => itemSize,
       observeElementOffset: (_: unknown, cb: (offset: number, isScrolling: boolean) => void) => {
         notify = cb;
         cb(0, false);
@@ -52,8 +57,10 @@ const fakeViewport = (width: number, height: number) => {
         return () => {};
       },
     },
-    scrollTo: (offset: number) => {
+    scrollTo: async (offset: number) => {
       notify?.(offset, false);
+      flushSync();
+      await Promise.resolve();
       flushSync();
     },
   };
@@ -71,9 +78,9 @@ const rowColumns: MRT_ColumnDef<Row>[] = [
 ];
 
 describe('row virtualization', () => {
-  it('renders only the rows in view', () => {
+  it('renders only the rows in view', async () => {
     const viewport = fakeViewport(800, 300);
-    const root = render({
+    const root = await render({
       columns: rowColumns,
       data: rows(500),
       enablePagination: false,
@@ -92,8 +99,8 @@ describe('row virtualization', () => {
     expect(rendered[1].style.transform).toMatch(/translateY\(\d+px\)/);
   });
 
-  it('switches to the grid layout', () => {
-    const root = render({
+  it('switches to the grid layout', async () => {
+    const root = await render({
       columns: rowColumns,
       data: rows(50),
       enableRowVirtualization: true,
@@ -103,9 +110,9 @@ describe('row virtualization', () => {
     expect(root.querySelector('table')!.className).toContain('sticky-header');
   });
 
-  it('renders different rows after scrolling', () => {
+  it('renders different rows after scrolling', async () => {
     const viewport = fakeViewport(800, 300);
-    const root = render({
+    const root = await render({
       columns: rowColumns,
       data: rows(500),
       enablePagination: false,
@@ -113,7 +120,7 @@ describe('row virtualization', () => {
       rowVirtualizerOptions: viewport.options as any,
     });
     expect(firstCell(bodyRows(root)[0])).toBe('row-0');
-    viewport.scrollTo(58 * 200);
+    await viewport.scrollTo(58 * 200);
     const after = bodyRows(root);
     const ids = after.map(firstCell);
     expect(ids).not.toContain('row-0');
@@ -121,9 +128,9 @@ describe('row virtualization', () => {
     expect(after.length).toBeLessThan(25);
   });
 
-  it('exposes the virtualizer through a ref', () => {
+  it('exposes the virtualizer through a ref', async () => {
     const ref: { current: any } = { current: null };
-    render({
+    await render({
       columns: rowColumns,
       data: rows(100),
       enableRowVirtualization: true,
@@ -135,25 +142,28 @@ describe('row virtualization', () => {
     expect(typeof ref.current.scrollToIndex).toBe('function');
   });
 
-  it('virtualizes filtered results', () => {
+  it('virtualizes filtered results', async () => {
     const viewport = fakeViewport(800, 300);
-    const root = render({
-      columns: rowColumns,
+    const root = await render({
+      columns: [rowColumns[0], { ...rowColumns[1], filterFn: 'contains' }],
       data: rows(500),
       enablePagination: false,
       enableRowVirtualization: true,
       initialState: { columnFilters: [{ id: 'name', value: 'Person 49' }] } as any,
       rowVirtualizerOptions: viewport.options as any,
     });
-    // "Person 49", "Person 490".."Person 499"
-    expect(bodyRows(root)).toHaveLength(11);
+    // "Person 49" and "Person 490".."Person 499" match: 11 rows, windowed
+    const rendered = bodyRows(root);
+    expect(rendered.length).toBeLessThanOrEqual(11);
+    expect(firstCell(rendered[0])).toBe('row-49');
+    expect(firstCell(rendered[1])).toBe('row-490');
   });
 
-  it('renders detail panels between virtual rows', () => {
+  it('renders detail panels between virtual rows', async () => {
     const detailPanel = createRawSnippet<[{ row: any }]>((ctx) => ({
       render: () => `<span class="detail">${ctx().row.original.name}</span>`,
     }));
-    const root = render({
+    const root = await render({
       columns: rowColumns,
       data: rows(100),
       detailPanel,
@@ -168,7 +178,7 @@ describe('row virtualization', () => {
     flushSync();
     const detail = root.querySelector<HTMLElement>('.detail');
     expect(detail?.textContent).toBe('Person 1');
-    const panelRow = root.querySelector<HTMLElement>('.mrt-detail-panel-row')!;
+    const panelRow = detail!.closest<HTMLElement>('.mrt-detail-panel-row')!;
     expect(panelRow.style.position).toBe('absolute');
     // panels are the odd virtual items
     expect(panelRow.getAttribute('data-index')).toBe('3');
@@ -186,9 +196,9 @@ describe('column virtualization', () => {
   const wideRow = (i: number): Row =>
     Object.fromEntries(wideColumns.map((c, j) => [c.accessorKey as string, `r${i}c${j}`]));
 
-  it('renders only the columns in view, with padding for the rest', () => {
-    const viewport = fakeViewport(500, 400);
-    const root = render({
+  it('renders only the columns in view, with padding for the rest', async () => {
+    const viewport = fakeViewport(500, 400, 100);
+    const root = await render({
       columnVirtualizerOptions: viewport.options as any,
       columns: wideColumns,
       data: [wideRow(0), wideRow(1)],
@@ -206,15 +216,15 @@ describe('column virtualization', () => {
     expect(parseInt(padding!.style.width)).toBeGreaterThan(1000);
   });
 
-  it('renders other columns after scrolling', () => {
-    const viewport = fakeViewport(500, 400);
-    const root = render({
+  it('renders other columns after scrolling', async () => {
+    const viewport = fakeViewport(500, 400, 100);
+    const root = await render({
       columnVirtualizerOptions: viewport.options as any,
       columns: wideColumns,
       data: [wideRow(0)],
       enableColumnVirtualization: true,
     });
-    viewport.scrollTo(2000);
+    await viewport.scrollTo(2000);
     const text = root.querySelector('thead')!.textContent!;
     expect(text).not.toContain('Col 0 ');
     expect(text).toContain('Col 20');
@@ -224,11 +234,11 @@ describe('column virtualization', () => {
     expect(parseInt(first.style.width)).toBeGreaterThan(1000);
   });
 
-  it('exposes the virtualizer through a ref', () => {
+  it('exposes the virtualizer through a ref', async () => {
     const ref: { current: any } = { current: null };
-    render({
+    await render({
       columnVirtualizerInstanceRef: ref,
-      columnVirtualizerOptions: fakeViewport(500, 400).options as any,
+      columnVirtualizerOptions: fakeViewport(500, 400, 100).options as any,
       columns: wideColumns,
       data: [wideRow(0)],
       enableColumnVirtualization: true,
@@ -236,17 +246,17 @@ describe('column virtualization', () => {
     expect(ref.current.virtualColumns.length).toBeGreaterThan(0);
   });
 
-  it('keeps pinned columns rendered while scrolling', () => {
-    const viewport = fakeViewport(500, 400);
-    const root = render({
+  it('keeps pinned columns rendered while scrolling', async () => {
+    const viewport = fakeViewport(500, 400, 100);
+    const root = await render({
       columnVirtualizerOptions: viewport.options as any,
       columns: wideColumns,
       data: [wideRow(0)],
       enableColumnPinning: true,
       enableColumnVirtualization: true,
-      initialState: { columnPinning: { start: ['c0'] } } as any,
+      initialState: { columnPinning: { end: [], start: ['c0'] } } as any,
     });
-    viewport.scrollTo(2000);
+    await viewport.scrollTo(2000);
     const text = root.querySelector('thead')!.textContent!;
     expect(text).toContain('Col 0');
     expect(text).toContain('Col 20');
@@ -254,8 +264,8 @@ describe('column virtualization', () => {
 });
 
 describe('without virtualization', () => {
-  it('renders everything', () => {
-    const root = render({ columns: rowColumns, data: rows(60), enablePagination: false });
+  it('renders everything', async () => {
+    const root = await render({ columns: rowColumns, data: rows(60), enablePagination: false });
     expect(bodyRows(root)).toHaveLength(60);
   });
 });

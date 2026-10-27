@@ -20,10 +20,11 @@
   } & HTMLAttributes<HTMLTableRowElement> = $props();
 
   const columnVirtualizer = useColumnVirtualizer();
-  const virtualizer = $derived(columnVirtualizer?.instance);
+  // not a $derived: the instance is the same object, so a derived would never update
+  const virt = () => columnVirtualizer?.instance;
   const items = $derived(
-    virtualizer
-      ? virtualizer.virtualColumns
+    virt()
+      ? virt()!.virtualColumns
           .map((v) => ({ footer: footerGroup.headers[v.index], index: v.index }))
           .filter((item) => item.footer)
       : footerGroup.headers.map((footer, index) => ({ footer, index })),
@@ -62,14 +63,14 @@
       rowProps.style,
     )}
   >
-    {#if virtualizer?.virtualPaddingLeft}
-      <th style="display: flex; width: {virtualizer.virtualPaddingLeft}px"></th>
+    {#if virt()?.virtualPaddingLeft}
+      <th style="display: flex; width: {virt()!.virtualPaddingLeft}px"></th>
     {/if}
     {#each items as { footer, index } (footer.id)}
       <MRT_TableFooterCell {footer} staticColumnIndex={index} {table} />
     {/each}
-    {#if virtualizer?.virtualPaddingRight}
-      <th style="display: flex; width: {virtualizer.virtualPaddingRight}px"></th>
+    {#if virt()?.virtualPaddingRight}
+      <th style="display: flex; width: {virt()!.virtualPaddingRight}px"></th>
     {/if}
   </tr>
 {/if}

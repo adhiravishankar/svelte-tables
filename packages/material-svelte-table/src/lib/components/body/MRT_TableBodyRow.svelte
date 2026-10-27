@@ -42,11 +42,12 @@
   });
 
   const columnVirtualizer = useColumnVirtualizer();
-  const virtualizer = $derived(columnVirtualizer?.instance);
+  // not a $derived: the instance is the same object, so a derived would never update
+  const virt = () => columnVirtualizer?.instance;
   const visibleCells = $derived(row.getVisibleCells());
   const cellItems = $derived(
-    virtualizer
-      ? virtualizer.virtualColumns
+    virt()
+      ? virt()!.virtualColumns
           .map((v) => ({ cell: visibleCells[v.index], index: v.index }))
           .filter((item) => item.cell)
       : visibleCells.map((cell, index) => ({ cell, index })),
@@ -151,14 +152,14 @@
     rowProps.style,
   )}
 >
-  {#if virtualizer?.virtualPaddingLeft}
-    <td style="display: flex; width: {virtualizer.virtualPaddingLeft}px"></td>
+  {#if virt()?.virtualPaddingLeft}
+    <td style="display: flex; width: {virt()!.virtualPaddingLeft}px"></td>
   {/if}
   {#each cellItems as { cell, index } (cell.id)}
     <MRT_TableBodyCell {cell} staticColumnIndex={index} {staticRowIndex} {table} />
   {/each}
-  {#if virtualizer?.virtualPaddingRight}
-    <td style="display: flex; width: {virtualizer.virtualPaddingRight}px"></td>
+  {#if virt()?.virtualPaddingRight}
+    <td style="display: flex; width: {virt()!.virtualPaddingRight}px"></td>
   {/if}
 </tr>
 {#if table.options.detailPanel && !row.getIsGrouped()}

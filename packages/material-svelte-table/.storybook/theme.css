@@ -1,0 +1,30 @@
+/* Material theme variables for the stories. Switch with the toolbar theme picker. */
+:root,
+[data-theme='light'] {
+  --mdc-theme-primary: #1976d2;
+  --mdc-theme-secondary: #9c27b0;
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #000000;
+  --mdc-theme-on-primary: #ffffff;
+  --mdc-theme-background: #fafafa;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --mdc-theme-primary: #90caf9;
+  --mdc-theme-secondary: #ce93d8;
+  --mdc-theme-surface: #1e1e1e;
+  --mdc-theme-on-surface: #ffffff;
+  --mdc-theme-on-primary: #000000;
+  --mdc-theme-background: #121212;
+  color-scheme: dark;
+}
+
+html,
+body,
+.sb-show-main,
+.docs-story {
+  background-color: var(--mdc-theme-background);
+  color: var(--mdc-theme-on-surface);
+  font-family: Roboto, system-ui, sans-serif;
+}
