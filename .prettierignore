@@ -1,7 +1,0 @@
-dist
-storybook-static
-node_modules
-types
-*.json
-.astro
-*.md

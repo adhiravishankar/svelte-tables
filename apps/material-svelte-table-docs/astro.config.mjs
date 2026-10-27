@@ -22,11 +22,11 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       editLink: {
         baseUrl:
-          'https://github.com/KevinVandy/material-react-table/edit/v3/apps/material-svelte-table-docs/',
+          'https://github.com/adhiravishankar/material-svelte-table/edit/main/apps/material-svelte-table-docs/',
       },
       social: [
         {
-          href: 'https://github.com/KevinVandy/material-react-table',
+          href: 'https://github.com/adhiravishankar/material-svelte-table',
           icon: 'github',
           label: 'GitHub',
         },

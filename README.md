@@ -130,15 +130,15 @@ Customization uses snippets where Material React Table used `renderX` options, f
 
 ## Run it locally
 
-This repository uses pnpm and Turborepo.
+This repository uses npm workspaces and Turborepo.
 
 ```bash
-pnpm i
-pnpm docs:dev        # documentation site on :3000 (uses the library source directly)
-pnpm storybook       # Storybook on :6006
-pnpm test            # unit and component tests
-pnpm check           # svelte-check and astro check
-pnpm build           # build the library, then the docs
+npm install
+npm run docs:dev        # documentation site on :3000 (uses the library source directly)
+npm run storybook       # Storybook on :6006
+npm run test            # unit and component tests
+npm run check           # svelte-check and astro check
+npm run build         # build the library, then the docs
 ```
 
 ## Contributing

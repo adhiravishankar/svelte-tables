@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/README.md"
+  ],
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  "quoteProps": "consistent",
+  "semi": true,
+  "singleQuote": true,
+  "sortImports": true
+}

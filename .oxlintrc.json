@@ -1,0 +1,14 @@
+{
+  "plugins": ["import", "typescript", "unicorn", "react", "oxc", "react-perf", "eslint"],
+  "env": { "browser": true },
+  "ignorePatterns": ["**/*.astro"],
+  "globals": {},
+  "settings": {},
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.spec.ts", "routeTree.gen.ts"],
+      "rules": {}
+    }
+  ]
+}

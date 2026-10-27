@@ -6,17 +6,17 @@ hydrated in the browser (`client:load`).
 
 ## Commands
 
-Run from this folder (or with `pnpm --filter material-svelte-table-docs …`):
+Run from this folder (or with `npm run <script> -w material-svelte-table-docs`):
 
 | Command          | What it does                                                                 |
 | ---------------- | ---------------------------------------------------------------------------- |
-| `pnpm dev`       | Dev server on :3000. Uses the library's **source**, so edits show immediately |
-| `pnpm build`     | Production build into `dist/`. Uses the **built** package, like a consumer   |
-| `pnpm preview`   | Serves `dist/` on :4000                                                      |
-| `pnpm check`     | Type-checks the `.astro` pages and the Svelte examples                       |
+| `npm run dev`       | Dev server on :3000. Uses the library's **source**, so edits show immediately |
+| `npm run build`     | Production build into `dist/`. Uses the **built** package, like a consumer   |
+| `npm run preview`   | Serves `dist/` on :4000                                                      |
+| `npm run check`     | Type-checks the `.astro` pages and the Svelte examples                       |
 
-`pnpm build` needs the library built first (`pnpm --filter material-svelte-table build`); Turborepo does this for you
-when you run `pnpm build` from the repository root.
+`npm run build` needs the library built first (`npm run build -w material-svelte-table`); Turborepo does this for you
+when you run `npm run build` from the repository root.
 
 Set `SITE_URL` when deploying to enable the sitemap and canonical URLs.
 
@@ -66,5 +66,3 @@ automatically before `dev` and `build`. To improve a description, edit the JSDoc
 
 - `client:load` islands are server-rendered first. A virtualized table has no rows in the server HTML (there is no
   scroll container to measure) and fills in when it hydrates.
-- This app replaces `apps/material-react-table-docs`, the Next.js site for the React version, which is still in the
-  repository until the React package is removed.
