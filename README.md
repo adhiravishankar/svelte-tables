@@ -130,7 +130,7 @@ Customization uses snippets where Material React Table used `renderX` options, f
 
 ## Run it locally
 
-This repository uses npm workspaces and Turborepo.
+This repository uses npm workspaces and Vite+.
 
 ```bash
 npm install

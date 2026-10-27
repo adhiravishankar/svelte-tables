@@ -15,7 +15,7 @@ Run from this folder (or with `npm run <script> -w material-svelte-table-docs`):
 | `npm run preview`   | Serves `dist/` on :4000                                                      |
 | `npm run check`     | Type-checks the `.astro` pages and the Svelte examples                       |
 
-`npm run build` needs the library built first (`npm run build -w material-svelte-table`); Turborepo does this for you
+`npm run build` needs the library built first (`npm run build -w material-svelte-table`); Vite+ does this for you
 when you run `npm run build` from the repository root.
 
 Set `SITE_URL` when deploying to enable the sitemap and canonical URLs.

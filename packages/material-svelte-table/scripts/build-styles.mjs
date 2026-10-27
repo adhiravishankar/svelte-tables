@@ -9,6 +9,15 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
+// pnpm keeps dependencies next to the package, npm hoists them to the workspace root.
+function findInNodeModules(path) {
+  for (let dir = root; dir !== dirname(dir); dir = dirname(dir)) {
+    const file = join(dir, 'node_modules', path);
+    if (existsSync(file)) return file;
+  }
+  return join(root, 'node_modules', path);
+}
+
 const packages = [
   'button',
   'checkbox',
@@ -41,7 +50,7 @@ const header = `/*
 const seen = new Set();
 const parts = [header];
 for (const name of packages) {
-  const file = join(root, 'node_modules/@smui', name, 'bare.css');
+  const file = findInNodeModules(join('@smui', name, 'bare.css'));
   if (!existsSync(file)) throw new Error(`@smui/${name} has no bare.css`);
   const css = readFileSync(file, 'utf8').trim();
   if (seen.has(css)) continue;

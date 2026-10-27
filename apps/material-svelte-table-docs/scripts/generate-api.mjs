@@ -7,7 +7,9 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
+// TypeScript 7 has no stable JS compiler API, so the script uses a pinned 5.x copy.
+// (Alias of typescript@5.7.2, see devDependencies.)
+import ts from 'typescript-api';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const lib = join(root, '../../packages/material-svelte-table/src/lib');

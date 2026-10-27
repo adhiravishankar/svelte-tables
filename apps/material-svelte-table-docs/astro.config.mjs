@@ -47,6 +47,10 @@ export default defineConfig({
     }),
   ],
   vite: {
+    // SMUI ships ESM with extensionless relative imports, which Node cannot
+    // resolve, so Vite has to bundle it (and the library that imports it)
+    // for the server render.
+    ssr: { noExternal: [/^@smui\//, 'material-svelte-table'] },
     resolve: useLibrarySource
       ? {
           alias: [

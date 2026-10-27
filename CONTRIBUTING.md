@@ -10,7 +10,7 @@ Before making large PRs, please discuss your proposal on the [GitHub Issues](htt
 
 ## Running the project locally
 
-This project uses npm workspaces and a Turborepo with 2 projects:
+This project uses npm workspaces and Vite+ (`vp run`) with 2 projects:
 
 - The library in `/packages/material-svelte-table`, which also contains the Storybook site used for local development
 - The docs site in `/apps/material-svelte-table-docs` (Astro + Starlight, with Svelte islands for the live examples)
