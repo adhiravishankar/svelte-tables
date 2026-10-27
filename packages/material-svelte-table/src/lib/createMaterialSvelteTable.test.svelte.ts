@@ -147,4 +147,23 @@ describe('createMaterialSvelteTable', () => {
     );
     expect(table.getRowModel().rows.length).toBeGreaterThan(0);
   });
+
+  it('paginates once data arrives after an empty first render', () => {
+    let data = $state<Person[]>([]);
+    const rows = Array.from({ length: 25 }, (_, i) => ({ age: i, name: `P${i}` }));
+    const table = withRoot(() =>
+      createMaterialSvelteTable({
+        columns,
+        get data() {
+          return data;
+        },
+        initialState: { pagination: { pageIndex: 0, pageSize: 10 } },
+      }),
+    );
+    expect(table.options.manualPagination).toBe(true);
+    data = rows;
+    flushSync();
+    expect(table.options.manualPagination).toBe(false);
+    expect(table.getRowModel().rows).toHaveLength(10);
+  });
 });

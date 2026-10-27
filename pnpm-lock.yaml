@@ -159,6 +159,9 @@ importers:
       '@faker-js/faker':
         specifier: ^9.3.0
         version: 9.3.0
+      '@smui/button':
+        specifier: ^9.0.6
+        version: 9.0.6
       astro:
         specifier: ^7.4.2
         version: 7.4.2(@types/node@24.19.2)(jiti@2.4.1)(terser@5.37.0)(yaml@2.9.1)
@@ -171,6 +174,10 @@ importers:
       typescript:
         specifier: 5.7.2
         version: 5.7.2
+    devDependencies:
+      svelte-check:
+        specifier: ^4.1.4
+        version: 4.7.7(picomatch@4.0.7)(svelte@5.57.3(@typescript-eslint/types@8.18.1))(typescript@5.7.2)
 
   packages/material-react-table:
     dependencies:

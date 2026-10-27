@@ -1,6 +1,6 @@
 ---
-title: Editing (CRUD)
-description: Create, edit and delete rows in a dialog, with validation.
+title: "Editing (CRUD)"
+description: "Create, edit and delete rows in a dialog, with validation."
 sidebar:
   order: 3
 ---
@@ -12,6 +12,9 @@ import EditingCrud from '../../../examples/EditingCrud.svelte';
 Create, edit and delete users. Edits go through a dialog, validated in the save handler: returning without calling
 `exitEditingMode()` keeps it open. In a real app, replace the local `data` updates with requests.
 See the [Editing guide](/guides/editing/).
+
+The Create button comes from Svelte Material UI. To use it in your own app, install it too:
+`npm install @smui/button`.
 
 <Example>
   <EditingCrud client:load />

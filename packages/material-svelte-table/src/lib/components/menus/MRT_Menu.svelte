@@ -30,6 +30,7 @@
 {#if anchorEl}
   <Menu
     {open}
+    fixed
     anchorElement={anchorEl}
     anchorCorner="BOTTOM_START"
     onSMUIMenuSurfaceClosed={onclose}

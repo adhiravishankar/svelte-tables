@@ -119,10 +119,12 @@ export const defineTableOptions = <TData extends MRT_RowData>(
     resolvedLayoutMode = 'grid';
   }
 
-  let resolvedManualFiltering = manualFiltering;
-  let resolvedManualGrouping = manualGrouping;
-  let resolvedManualPagination = manualPagination;
-  let resolvedManualSorting = manualSorting;
+  // explicit `false` rather than `undefined`: the adapter merges options and
+  // ignores `undefined`, so a `true` from an empty table would otherwise stick
+  let resolvedManualFiltering = manualFiltering ?? false;
+  let resolvedManualGrouping = manualGrouping ?? false;
+  let resolvedManualPagination = manualPagination ?? false;
+  let resolvedManualSorting = manualSorting ?? false;
   if (enablePagination === false && manualPagination === undefined) {
     resolvedManualPagination = true;
   }

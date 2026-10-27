@@ -111,6 +111,7 @@
   <MenuSurface
     anchorCorner="TOP_START"
     anchorElement={anchorEl}
+    fixed
     onclick={(e: MouseEvent) => e.stopPropagation()}
     onkeydown={(e: KeyboardEvent) => e.key === 'Enter' && (anchorEl = null)}
     onSMUIMenuSurfaceClosed={() => (anchorEl = null)}

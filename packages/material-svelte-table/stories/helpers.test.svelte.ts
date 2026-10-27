@@ -1,7 +1,10 @@
 import { flushSync, mount, unmount } from 'svelte';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { employeeColumns, employees, people, personColumns } from './data';
 import AsyncEditing from './features/AsyncEditing.svelte';
+import AsyncOptions from './features/AsyncOptions.svelte';
+import ColumnOrderingCustom from './features/ColumnOrderingCustom.svelte';
+import GroupingSetState from './features/GroupingSetState.svelte';
 import ColumnOrderingStateManaged from './features/ColumnOrderingStateManaged.svelte';
 import ControlledFullScreen from './features/ControlledFullScreen.svelte';
 import CreatingRows from './features/CreatingRows.svelte';
@@ -187,5 +190,46 @@ describe('story helpers', () => {
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
     expect(root.querySelector('[role="progressbar"]')).not.toBeNull();
+  });
+
+  it('Async Options: every mode loads its rows after the delay', () => {
+    vi.useFakeTimers();
+    try {
+      for (const mode of [
+        'delayedFacets',
+        'editOptions',
+        'filterModes',
+        'filterOptions',
+        'outOfBounds',
+        'rowActionMenu',
+        'rowActions',
+      ]) {
+        const root = render(AsyncOptions, { mode });
+        expect(root.querySelector('.mrt-skeleton'), mode).not.toBeNull();
+        vi.advanceTimersByTime(900);
+        flushSync();
+        // 'outOfBounds' starts on page 2 of 12 rows (10 per page) -> 2 rows
+        expect(root.querySelector('.mrt-skeleton'), mode).toBeNull();
+        expect(rowCount(root), mode).toBe(mode === 'outOfBounds' ? 2 : 10);
+        unmount(app!);
+        app = undefined;
+        target.remove();
+      }
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('Column Ordering Custom shows the managed order', () => {
+    const root = render(ColumnOrderingCustom);
+    expect(root.querySelector('code')!.textContent).toContain('firstName → lastName');
+  });
+
+  it('Grouping Set State groups from the buttons', () => {
+    const root = render(GroupingSetState);
+    const before = root.querySelector('tbody')!.textContent;
+    root.querySelector<HTMLButtonElement>('p button')!.click();
+    flushSync();
+    expect(root.querySelector('tbody')!.textContent).not.toBe(before);
   });
 });

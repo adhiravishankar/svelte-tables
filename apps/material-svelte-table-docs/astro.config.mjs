@@ -11,6 +11,8 @@ const lib = (path) =>
   fileURLToPath(new URL(`../../packages/material-svelte-table/${path}`, import.meta.url));
 
 export default defineConfig({
+  // Set SITE_URL when deploying; it enables the sitemap and canonical URLs.
+  site: process.env.SITE_URL,
   integrations: [
     svelte(),
     starlight({
@@ -38,9 +40,9 @@ export default defineConfig({
             { slug: 'getting-started/migrating-from-react' },
           ],
         },
-        { autogenerate: { directory: 'guides' }, label: 'Guides' },
-        { autogenerate: { directory: 'examples' }, label: 'Examples' },
-        { autogenerate: { directory: 'api' }, label: 'API Reference' },
+        { items: [{ autogenerate: { directory: 'guides' } }], label: 'Guides' },
+        { items: [{ autogenerate: { directory: 'examples' } }], label: 'Examples' },
+        { items: [{ autogenerate: { directory: 'api' } }], label: 'API Reference' },
       ],
     }),
   ],

@@ -14,7 +14,8 @@
   let validationErrors = $state<Record<string, string>>({});
 
   const columns: MRT_ColumnDef<Person>[] = [
-    { accessorKey: 'id', enableEditing: false, header: 'Id', size: 80 },
+    // the first 8 characters of the UUID keep the column narrow
+    { accessorFn: (row) => row.id.slice(0, 8), enableEditing: false, header: 'Id', id: 'id', size: 110 },
     { accessorKey: 'firstName', header: 'First Name' },
     { accessorKey: 'lastName', header: 'Last Name' },
     { accessorKey: 'email', header: 'Email' },
