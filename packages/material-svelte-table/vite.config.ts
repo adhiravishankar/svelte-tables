@@ -4,5 +4,9 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [svelte()],
   resolve: process.env.VITEST ? { conditions: ['browser'] } : undefined,
-  test: { environment: 'jsdom', include: ['src/**/*.test.{ts,svelte.ts}'] },
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.test.{ts,svelte.ts}'],
+    server: { deps: { inline: [/@smui/, /@material/] } },
+  },
 });

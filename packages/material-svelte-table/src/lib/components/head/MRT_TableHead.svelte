@@ -2,7 +2,9 @@
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
+  import { attachRef } from '../../utils/refs';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_ToolbarAlertBanner from '../toolbar/MRT_ToolbarAlertBanner.svelte';
   import MRT_TableHeadRow from './MRT_TableHeadRow.svelte';
 
   let {
@@ -29,7 +31,7 @@
 
 <thead
   {...headProps}
-  bind:this={table.refs.tableHeadRef.current}
+  {@attach attachRef(table.refs.tableHeadRef)}
   class={['mrt-head', headProps.class]}
   style={mergeStyles(
     {
@@ -48,13 +50,7 @@
         colspan={table.getVisibleLeafColumns().length}
         style={mergeStyles({ display: grid ? 'grid' : undefined, padding: 0 })}
       >
-        {#if table.options.toolbarAlertBannerContent}
-          {@render table.options.toolbarAlertBannerContent({
-            groupedAlert: null,
-            selectedAlert: null,
-            table,
-          })}
-        {/if}
+        <MRT_ToolbarAlertBanner {table} />
       </th>
     </tr>
   {:else}

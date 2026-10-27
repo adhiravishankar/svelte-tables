@@ -154,16 +154,11 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
       hoveredColumn: initialState.hoveredColumn ?? null,
       hoveredRow: initialState.hoveredRow ?? null,
       isFullScreen: initialState.isFullScreen ?? false,
-      isLoading: false,
-      isSaving: false,
       showAlertBanner: initialState.showAlertBanner ?? false,
       showColumnFilters: initialState.showColumnFilters ?? false,
       showGlobalFilter: initialState.showGlobalFilter ?? false,
-      showLoadingOverlay: false,
-      showProgressBars: false,
-      showSkeletons: false,
       showToolbarDropZone: initialState.showToolbarDropZone ?? false,
-    } as Pick<MRT_TableState<TData>, MRT_StateKey>;
+    } as Pick<MRT_TableState<TData>, MRT_StateKey>; // loading flags stay undefined: an explicit false disables them
   });
 
   // Row, column and cell objects must not be deep-proxied, so the record is

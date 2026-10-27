@@ -330,14 +330,14 @@ export interface MRT_TableState<TData extends MRT_RowData>
   hoveredColumn: Partial<MRT_Column<TData>> | null;
   hoveredRow: Partial<MRT_Row<TData>> | null;
   isFullScreen: boolean;
-  isLoading: boolean;
-  isSaving: boolean;
+  isLoading?: boolean;
+  isSaving?: boolean;
   showAlertBanner: boolean;
   showColumnFilters: boolean;
   showGlobalFilter: boolean;
-  showLoadingOverlay: boolean;
-  showProgressBars: boolean;
-  showSkeletons: boolean;
+  showLoadingOverlay?: boolean;
+  showProgressBars?: boolean;
+  showSkeletons?: boolean;
   showToolbarDropZone: boolean;
 }
 

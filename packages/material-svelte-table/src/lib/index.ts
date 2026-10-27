@@ -20,3 +20,15 @@ export { default as MRT_TableFooter } from './components/footer/MRT_TableFooter.
 export { default as MRT_TableFooterRow } from './components/footer/MRT_TableFooterRow.svelte';
 export { default as MRT_TableFooterCell } from './components/footer/MRT_TableFooterCell.svelte';
 export { MRT_Default_Icons } from './icons';
+export { default as MRT_TopToolbar } from './components/toolbar/MRT_TopToolbar.svelte';
+export { default as MRT_BottomToolbar } from './components/toolbar/MRT_BottomToolbar.svelte';
+export { default as MRT_TablePagination } from './components/toolbar/MRT_TablePagination.svelte';
+export { default as MRT_ToolbarAlertBanner } from './components/toolbar/MRT_ToolbarAlertBanner.svelte';
+export { default as MRT_ToolbarInternalButtons } from './components/toolbar/MRT_ToolbarInternalButtons.svelte';
+export { default as MRT_LinearProgressBar } from './components/toolbar/MRT_LinearProgressBar.svelte';
+export { default as MRT_GlobalFilterTextField } from './components/inputs/MRT_GlobalFilterTextField.svelte';
+export { default as MRT_IconButton } from './components/buttons/MRT_IconButton.svelte';
+export { default as MRT_ToggleDensePaddingButton } from './components/buttons/MRT_ToggleDensePaddingButton.svelte';
+export { default as MRT_ToggleFullScreenButton } from './components/buttons/MRT_ToggleFullScreenButton.svelte';
+export { default as MRT_ToggleFiltersButton } from './components/buttons/MRT_ToggleFiltersButton.svelte';
+export { default as MRT_ToggleGlobalFilterButton } from './components/buttons/MRT_ToggleGlobalFilterButton.svelte';

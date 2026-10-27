@@ -2,6 +2,7 @@
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
+  import { attachRef } from '../../utils/refs';
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_TableFooterRow from './MRT_TableFooterRow.svelte';
 
@@ -39,7 +40,7 @@
 {#if hasFooterContent}
   <tfoot
     {...footerProps}
-    bind:this={table.refs.tableFooterRef.current}
+    {@attach attachRef(table.refs.tableFooterRef)}
     class={['mrt-footer', stickFooter && 'mrt-footer-sticky', footerProps.class]}
     style={mergeStyles(
       {

@@ -21,3 +21,17 @@ export const getValueAndLabel = (
   }
   return { label, value };
 };
+
+/** Delays `fn` until `wait` ms have passed since the last call. */
+export const debounce = <Args extends unknown[]>(
+  fn: (...args: Args) => void,
+  wait: number,
+) => {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  const debounced = (...args: Args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), wait);
+  };
+  debounced.clear = () => clearTimeout(timeout);
+  return debounced;
+};
