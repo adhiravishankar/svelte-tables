@@ -1,43 +1,43 @@
-import { type Component, type Snippet } from 'svelte';
-import { type HTMLAttributes } from 'svelte/elements';
-import {
-  type AccessorFn,
-  type Cell,
-  type CellData,
-  type Column,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type ColumnOrderState,
-  type ColumnPinningState,
-  type ColumnSizingState,
-  type ColumnVisibilityState,
-  type DeepKeys,
-  type DeepValue,
-  type ExpandedState,
-  type GroupingState,
-  type Header,
-  type HeaderGroup,
-  type OnChangeFn,
-  type PaginationState,
-  type Row,
-  type RowSelectionState,
-  type SortingState,
-  type StockFeatures,
-  type Table,
-  type TableOptions,
-  type TableState,
-  type Updater,
-  type columnResizingState,
+import type { Component, Snippet } from 'svelte';
+import type { HTMLAttributes } from 'svelte/elements';
+import type {
+  AccessorFn,
+  Cell,
+  CellData,
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  ColumnOrderState,
+  ColumnPinningState,
+  ColumnSizingState,
+  ColumnVisibilityState,
+  DeepKeys,
+  DeepValue,
+  ExpandedState,
+  GroupingState,
+  Header,
+  HeaderGroup,
+  OnChangeFn,
+  PaginationState,
+  Row,
+  RowSelectionState,
+  SortingState,
+  StockFeatures,
+  Table,
+  TableOptions,
+  TableState,
+  Updater,
+  columnResizingState,
 } from '@tanstack/svelte-table';
-import {
-  type VirtualItem,
-  type Virtualizer,
-  type VirtualizerOptions,
+import type {
+  VirtualItem,
+  Virtualizer,
+  VirtualizerOptions,
 } from '@tanstack/virtual-core';
-import { type MRT_AggregationFns } from './fns/aggregationFns';
-import { type MRT_FilterFns } from './fns/filterFns';
-import { type MRT_SortFns } from './fns/sortFns';
-import { type MRT_Localization } from './types/localization';
+import type { MRT_AggregationFns } from './fns/aggregationFns';
+import type { MRT_FilterFns } from './fns/filterFns';
+import type { MRT_SortFns } from './fns/sortFns';
+import type { MRT_Localization } from './types/localization';
 
 export type { MRT_Localization };
 
@@ -202,9 +202,51 @@ export interface MRT_RowModel<TData extends MRT_RowData> {
  */
 export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   Table<MRT_Features, TData>,
-  'options'
+  | 'getAllColumns'
+  | 'getAllFlatColumns'
+  | 'getAllLeafColumns'
+  | 'getBottomRows'
+  | 'getCenterLeafColumns'
+  | 'getCenterRows'
+  | 'getColumn'
+  | 'getEndLeafColumns'
+  | 'getExpandedRowModel'
+  | 'getFlatHeaders'
+  | 'getFooterGroups'
+  | 'getHeaderGroups'
+  | 'getLeafHeaders'
+  | 'getPaginatedRowModel'
+  | 'getPreFilteredRowModel'
+  | 'getPrePaginatedRowModel'
+  | 'getRow'
+  | 'getRowModel'
+  | 'getSelectedRowModel'
+  | 'getStartLeafColumns'
+  | 'getTopRows'
+  | 'options'
 > & {
-  options: MRT_StatefulTableOptions<TData>;
+  getAllColumns: () => MRT_Column<TData>[];
+  getAllFlatColumns: () => MRT_Column<TData>[];
+  getAllLeafColumns: () => MRT_Column<TData>[];
+  getBottomRows: () => MRT_Row<TData>[];
+  getCenterLeafColumns: () => MRT_Column<TData>[];
+  getCenterRows: () => MRT_Row<TData>[];
+  getColumn: (columnId: string) => MRT_Column<TData>;
+  getEndLeafColumns: () => MRT_Column<TData>[];
+  getExpandedRowModel: () => MRT_RowModel<TData>;
+  getFlatHeaders: () => MRT_Header<TData>[];
+  getFooterGroups: () => MRT_HeaderGroup<TData>[];
+  getHeaderGroups: () => MRT_HeaderGroup<TData>[];
+  getLeafHeaders: () => MRT_Header<TData>[];
+  getPaginatedRowModel: () => MRT_RowModel<TData>;
+  getPreFilteredRowModel: () => MRT_RowModel<TData>;
+  getPrePaginatedRowModel: () => MRT_RowModel<TData>;
+  getRow: (id: string, searchAll?: boolean) => MRT_Row<TData>;
+  getRowModel: () => MRT_RowModel<TData>;
+  getSelectedRowModel: () => MRT_RowModel<TData>;
+  getStartLeafColumns: () => MRT_Column<TData>[];
+  getTopRows: () => MRT_Row<TData>[];
+  options: MRT_DefinedTableOptions<TData>;
   refs: {
     actionCellRef: MRT_Ref<HTMLTableCellElement>;
     bottomToolbarRef: MRT_Ref<HTMLDivElement>;
@@ -276,7 +318,7 @@ export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
 
 export interface MRT_TableState<TData extends MRT_RowData>
   extends TableState<MRT_Features> {
-  actionCell?: MRT_Cell<TData> | null;
+  actionCell: MRT_Cell<TData> | null;
   columnFilterFns: MRT_ColumnFilterFnsState;
   creatingRow: MRT_Row<TData> | null;
   density: MRT_DensityState;
@@ -602,10 +644,26 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     | 'initialState'
     | 'state'
   > {
+  /**
+   * Custom aggregation functions, merged into the built-in ones. In TanStack
+   * Table v9 these are registered once when the table is created and cannot
+   * change afterwards.
+   */
+  aggregationFns?: Record<string, any>;
   columnFilterDisplayMode?: 'custom' | 'popover' | 'subheader';
   columnFilterModeOptions?: Array<
     LiteralUnion<string & MRT_FilterOption>
   > | null;
+  /**
+   * Custom filter functions, merged into the built-in ones. Registered once
+   * when the table is created.
+   */
+  filterFns?: Record<string, any>;
+  /**
+   * Custom sort functions (formerly `sortingFns`), merged into the built-in
+   * ones. Registered once when the table is created.
+   */
+  sortFns?: Record<string, any>;
   /** The columns to display in the table. `accessorKey`s or `accessorFn`s must match keys in `data`. */
   columns: MRT_ColumnDef<TData, any>[];
   columnVirtualizerInstanceRef?: MRT_Ref<MRT_ColumnVirtualizer>;

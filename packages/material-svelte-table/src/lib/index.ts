@@ -3,3 +3,6 @@ export { MRT_Localization_EN } from './locales/en';
 export { MRT_FilterFns } from './fns/filterFns';
 export { MRT_SortFns } from './fns/sortFns';
 export { MRT_AggregationFns } from './fns/aggregationFns';
+export { createMaterialSvelteTable } from './createMaterialSvelteTable.svelte';
+export { createMRTFeatures } from './features';
+export { createMRTColumnHelper } from './utils/tanstack.helpers';
