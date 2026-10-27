@@ -1,0 +1,74 @@
+{
+  "name": "material-svelte-table",
+  "version": "4.0.0-alpha.0",
+  "license": "MIT",
+  "description": "A fully featured Svelte Material UI (SMUI) implementation of TanStack Table V9 for Svelte 5, written from the ground up in TypeScript.",
+  "author": "KevinVandy",
+  "keywords": [
+    "svelte",
+    "svelte5",
+    "svelte-table",
+    "smui",
+    "material-table",
+    "tanstack table",
+    "data table"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinVandy/material-react-table"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "svelte-package -i src/lib -o dist",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint ."
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "dependencies": {
+    "@smui/button": "^9.0.6",
+    "@smui/checkbox": "^9.0.6",
+    "@smui/common": "^9.0.6",
+    "@smui/data-table": "^9.0.6",
+    "@smui/icon-button": "^9.0.6",
+    "@smui/linear-progress": "^9.0.6",
+    "@smui/list": "^9.0.6",
+    "@smui/menu": "^9.0.6",
+    "@smui/select": "^9.0.6",
+    "@smui/textfield": "^9.0.6",
+    "@tanstack/match-sorter-utils": "8.19.4",
+    "@tanstack/svelte-table": "9.3.1",
+    "@tanstack/virtual-core": "3.11.2",
+    "highlight-words": "2.0.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@sveltejs/package": "^2.3.7",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/node": "^22.10.2",
+    "svelte": "^5.19.0",
+    "svelte-check": "^4.1.4",
+    "typescript": "5.7.2",
+    "vite": "^6.0.5"
+  }
+}
