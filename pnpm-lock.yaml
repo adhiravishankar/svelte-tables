@@ -295,6 +295,9 @@ importers:
       '@smui/data-table':
         specifier: ^9.0.6
         version: 9.0.6
+      '@smui/form-field':
+        specifier: ^9.0.6
+        version: 9.0.6
       '@smui/icon-button':
         specifier: ^9.0.6
         version: 9.0.6
@@ -311,6 +314,9 @@ importers:
         specifier: ^9.0.6
         version: 9.0.6
       '@smui/select':
+        specifier: ^9.0.6
+        version: 9.0.6
+      '@smui/switch':
         specifier: ^9.0.6
         version: 9.0.6
       '@smui/textfield':
@@ -1384,6 +1390,9 @@ packages:
   '@smui/floating-label@9.0.6':
     resolution: {integrity: sha512-mTVZaIEKE3psbWnrveLjeOK0e1AHk54f+b4phCuNOojgKHwMwTcrAu5PvkHqxMsZl9DdzPNhxIXUX4pG4vBVjw==}
 
+  '@smui/form-field@9.0.6':
+    resolution: {integrity: sha512-dfVmdDsPBglrqGC+3qKD2GTh3Ef/JTKDeQZFe12IVk7hV21c2daUSdbugjPYjnPYuUNVksmC7CQ1KFovBCYwhg==}
+
   '@smui/icon-button@9.0.6':
     resolution: {integrity: sha512-r6KSosdkBzuRW4NOx0ur+UbQLITX6ZFi4UibrAfQgLTyzd9VTFUf0xDF0oSs/l5DTKRZ976bnJiuwlCkJDXomA==}
 
@@ -1410,6 +1419,9 @@ packages:
 
   '@smui/select@9.0.6':
     resolution: {integrity: sha512-7k3jjZQaJpqsZ7bWAEb/RAwsLh+QatPzoJG5YGUHyJ5dkmimzcMGwDol1EVZVlA/t0i+J5F9fBGYZuddD0yKOg==}
+
+  '@smui/switch@9.0.6':
+    resolution: {integrity: sha512-RfNvEGYoHXR/0lgpKwKOb8Rm2ODvsMknRHRNpj7DEir95VODOdHOVb47pHSkFZYi+tE8IMTdnL4/VdYq2qtDHA==}
 
   '@smui/textfield@9.0.6':
     resolution: {integrity: sha512-gZYeApawj36aA5tfGs5dx2d9Tyh7PcdaOyrEk5TExqYdZYYAJP/HwHtuDNwfJ7XSYAI6QMR+EwBJnMRd4EDlFA==}
@@ -5505,6 +5517,11 @@ snapshots:
     dependencies:
       '@smui/common': 9.0.6
 
+  '@smui/form-field@9.0.6':
+    dependencies:
+      '@smui/common': 9.0.6
+      '@smui/ripple': 9.0.6
+
   '@smui/icon-button@9.0.6':
     dependencies:
       '@smui/common': 9.0.6
@@ -5555,6 +5572,12 @@ snapshots:
       '@smui/notched-outline': 9.0.6
       '@smui/ripple': 9.0.6
       '@smui/touch-target': 9.0.6
+
+  '@smui/switch@9.0.6':
+    dependencies:
+      '@smui/common': 9.0.6
+      '@smui/ripple': 9.0.6
+      safevalues: 1.2.0
 
   '@smui/textfield@9.0.6':
     dependencies:

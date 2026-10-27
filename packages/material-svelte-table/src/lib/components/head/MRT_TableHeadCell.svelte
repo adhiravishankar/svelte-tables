@@ -11,6 +11,7 @@
   } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_DisplayHeader from './MRT_DisplayHeader.svelte';
+  import MRT_TableHeadCellColumnActionsButton from './MRT_TableHeadCellColumnActionsButton.svelte';
   import MRT_TableHeadCellFilterContainer from './MRT_TableHeadCellFilterContainer.svelte';
   import MRT_TableHeadCellFilterLabel from './MRT_TableHeadCellFilterLabel.svelte';
   import MRT_TableHeadCellSortLabel from './MRT_TableHeadCellSortLabel.svelte';
@@ -48,6 +49,10 @@
       column.getIsPinned(),
   );
   const sorted = $derived(column.getIsSorted());
+  const showColumnActions = $derived(
+    (table.options.enableColumnActions || columnDef.enableColumnActions) &&
+      columnDef.enableColumnActions !== false,
+  );
   const align = $derived(columnDefType === 'group' ? 'center' : 'start');
 
   const paddingBottom = $derived(
@@ -147,6 +152,11 @@
           <MRT_TableHeadCellSortLabel {header} {table} />
         {/if}
       </div>
+      {#if columnDefType !== 'group' && showColumnActions}
+        <div class="mrt-head-cell-actions">
+          <MRT_TableHeadCellColumnActionsButton {header} {table} />
+        </div>
+      {/if}
     </div>
   {/if}
   {#if table.options.columnFilterDisplayMode === 'subheader' && column.getCanFilter()}
@@ -175,6 +185,13 @@
   .mrt-head-cell-labels {
     align-items: center;
     display: flex;
+  }
+  .mrt-head-cell-actions {
+    margin-inline-start: auto;
+    white-space: nowrap;
+  }
+  .mrt-head-cell:hover :global(.mrt-icon-button) {
+    opacity: 1;
   }
   .mrt-clickable {
     cursor: pointer;

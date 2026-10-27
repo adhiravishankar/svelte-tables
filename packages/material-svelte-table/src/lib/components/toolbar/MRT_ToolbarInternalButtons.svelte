@@ -1,6 +1,7 @@
 <script lang="ts" generics="TData extends MRT_RowData">
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
+  import MRT_ShowHideColumnsButton from '../buttons/MRT_ShowHideColumnsButton.svelte';
   import MRT_ToggleDensePaddingButton from '../buttons/MRT_ToggleDensePaddingButton.svelte';
   import MRT_ToggleFiltersButton from '../buttons/MRT_ToggleFiltersButton.svelte';
   import MRT_ToggleFullScreenButton from '../buttons/MRT_ToggleFullScreenButton.svelte';
@@ -24,6 +25,9 @@
     {/if}
     {#if o.enableFilters && o.enableColumnFilters && o.columnFilterDisplayMode !== 'popover'}
       <MRT_ToggleFiltersButton {table} />
+    {/if}
+    {#if o.enableHiding || o.enableColumnOrdering || o.enableColumnPinning}
+      <MRT_ShowHideColumnsButton {table} />
     {/if}
     {#if o.enableDensityToggle}
       <MRT_ToggleDensePaddingButton {table} />

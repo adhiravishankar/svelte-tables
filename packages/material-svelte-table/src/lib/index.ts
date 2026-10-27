@@ -50,3 +50,10 @@ export { default as MRT_FilterOptionMenu } from './components/menus/MRT_FilterOp
 export { default as MRT_TableHeadCellFilterContainer } from './components/head/MRT_TableHeadCellFilterContainer.svelte';
 export { default as MRT_TableHeadCellFilterLabel } from './components/head/MRT_TableHeadCellFilterLabel.svelte';
 export { mrtFilterOptions } from './utils/filterOptions';
+export { default as MRT_ColumnActionMenu } from './components/menus/MRT_ColumnActionMenu.svelte';
+export { default as MRT_ShowHideColumnsMenu } from './components/menus/MRT_ShowHideColumnsMenu.svelte';
+export { default as MRT_ShowHideColumnsMenuItems } from './components/menus/MRT_ShowHideColumnsMenuItems.svelte';
+export { default as MRT_ShowHideColumnsButton } from './components/buttons/MRT_ShowHideColumnsButton.svelte';
+export { default as MRT_ColumnPinningButtons } from './components/buttons/MRT_ColumnPinningButtons.svelte';
+export { default as MRT_GrabHandleButton } from './components/buttons/MRT_GrabHandleButton.svelte';
+export { default as MRT_TableHeadCellColumnActionsButton } from './components/head/MRT_TableHeadCellColumnActionsButton.svelte';
