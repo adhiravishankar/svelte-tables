@@ -1,0 +1,94 @@
+---
+title: Editing and Creating
+description: Edit cells, rows or the whole table, and create rows, in a dialog or inline.
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import EditingCrud from '../../../examples/EditingCrud.svelte';
+
+<Example>
+  <EditingCrud client:load />
+</Example>
+
+<ExampleSource name="EditingCrud" />
+
+## Edit modes
+
+`enableEditing` turns editing on (a function lets you decide per row). `editDisplayMode` picks how:
+
+| Mode      | What happens                                                              |
+| --------- | ------------------------------------------------------------------------- |
+| `modal`   | A dialog with a field per column (default)                                 |
+| `row`     | The row's cells become inputs, with save and cancel buttons               |
+| `cell`    | Double-click a cell. It saves when the input loses focus or on Enter      |
+| `table`   | Every cell is an input all the time                                       |
+| `custom`  | You build the UI                                                          |
+
+Disable a column with `enableEditing: false`, make it a dropdown with `editVariant: 'select'` and
+`editSelectOptions`, or replace its input with an `Edit` snippet.
+
+## Saving
+
+The table never changes your data. When the user saves, `onEditingRowSave` receives the typed `values`. Write them
+back, then call `exitEditingMode()`:
+
+```ts
+onEditingRowSave: ({ exitEditingMode, row, values }) => {
+  data = data.map((person) => (person.id === row.id ? { ...person, ...values } : person));
+  exitEditingMode();
+},
+```
+
+Keep the dialog open by returning without calling `exitEditingMode()` (for example after a validation error). Make
+this async to wait for a request, and pass `isSaving` in `state` to show a spinner on the save button.
+`onEditingRowCancel` runs when the user cancels.
+
+In `cell` mode there is no save button. Use `editTextFieldProps` with an `input$onblur` handler to save a single
+cell.
+
+## Creating rows
+
+Create a table instance, and call `table.setCreatingRow(true)` from a button:
+
+```svelte
+<script lang="ts">
+  const table = createMaterialSvelteTable({
+    columns,
+    get data() { return data },
+    createDisplayMode: 'modal', // or 'row'
+    enableEditing: true,
+    onCreatingRowSave: ({ exitCreatingMode, values }) => {
+      data = [values as Person, ...data];
+      exitCreatingMode();
+    },
+    topToolbarCustomActions: createButton,
+  });
+</script>
+
+{#snippet createButton()}
+  <button onclick={() => table.setCreatingRow(true)}>Create new user</button>
+{/snippet}
+
+<MaterialSvelteTable {table} />
+```
+
+With `createDisplayMode: 'row'` the new row is inserted inline. Use `positionCreatingRow` (`'top'`, `'bottom'` or an
+index) to choose where.
+
+## Customizing the dialog
+
+`editRowDialogContent` and `createRowDialogContent` replace the dialog's body. They receive `internalEditCells`, the
+cells being edited:
+
+```svelte
+{#snippet editRowDialogContent({ internalEditCells, row, table })}
+  <h2>Edit {row.original.firstName}</h2>
+  {#each internalEditCells as cell (cell.id)}
+    <MRT_EditCellTextField {cell} {table} />
+  {/each}
+  <MRT_EditActionButtons {row} {table} variant="text" />
+{/snippet}
+```
+
+Customize the dialog itself with `editRowDialogProps` and `createRowDialogProps`.

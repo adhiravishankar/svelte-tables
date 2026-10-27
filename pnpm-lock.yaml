@@ -292,9 +292,6 @@ importers:
       '@smui/common':
         specifier: ^9.0.6
         version: 9.0.6
-      '@smui/data-table':
-        specifier: ^9.0.6
-        version: 9.0.6
       '@smui/dialog':
         specifier: ^9.0.6
         version: 9.0.6
@@ -314,9 +311,6 @@ importers:
         specifier: ^9.0.6
         version: 9.0.6
       '@smui/menu-surface':
-        specifier: ^9.0.6
-        version: 9.0.6
-      '@smui/select':
         specifier: ^9.0.6
         version: 9.0.6
       '@smui/switch':
@@ -1650,9 +1644,6 @@ packages:
   '@smui/common@9.0.6':
     resolution: {integrity: sha512-wWQ+4ixA0PjlHGlF9rTD8UKOxbyZlMGz0IKIwDqgo2189v9LOJFIHoqXfZO8b0YXcK0pO82M85xsvcUXkTcv1g==}
 
-  '@smui/data-table@9.0.6':
-    resolution: {integrity: sha512-kUwWGUQm9gsVE+1DvYkvpPrmN6JfR5Pp1DIM9cSCi/7jFTY7HAd2qTuLod8iNMhMxObqESOdfboausM/1XFNGQ==}
-
   '@smui/dialog@9.0.6':
     resolution: {integrity: sha512-MokL/uGGarO841KEDPA6HhvXpQfMCZFDIyNdaBn7zR1kn4uLp7T5T/hUTerZ7LmBk2Pj8D3n3pfTPc53omKzLw==}
 
@@ -1685,9 +1676,6 @@ packages:
 
   '@smui/ripple@9.0.6':
     resolution: {integrity: sha512-ju3IDWJAor0Lp9N1RPnVS5yStBzuPPEvsEZSlHHWpP4oQkP0xa+pByqKeX+7+Kb1YCzTGYuTcIihDvmavuYLCw==}
-
-  '@smui/select@9.0.6':
-    resolution: {integrity: sha512-7k3jjZQaJpqsZ7bWAEb/RAwsLh+QatPzoJG5YGUHyJ5dkmimzcMGwDol1EVZVlA/t0i+J5F9fBGYZuddD0yKOg==}
 
   '@smui/switch@9.0.6':
     resolution: {integrity: sha512-RfNvEGYoHXR/0lgpKwKOb8Rm2ODvsMknRHRNpj7DEir95VODOdHOVb47pHSkFZYi+tE8IMTdnL4/VdYq2qtDHA==}
@@ -6216,18 +6204,6 @@ snapshots:
     dependencies:
       safevalues: 1.2.0
 
-  '@smui/data-table@9.0.6':
-    dependencies:
-      '@smui/checkbox': 9.0.6
-      '@smui/common': 9.0.6
-      '@smui/icon-button': 9.0.6
-      '@smui/linear-progress': 9.0.6
-      '@smui/list': 9.0.6
-      '@smui/menu': 9.0.6
-      '@smui/ripple': 9.0.6
-      '@smui/select': 9.0.6
-      '@smui/touch-target': 9.0.6
-
   '@smui/dialog@9.0.6':
     dependencies:
       '@smui/button': 9.0.6
@@ -6283,18 +6259,6 @@ snapshots:
   '@smui/ripple@9.0.6':
     dependencies:
       '@smui/common': 9.0.6
-
-  '@smui/select@9.0.6':
-    dependencies:
-      '@smui/common': 9.0.6
-      '@smui/floating-label': 9.0.6
-      '@smui/line-ripple': 9.0.6
-      '@smui/list': 9.0.6
-      '@smui/menu': 9.0.6
-      '@smui/menu-surface': 9.0.6
-      '@smui/notched-outline': 9.0.6
-      '@smui/ripple': 9.0.6
-      '@smui/touch-target': 9.0.6
 
   '@smui/switch@9.0.6':
     dependencies:

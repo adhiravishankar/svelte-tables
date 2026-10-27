@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import type { MRT_ColumnDef } from '../src/lib';
 
 // Seeded, so every story (and every reload) shows the same data.
 faker.seed(42);
@@ -19,7 +20,7 @@ export const makePeople = (count = 100): Person[] =>
     address: faker.location.streetAddress(),
     city: faker.location.city(),
     firstName: faker.person.firstName(),
-    gender: faker.person.sex(),
+    gender: faker.person.sex() === 'female' ? 'Female' : 'Male',
     id: faker.string.uuid(),
     lastName: faker.person.lastName(),
     phoneNumber: faker.phone.number(),
@@ -57,8 +58,6 @@ export const makeTree = (): Employee[] =>
 
 export const people = makePeople(100);
 export const employees = makeEmployees(100);
-
-import type { MRT_ColumnDef } from '../src/lib';
 
 export const personColumns: MRT_ColumnDef<Person>[] = [
   { accessorKey: 'firstName', header: 'First Name' },

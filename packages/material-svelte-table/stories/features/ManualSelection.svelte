@@ -18,7 +18,6 @@
     columns: personColumns,
     data: people,
     enableRowSelection: true,
-    getRowId: (row) => row.id,
     onRowSelectionChange: (updater) => {
       rowSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
     },

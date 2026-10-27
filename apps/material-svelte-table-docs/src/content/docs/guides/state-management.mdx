@@ -1,0 +1,89 @@
+---
+title: State Management
+description: Read and control sorting, filters, pagination and the rest of the table state.
+---
+
+import Example from '../../../components/Example.astro';
+
+The table keeps all of its state itself. You only need to take over a slice of it when you want to read it, change it
+from outside, or persist it.
+
+## Reading state
+
+Inside a template, a `$derived` or an `$effect`, read a TanStack slice from `table.atoms`:
+
+```svelte
+<script lang="ts">
+  const table = createMaterialSvelteTable({ columns, data });
+
+  const sorting = $derived(table.atoms.sorting.get());
+  const pageIndex = $derived(table.atoms.pagination.get().pageIndex);
+</script>
+
+<p>Page {pageIndex + 1}, sorted by {sorting.map((s) => s.id).join(', ') || 'nothing'}</p>
+<MaterialSvelteTable {table} />
+```
+
+State that MRT adds (density, full screen, the row being edited, …) is on `table.mrtState`. Both are reactive.
+
+## Controlling state
+
+To own a slice, pass it in `state` as a **getter** and handle its `on…Change` option. The change handler receives
+either a value or an updater function:
+
+```svelte
+<script lang="ts">
+  let sorting = $state<MRT_SortingState>([]);
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    onSortingChange: (updater) => {
+      sorting = typeof updater === 'function' ? updater(sorting) : updater;
+    },
+    state: {
+      get sorting() {
+        return sorting;
+      },
+    },
+  }}
+/>
+```
+
+This works for every state key: `columnFilters`, `globalFilter`, `pagination`, `rowSelection`, `expanded`,
+`grouping`, `columnOrder`, `columnPinning`, `columnVisibility`, `density`, `isFullScreen`, `isLoading`, and more.
+The handler is named `on<Key>Change`, for example `onDensityChange`.
+
+## Initial state
+
+`initialState` sets the starting value without taking control:
+
+```ts
+options={{
+  columns,
+  data,
+  initialState: {
+    density: 'compact',
+    showGlobalFilter: true,
+    sorting: [{ id: 'lastName', desc: false }],
+    pagination: { pageIndex: 0, pageSize: 25 },
+  },
+}}
+```
+
+## Loading flags
+
+`isLoading` shows skeleton rows and an overlay, `showProgressBars` shows only the progress bar, `showSkeletons` only
+the skeletons, and `isSaving` disables the save buttons. These are plain state keys, so pass them as getters.
+
+```ts
+state: {
+  get isLoading() {
+    return isLoading;
+  },
+}
+```
+
+Setting one to an explicit `false` disables that indicator even while `isLoading` is `true`.

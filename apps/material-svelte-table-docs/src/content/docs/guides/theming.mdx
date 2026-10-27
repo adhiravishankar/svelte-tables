@@ -1,0 +1,98 @@
+---
+title: Theming
+description: Style the table with Material theme CSS variables, mrtTheme and plain CSS.
+---
+
+## CSS variables
+
+There is no theme provider. The table, and the Svelte Material UI components inside it, read the standard Material
+theme variables, with fallbacks if you do not define them:
+
+| Variable                | Used for                                         |
+| ----------------------- | ------------------------------------------------ |
+| `--mdc-theme-primary`   | Buttons, focus rings, selected pages, switches   |
+| `--mdc-theme-secondary` | Secondary accents                                |
+| `--mdc-theme-surface`   | The table background                             |
+| `--mdc-theme-on-surface`| Text and dividers                                |
+| `--mdc-theme-on-primary`| Text on primary-colored surfaces                 |
+
+Define them on `:root`, or on any element to theme just the tables inside it:
+
+```css
+:root {
+  --mdc-theme-primary: #1976d2;
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #000000;
+}
+
+[data-theme='dark'] {
+  --mdc-theme-primary: #90caf9;
+  --mdc-theme-surface: #1e1e1e;
+  --mdc-theme-on-surface: #ffffff;
+}
+```
+
+This site maps them to its own colors, so every table follows the light/dark switch. See `src/styles/custom.css`.
+
+## `mrtTheme`
+
+For the colors the table adds on top of the theme, pass `mrtTheme`. Any key you leave out is derived from the CSS
+variables:
+
+```ts
+options={{
+  columns,
+  data,
+  mrtTheme: {
+    baseBackgroundColor: '#fffbe6',
+    selectedRowBackgroundColor: '#ffe58f',
+    pinnedRowBackgroundColor: '#e6f4ff',
+    matchHighlightColor: 'rgba(255, 213, 79, 0.5)',
+    menuBackgroundColor: '#fafafa',
+    draggingBorderColor: '#1976d2',
+  },
+}}
+```
+
+## Styling parts of the table
+
+Every part accepts attributes through a `…Props` option, as an object or a function of its context. Use `style` and
+`class`:
+
+```ts
+options={{
+  columns,
+  data,
+  tablePaperProps: { style: 'box-shadow: none; border: 1px solid #ccc' },
+  tableHeadCellProps: { style: 'text-transform: uppercase' },
+  tableBodyRowProps: ({ row }) => ({
+    style: row.original.age > 50 ? 'outline: 2px solid tomato; outline-offset: -2px' : '',
+  }),
+}}
+```
+
+The available options are `tablePaperProps`, `tableContainerProps`, `tableProps`, `tableHeadProps`,
+`tableHeadRowProps`, `tableHeadCellProps`, `tableBodyProps`, `tableBodyRowProps`, `tableBodyCellProps`,
+`tableFooterProps`, `tableFooterRowProps`, `tableFooterCellProps`, `topToolbarProps` and `bottomToolbarProps`. The
+cell ones also exist on a column, where they apply to that column only.
+
+## Icons
+
+Replace any icon with the `icons` option. An icon is a Svelte component that accepts `class` and `style`:
+
+```ts
+import MySearchIcon from './MySearchIcon.svelte';
+
+options={{ columns, data, icons: { SearchIcon: MySearchIcon } }}
+```
+
+## Localization
+
+Pass any of the bundled locales, or your own strings, with `localization`. Anything you leave out falls back to
+English.
+
+```ts
+import { MRT_Localization_ES } from 'material-svelte-table/locales/es';
+
+options={{ columns, data, localization: MRT_Localization_ES }}
+```

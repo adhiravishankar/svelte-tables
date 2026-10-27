@@ -1,0 +1,38 @@
+---
+title: Material Svelte Table
+description: A fully featured Material Design data table for Svelte 5, built on TanStack Table v9 and Svelte Material UI.
+template: splash
+hero:
+  tagline: A fully featured Material Design data table for Svelte 5, built on TanStack Table v9 and Svelte Material UI. Written in TypeScript with runes and snippets.
+  actions:
+    - text: Get started
+      link: /getting-started/install/
+      icon: right-arrow
+    - text: See the examples
+      link: /examples/basic/
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import Example from '../../components/Example.astro';
+import Hero from '../../examples/Hero.svelte';
+
+<Example>
+  <Hero client:load />
+</Example>
+
+<CardGrid stagger>
+  <Card title="Everything you expect" icon="seti:table">
+    Sorting, filtering, pagination, selection, grouping, aggregation, expanding, pinning, ordering, resizing and
+    editing. All on by default where it makes sense, and one option to turn each off.
+  </Card>
+  <Card title="Fast with big data" icon="rocket">
+    Row and column virtualization keep 10,000 rows and 200 columns smooth. Svelte only updates the cells that changed.
+  </Card>
+  <Card title="Svelte 5 native" icon="puzzle">
+    Runes for state, snippets for rendering and plain objects for options. No wrappers, stores or render props.
+  </Card>
+  <Card title="Headless underneath" icon="setting">
+    Built on TanStack Table v9, so the table instance gives you the full TanStack API. Control any slice of state.
+  </Card>
+</CardGrid>
