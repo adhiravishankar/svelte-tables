@@ -1,0 +1,40 @@
+---
+title: Overview
+description: Where to find every option, and the pieces of the library you can use on their own.
+sidebar:
+  order: 0
+---
+
+## Reference pages
+
+- [Table Options](/api/table-options/): every option of `createMaterialSvelteTable`, with types and defaults.
+- [Column Options](/api/column-options/): every option of a column definition.
+- [State](/api/state/): the state Material Svelte Table adds to TanStack Table's.
+
+These three pages are generated from the library's TypeScript source, so they always match the version you install.
+
+## Exports
+
+| Export                                         | What it is                                                            |
+| ---------------------------------------------- | --------------------------------------------------------------------- |
+| `MaterialSvelteTable`                          | The table component. Takes `options`, or a `table` you created        |
+| `createMaterialSvelteTable(options)`           | Creates the table instance. Call it while a component initializes     |
+| `createMRTColumnHelper<TData>()`               | Helper for typed column definitions                                   |
+| `MRT_*` components                             | The parts of the table: `MRT_TableBody`, `MRT_TopToolbar`, `MRT_GlobalFilterTextField`, … Use them to build custom layouts |
+| `MRT_ActionMenuItem`, `MRT_Menu`, `MRT_IconButton` | Building blocks for your own menu items and toolbar buttons       |
+| `MRT_EditCellTextField`, `MRT_EditActionButtons` | For custom edit dialogs                                             |
+| `MRT_Default_Icons`                            | The default icon set                                                  |
+| `MRT_FilterFns`, `MRT_SortFns`, `MRT_AggregationFns` | The built-in functions                                          |
+| `MRT_Localization_EN`                          | English strings. Other languages: `material-svelte-table/locales/<code>` |
+| `material-svelte-table/styles.css`             | The stylesheet to import once                                         |
+
+## Types
+
+Every type is exported with an `MRT_` prefix: `MRT_ColumnDef`, `MRT_TableOptions`, `MRT_TableInstance`, `MRT_Row`,
+`MRT_Cell`, `MRT_Column`, `MRT_Header`, `MRT_Localization`, `MRT_Icons`, `MRT_Theme` and the state types such as
+`MRT_SortingState` and `MRT_PaginationState`.
+
+## TanStack Table
+
+The table instance is a [TanStack Table v9](https://tanstack.com/table) table, so all of its row, column, header and
+cell APIs are available on `table`, `row`, `column`, `header` and `cell`.

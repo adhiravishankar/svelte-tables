@@ -1,0 +1,56 @@
+---
+title: Virtualization
+description: Render only the rows and columns in view, for tens of thousands of rows.
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Virtualized from '../../../examples/Virtualized.svelte';
+
+<Example>
+  <Virtualized client:load />
+</Example>
+
+<ExampleSource name="Virtualized" />
+
+## Rows
+
+`enableRowVirtualization` keeps only the visible rows in the DOM. It uses a grid layout with a sticky header, so give
+the table a height:
+
+```ts
+options={{
+  columns,
+  data,
+  enablePagination: false,
+  enableRowVirtualization: true,
+  tableContainerProps: { style: 'max-height: 600px' },
+}}
+```
+
+## Columns
+
+`enableColumnVirtualization` does the same for wide tables. Pinned columns always stay rendered. Both can be used
+together.
+
+## Customizing
+
+`rowVirtualizerOptions` and `columnVirtualizerOptions` (an object, or a function of `{ table }`) are passed to
+[TanStack Virtual](https://tanstack.com/virtual): for example `overscan` or `estimateSize`. To scroll
+programmatically, keep a reference to the virtualizer:
+
+```svelte
+<script lang="ts">
+  const rowVirtualizerInstanceRef: { current: MRT_RowVirtualizer | null } = { current: null };
+</script>
+
+<button onclick={() => rowVirtualizerInstanceRef.current?.scrollToIndex(500)}>Go to row 500</button>
+<MaterialSvelteTable options={{ columns, data, enableRowVirtualization: true, rowVirtualizerInstanceRef }} />
+```
+
+## Good to know
+
+- Whether to virtualize is decided when the table is created and cannot change afterwards.
+- Rows are measured as they render, so varying row heights work. Pass `estimateSize` if your rows are far from the
+  default heights (37, 58 and 73 pixels for compact, comfortable and spacious).
+- Detail panels are supported: each panel counts as a virtual item between rows.

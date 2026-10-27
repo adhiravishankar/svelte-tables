@@ -1,0 +1,76 @@
+---
+title: Pagination
+description: Page size, pager position and style, and server-side pagination.
+---
+
+Client-side pagination is on by default, with 10 rows per page.
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    initialState: { pagination: { pageIndex: 0, pageSize: 25 } },
+    paginationProps: { rowsPerPageOptions: [10, 25, 50, 100] },
+  }}
+/>
+```
+
+## Options
+
+| Option | What it does |
+| ------ | ------------ |
+| `enablePagination` | Set `false` to show every row. |
+| `positionPagination` | `'bottom'` (default), `'top'`, `'both'` or `'none'`. |
+| `paginationDisplayMode` | `'default'` (arrows), `'pages'` (numbered buttons) or `'custom'` (render your own). |
+| `paginationProps` | Props for the pager. Also takes `rowsPerPageOptions`, `showRowsPerPage` and `disabled`. |
+| `rowCount` | Total number of rows when the data is paged on the server. |
+| `autoResetPageIndex` | Go back to the first page when sorting or filtering changes. |
+
+When the page index ends up past the last page (for example after deleting rows), the table moves to the last page for
+you.
+
+## Server-side pagination
+
+Set `manualPagination`, pass `rowCount`, and keep `pagination` in your own state:
+
+```svelte
+<script lang="ts">
+  let pagination = $state({ pageIndex: 0, pageSize: 10 });
+  let data = $state<Person[]>([]);
+  let rowCount = $state(0);
+  let isLoading = $state(true);
+
+  $effect(() => {
+    const { pageIndex, pageSize } = pagination;
+    isLoading = true;
+    fetchPeople({ start: pageIndex * pageSize, size: pageSize }).then((result) => {
+      data = result.rows;
+      rowCount = result.total;
+      isLoading = false;
+    });
+  });
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    get data() { return data; },
+    get rowCount() { return rowCount; },
+    manualPagination: true,
+    onPaginationChange: (updater) => {
+      pagination = typeof updater === 'function' ? updater(pagination) : updater;
+    },
+    state: {
+      get isLoading() { return isLoading; },
+      get pagination() { return pagination; },
+    },
+  }}
+/>
+```
+
+## Custom pager
+
+Use `paginationDisplayMode: 'custom'` and render your own controls in the bottom toolbar (see
+[Toolbars](../toolbars/)). `table.setPageIndex`, `table.setPageSize` and `table.getPageCount()` are on the table
+instance.

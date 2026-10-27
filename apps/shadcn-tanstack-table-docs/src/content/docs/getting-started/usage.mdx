@@ -1,0 +1,84 @@
+---
+title: Usage
+description: Render your first table, and the one rule about reactive options.
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Basic from '../../../examples/Basic.svelte';
+import { Aside } from '@astrojs/starlight/components';
+
+A table needs two things: `columns` and `data`.
+
+<Example>
+  <Basic client:load />
+</Example>
+
+<ExampleSource name="Basic" />
+
+## Columns
+
+Each column needs a `header` and either an `accessorKey` (a key of your row, with dot notation for nested data) or
+an `accessorFn` plus an `id`. Define columns once, outside any reactive code, so they stay stable.
+See [Data Columns](/guides/data-columns/).
+
+## Reactive options
+
+The table is created once. Anything that changes over time must be passed as a **getter**, or the table keeps the
+first value forever:
+
+```svelte
+<script lang="ts">
+  let data = $state<Person[]>([]);
+  let isLoading = $state(true);
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    // reactive: a getter
+    get data() {
+      return data;
+    },
+    state: {
+      get isLoading() {
+        return isLoading;
+      },
+    },
+    // not reactive: a plain value is fine
+    enableRowSelection: true,
+  }}
+/>
+```
+
+<Aside type="caution">
+  `{ columns, data }` works for static data. If you write `data` for something that later changes, nothing updates.
+  When a table "ignores" a state change, a missing getter is almost always the reason.
+</Aside>
+
+## Using the table instance
+
+`<MaterialSvelteTable options={...} />` creates a table for you. When you need the instance, for example to start
+creating a row from a button, or to read the selected rows, create it yourself and pass it in:
+
+```svelte
+<script lang="ts">
+  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
+
+  const table = createMaterialSvelteTable({ columns, data });
+</script>
+
+<button onclick={() => table.resetColumnFilters(true)}>Clear filters</button>
+<MaterialSvelteTable {table} />
+```
+
+`createMaterialSvelteTable` registers effects, so call it while a component is initializing.
+
+The instance is a TanStack Table v9 table plus a few MRT additions:
+
+| Member                | What it is                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| `table.mrtState`      | The state MRT owns: `density`, `isFullScreen`, `editingRow`, `creatingRow`, `isLoading`, … |
+| `table.atoms.<slice>` | TanStack state, e.g. `table.atoms.sorting.get()`. Reads are reactive in templates.      |
+| `table.setDensity`, `table.setCreatingRow`, … | Setters for the MRT state.                                    |
+| `table.userOptions`   | The options as you passed them.                                                       |

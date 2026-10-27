@@ -1,0 +1,55 @@
+---
+title: Expanding Rows and Detail Panels
+description: Show sub rows as a tree, or reveal extra content under a row.
+---
+
+## Sub rows (tree data)
+
+Put the children on each row in a `subRows` array and enable expanding:
+
+```ts
+const data = [
+  { name: 'Ada', subRows: [{ name: 'Grace' }, { name: 'Linus' }] },
+];
+```
+
+```svelte
+<MaterialSvelteTable options={{ columns, data, enableExpanding: true }} />
+```
+
+Use `getSubRows` if your children live under another key. Start expanded with `initialState: { expanded: true }`.
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableExpandAll` | Show the expand all button in the header. |
+| `positionExpandColumn` | `'first'` (default) or `'last'`. |
+| `paginateExpandedRows` | Set `false` to keep a parent and its children on one page. |
+| `filterFromLeafRows` | Filter on the children and keep their parents. |
+| `maxLeafRowFilterDepth` | How deep filtering looks into sub rows. |
+| `expandButtonProps` | Props for each expand button. |
+
+## Detail panel
+
+A detail panel is an extra row under the clicked row. Give the `detailPanel` snippet; the expand column appears on its
+own.
+
+```svelte
+{#snippet detailPanel({ row })}
+  <p>{row.original.biography}</p>
+{/snippet}
+
+<MaterialSvelteTable options={{ columns, data, detailPanel }} />
+```
+
+Render nothing for rows that have no details, or hide just their button with `expandButtonProps`:
+
+```ts
+expandButtonProps: ({ row }) => ({
+  style: row.original.biography ? '' : 'visibility: hidden',
+}),
+```
+
+To open only one panel at a time, manage `expanded` yourself and keep the last toggled row id.
+
+See the [Detail panel example](../../examples/detail-panel/) and the
+[Expanding tree example](../../examples/expanding-tree/).

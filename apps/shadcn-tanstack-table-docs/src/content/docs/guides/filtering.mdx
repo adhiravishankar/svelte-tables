@@ -1,0 +1,78 @@
+---
+title: Filtering and Search
+description: Column filters, filter variants, filter modes, global search and custom filter functions.
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import FilterVariants from '../../../examples/FilterVariants.svelte';
+
+<Example>
+  <FilterVariants client:load />
+</Example>
+
+<ExampleSource name="FilterVariants" />
+
+## Filter variants
+
+Set `filterVariant` on a column to choose its input:
+
+| Variant                                            | Input                              |
+| -------------------------------------------------- | ---------------------------------- |
+| `text` (default)                                   | Text field                         |
+| `select`, `multi-select`                           | Dropdown. Give `filterSelectOptions`, or enable `enableFacetedValues` to build them from the data |
+| `range`                                            | Min and max fields                 |
+| `range-slider`                                     | Two-thumb slider                   |
+| `checkbox`                                         | Any / true / false (compares the strings `'true'` and `'false'`) |
+| `autocomplete`                                     | Text field with suggestions        |
+| `date`, `datetime`, `time`, and their `-range` forms | Native date and time inputs      |
+
+Date filters receive `Date` objects (`HH:mm` strings for time), so your column values should be `Date`s too.
+
+## Filter modes
+
+Each column filters with a function (fuzzy by default). Let users switch with `enableColumnFilterModes`, limit the
+choices per column with `columnFilterModeOptions`, or set one with `filterFn`:
+
+```ts
+{ accessorKey: 'name', header: 'Name', filterFn: 'startsWith', columnFilterModeOptions: ['startsWith', 'contains'] }
+```
+
+Built in: `fuzzy`, `contains`, `startsWith`, `endsWith`, `equals`, `notEquals`, `between`, `betweenInclusive`,
+`greaterThan`, `greaterThanOrEqualTo`, `lessThan`, `lessThanOrEqualTo`, `empty`, `notEmpty`, plus TanStack's.
+
+## Custom filter functions
+
+Pass a function as a column's `filterFn`:
+
+```ts
+{
+  accessorKey: 'name',
+  header: 'Name',
+  filterFn: (row, columnId, filterValue) =>
+    String(row.getValue(columnId)).toLowerCase().startsWith(String(filterValue).toLowerCase()),
+}
+```
+
+To use a name instead (including as the `globalFilterFn`), register functions with the `filterFns` option. They are
+registered **once, when the table is created**:
+
+```ts
+options={{ columns, data, filterFns: { startsWithLetter }, globalFilterFn: 'startsWithLetter' }}
+```
+
+## Global search
+
+The search box is on by default, and fuzzy with ranked results. Useful options: `enableGlobalFilter`,
+`globalFilterFn`, `enableGlobalFilterModes`, `enableGlobalFilterRankedResults`, `positionGlobalFilter` and
+`initialState.showGlobalFilter`.
+
+## Filter display
+
+`columnFilterDisplayMode` is `'subheader'` (a row under the headers, the default), `'popover'` (opens from the
+column header) or `'custom'` (you place the filters). A column's `Filter` snippet replaces the built-in input.
+
+## Server-side filtering
+
+Set `manualFiltering: true` and control `columnFilters` and `globalFilter` yourself. See
+[Remote data](/examples/remote/).

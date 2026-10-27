@@ -1,0 +1,60 @@
+---
+title: Table Instance and Events
+description: Create the table yourself to read and drive it from outside, and listen for table events.
+---
+
+`MaterialSvelteTable` creates a table for you from `options`. To read or change the table from elsewhere in your
+component, create it with `createMaterialSvelteTable` and hand it over:
+
+```svelte
+<script lang="ts">
+  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
+
+  const table = createMaterialSvelteTable({
+    columns,
+    data,
+    enableRowSelection: true,
+  });
+
+  const selected = $derived(table.getSelectedRowModel().rows.length);
+</script>
+
+<button onclick={() => table.resetRowSelection()}>Clear {selected} selected</button>
+<MaterialSvelteTable {table} />
+```
+
+`createMaterialSvelteTable` must run while a component initialises (like any rune based code). The instance is a
+TanStack Table v9 table with MRT's additions:
+
+| Member | |
+| ------ | - |
+| `table.mrtState` | MRT state: `isFullScreen`, `density`, `creatingRow`, `editingRow`, `showColumnFilters`, `draggingRow` ... |
+| `table.userOptions` | The options you passed, with defaults applied. |
+| `table.setCreatingRow`, `setEditingRow`, `setEditingCell`, `setIsFullScreen`, `setDensity`, `setShowGlobalFilter` ... | Setters for MRT state. |
+| `table.getSelectedRowModel()`, `getRowModel()`, `getPrePaginatedRowModel()` | TanStack row models. |
+| `table.setSorting`, `setColumnFilters`, `setPageIndex`, `setGrouping`, `resetRowSelection` ... | TanStack setters and resets. |
+| `table.atoms.<slice>.get()` | Reactive reads of a state slice, for use in `$derived` and templates. |
+
+You can read the same instance from snippets: every snippet that takes a context also gets `table`.
+
+## Events
+
+There is no global event system. Attach listeners to the element you care about with the `...Props` options:
+
+```ts
+{
+  tableBodyRowProps: ({ row }) => ({ onclick: () => open(row), ondblclick: () => edit(row) }),
+  tableBodyCellProps: ({ cell }) => ({ oncontextmenu: (event) => menu(event, cell) }),
+  tableHeadCellProps: ({ column }) => ({ onmouseenter: () => hint(column) }),
+}
+```
+
+For state changes use the `on...Change` options (`onSortingChange`, `onColumnFiltersChange`, `onRowSelectionChange`,
+`onPaginationChange`, `onIsFullScreenChange` ...). They receive a TanStack updater, which is either a value or a
+function of the old value. See [State management](../state-management/).
+
+## Refs
+
+`table.refs` holds the DOM nodes (`tableContainerRef`, `tablePaperRef`, `searchInputRef` ...) as `{ current }` objects,
+and `rowVirtualizerInstanceRef` / `columnVirtualizerInstanceRef` options give you the virtualizers, for example to
+scroll to a row after sorting.

@@ -1,0 +1,65 @@
+---
+title: Row, Cell and Column Actions
+description: Action columns, action menus, cell menus, click to copy and row numbers.
+---
+
+## Row actions
+
+`enableRowActions` adds an actions column. Fill it with a `rowActions` snippet (inline buttons), a
+`rowActionMenuItems` snippet (a "..." menu), or both.
+
+```svelte
+<script lang="ts">
+  import { MRT_ActionMenuItem } from 'material-svelte-table';
+</script>
+
+{#snippet rowActionMenuItems({ row, closeMenu, table })}
+  <MRT_ActionMenuItem
+    label="View"
+    onclick={() => {
+      open(row.original);
+      closeMenu();
+    }}
+    {table}
+  />
+{/snippet}
+
+<MaterialSvelteTable
+  options={{ columns, data, enableRowActions: true, rowActionMenuItems }}
+/>
+```
+
+Move the column with `positionActionsColumn: 'last'`, and restyle its header with
+`displayColumnDefOptions: { 'mrt-row-actions': { header: 'Controls', size: 160 } }`.
+
+With editing enabled the column shows edit and delete buttons; see [Editing](../editing/).
+
+## Cell actions
+
+Enable a context menu for individual cells:
+
+```svelte
+{#snippet cellActionMenuItems({ cell, closeMenu, table })}
+  <MRT_ActionMenuItem label="Copy" onclick={() => { copy(cell.getValue()); closeMenu(); }} {table} />
+{/snippet}
+
+<MaterialSvelteTable options={{ columns, data, enableCellActions: true, cellActionMenuItems }} />
+```
+
+`enableCellActions` can be a function that decides per cell. Open the menu by right clicking a cell, or from the cell
+button.
+
+## Click to copy
+
+`enableClickToCopy: true` copies the cell value when clicked. `'context-menu'` adds "Copy" to the cell menu instead.
+Both can be set on a column. Style the button with `copyButtonProps`.
+
+## Column actions
+
+The menu on each header has sort, filter, group, pin and hide items. Turn it off with `enableColumnActions: false`, or
+replace its items with the `columnActionsMenuItems` snippet (it receives the built in items as `internalColumnMenuItems`).
+
+## Row numbers
+
+`enableRowNumbers` adds a numbering column. `rowNumberDisplayMode: 'static'` (default) numbers the rows as displayed;
+`'original'` uses each row's position in your data.

@@ -1,0 +1,53 @@
+---
+title: Column Sizing and Resizing
+description: Column widths, layout modes and drag resizing.
+---
+
+## Sizes
+
+Every column has a `size` (180 by default), `minSize` (40) and `maxSize` (1000), in pixels:
+
+```ts
+{ accessorKey: 'id', header: 'Id', size: 80 }
+```
+
+Change the defaults for all columns with `defaultColumn`:
+
+```ts
+defaultColumn: { minSize: 20, maxSize: 400, size: 120 }
+```
+
+## Layout modes
+
+`layoutMode` decides how widths are applied.
+
+| Mode | Behaviour |
+| ---- | --------- |
+| `'semantic'` (default, unless resizing is enabled) | A real HTML table. Columns share the free space, and the table can be wider than its container. |
+| `'grid'` | CSS grid and flex. Columns grow to fill the container. Set `grow: false` on a column to keep its `size`. |
+| `'grid-no-grow'` | Like `grid`, but columns keep their `size`. Set `grow: true` on a column to let that one fill the rest. |
+
+Turning on `enableColumnResizing` switches the default to `grid-no-grow`. Use a grid mode when you need the table to fill a container exactly or when you virtualize columns. Grid modes are also
+used automatically with row or column virtualization.
+
+## Resizing
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableColumnResizing: true,
+    columnResizeMode: 'onEnd',
+  }}
+/>
+```
+
+`columnResizeMode: 'onChange'` (default) resizes live while dragging; `'onEnd'` shows a guide and resizes when you let
+go. Use `columnResizeDirection: 'rtl'` for right to left layouts.
+
+The sizes are in `columnSizing` state. Persist them if you want to remember a user's layout:
+
+```ts
+onColumnSizingChange: (updater) => { /* save it */ },
+```

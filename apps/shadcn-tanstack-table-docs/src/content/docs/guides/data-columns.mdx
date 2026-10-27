@@ -1,0 +1,87 @@
+---
+title: Data Columns
+description: Define columns with accessors, custom cells, headers and footers.
+---
+
+A column definition (`MRT_ColumnDef<TData>`) describes one column. Define the array once, outside any reactive code.
+
+```ts
+const columns: MRT_ColumnDef<Person>[] = [
+  { accessorKey: 'firstName', header: 'First Name' },
+  { accessorKey: 'address.city', header: 'City' }, // nested data: dot notation
+  {
+    accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+    id: 'fullName', // an id is required with accessorFn
+    header: 'Full Name',
+  },
+];
+```
+
+## Custom cells, headers and footers
+
+`Cell`, `Header`, `Footer`, `Edit` and `Filter` are [snippets](https://svelte.dev/docs/svelte/snippet). Their
+capital letter keeps them apart from the plain-text `header` and `footer` options.
+
+```svelte
+{#snippet salary({ renderedCellValue }: { renderedCellValue: unknown })}
+  <strong>${Number(renderedCellValue).toLocaleString()}</strong>
+{/snippet}
+
+{#snippet total({ table }: { table: MRT_TableInstance<Person> })}
+  Total: {table.getRowModel().rows.length}
+{/snippet}
+
+<MaterialSvelteTable
+  options={{
+    columns: [
+      { accessorKey: 'salary', header: 'Salary', Cell: salary, footer: 'Salary', Footer: total },
+    ],
+    data,
+  }}
+/>
+```
+
+`renderedCellValue` is the cell's raw value. Match highlighting from filters applies to built-in cells, so a custom
+`Cell` is responsible for its own markup.
+
+## Sizing
+
+| Option    | Meaning                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `size`    | Width in pixels (default 180)                                                              |
+| `minSize` | Smallest width when resizing (default 40)                                                  |
+| `maxSize` | Largest width when resizing (default 1000)                                                 |
+| `grow`    | With `layoutMode: 'grid'` or `'grid-no-grow'`, let the column take up remaining space      |
+
+Change the defaults for every column with the `defaultColumn` option.
+
+## Header groups
+
+Nest columns with `columns` to create grouped headers:
+
+```ts
+const columns: MRT_ColumnDef<Person>[] = [
+  {
+    header: 'Name',
+    columns: [
+      { accessorKey: 'firstName', header: 'First Name' },
+      { accessorKey: 'lastName', header: 'Last Name' },
+    ],
+  },
+];
+```
+
+## Display columns
+
+Select, row numbers, expand, actions, drag and pin columns are added for you when you enable their features, with
+ids like `mrt-row-select`. Customize one through `displayColumnDefOptions`, or change all of them with
+`defaultDisplayColumn`.
+
+```ts
+options={{
+  columns,
+  data,
+  enableRowSelection: true,
+  displayColumnDefOptions: { 'mrt-row-select': { size: 100 } },
+}}
+```

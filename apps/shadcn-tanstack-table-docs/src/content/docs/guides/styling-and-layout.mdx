@@ -1,0 +1,63 @@
+---
+title: Styling, Sticky Header and Custom Parts
+description: Style any part of the table, make the header or footer sticky, and customise the caption and empty state.
+---
+
+## Props for each part
+
+Every part of the table has a `...Props` option. Pass an object, or a function that receives the part's context and
+returns one. The result is spread onto the element, so `class`, `style` and event handlers all work.
+
+| Option | Element |
+| ------ | ------- |
+| `tablePaperProps`, `tableContainerProps`, `tableProps` | The outer card, the scrolling area, the `table` |
+| `tableHeadProps`, `tableHeadRowProps`, `tableHeadCellProps` | Header |
+| `tableBodyProps`, `tableBodyRowProps`, `tableBodyCellProps` | Body (`tableBodyRowProps` also gets `staticRowIndex`) |
+| `tableFooterProps`, `tableFooterRowProps`, `tableFooterCellProps` | Footer |
+| `topToolbarProps`, `bottomToolbarProps` | Toolbars |
+| `detailPanelProps` | Detail panel cell |
+
+Columns take their own `tableHeadCellProps`, `tableBodyCellProps` and `tableFooterCellProps`, which are applied on top
+of the table wide ones.
+
+```ts
+{
+  tableBodyRowProps: ({ row, staticRowIndex }) => ({
+    class: row.original.isActive ? '' : 'inactive',
+    style: staticRowIndex % 2 ? 'background: rgba(128, 128, 128, 0.12)' : '',
+    onclick: () => select(row),
+  }),
+  tableHeadCellProps: { style: 'font-style: italic' },
+}
+```
+
+Colours come from your SMUI theme and can be overridden with `mrtTheme`; see [Theming](../theming/).
+
+## Sticky header and footer
+
+The header is sticky by default and sticks inside `tableContainerProps`. Give the container a height so the body
+scrolls:
+
+```ts
+{ enableStickyHeader: true, enableStickyFooter: true, tableContainerProps: { style: 'max-height: 500px' } }
+```
+
+Set `enableStickyHeader: false` to let the header scroll away. The footer only shows when a column has a `footer`.
+
+## Caption and empty state
+
+```svelte
+{#snippet caption()}Quarterly results{/snippet}
+{#snippet emptyRowsFallback()}<p>Nothing to show.</p>{/snippet}
+
+<MaterialSvelteTable options={{ columns, data, caption, emptyRowsFallback }} />
+```
+
+`positionToolbarAlertBanner`, `positionPagination` and friends move the built in pieces; `enableTableHead`,
+`enableTableFooter`, `enableTopToolbar` and `enableBottomToolbar` remove them.
+
+## Table dimensions
+
+The table is as wide as its parent. For a fixed height give `tableContainerProps` a `height` or `max-height`; for a
+minimum, `min-height`. To fill a parent, make the parent a flex or fixed height box and give `tablePaperProps` a
+`height: 100%`.

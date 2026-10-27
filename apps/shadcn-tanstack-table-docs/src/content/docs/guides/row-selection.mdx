@@ -1,0 +1,73 @@
+---
+title: Row Selection
+description: Checkbox and click selection, select all, selection state and the alert banner.
+---
+
+Add a checkbox column with `enableRowSelection`:
+
+```svelte
+<MaterialSvelteTable options={{ columns, data, enableRowSelection: true }} />
+```
+
+Read the selection from the table instance, or manage it as state:
+
+```svelte
+<script lang="ts">
+  let rowSelection = $state<MRT_RowSelectionState>({});
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableRowSelection: true,
+    getRowId: (row) => row.id,
+    onRowSelectionChange: (updater) => {
+      rowSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
+    },
+    state: {
+      get rowSelection() {
+        return rowSelection;
+      },
+    },
+  }}
+/>
+```
+
+The selection is keyed by row id. Without `getRowId` the id is the row index, so set it whenever you store the
+selection, otherwise it will point at the wrong rows after sorting or reloading.
+
+## Options
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableRowSelection` | `true`, or a function `(row) => boolean` to choose which rows can be selected. |
+| `enableMultiRowSelection` | Set `false` for single selection (radio buttons). |
+| `enableSelectAll` | Show or hide the select all checkbox. |
+| `selectAllMode` | `'page'` (default) selects the current page; `'all'` selects every filtered row. |
+| `enableBatchRowSelection` | <kbd>Shift</kbd>-click to select a range. On by default. |
+| `enableSubRowSelection` | Selecting a parent also selects its children. |
+| `selectCheckboxProps` | Props for each checkbox, such as `color` or `disabled`. |
+
+## Selecting by clicking the row
+
+The checkbox column is optional. To select when the row is clicked, use `tableBodyRowProps`:
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableRowSelection: true,
+    tableBodyRowProps: ({ row }) => ({
+      onclick: row.getToggleSelectedHandler(),
+      style: 'cursor: pointer',
+    }),
+  }}
+/>
+```
+
+## Alert banner
+
+When rows are selected a banner shows the count. Move it with `positionToolbarAlertBanner` (`'top'`, `'bottom'`,
+`'head-overlay'` or `'none'`), or replace its content with the `toolbarAlertBannerContent` snippet.

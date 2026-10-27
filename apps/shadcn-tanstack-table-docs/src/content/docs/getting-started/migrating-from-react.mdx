@@ -1,0 +1,79 @@
+---
+title: Migrating from Material React Table
+description: How Material React Table concepts map to Material Svelte Table.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+If you know Material React Table (MRT) v3, most of the API carries over by name. The differences come from three
+places: Svelte instead of React, Svelte Material UI instead of MUI, and TanStack Table v9 instead of v8.
+
+## From React to Svelte
+
+| React                                   | Svelte                                                              |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| `<MaterialReactTable table={table} />`  | `<MaterialSvelteTable {table} />`                                   |
+| `useMaterialReactTable({ ... })`        | `createMaterialSvelteTable({ ... })`                                |
+| `useState` for controlled state         | `$state`, passed to the table as a getter                           |
+| `renderTopToolbar`, `renderDetailPanel` | A snippet: `topToolbar`, `detailPanel` (drop `render`, lowercase)    |
+| `Cell: ({ cell }) => <b>{...}</b>`      | `Cell` is a snippet: `{#snippet cell({ cell })}…{/snippet}`          |
+| `muiTableBodyCellProps`                 | `tableBodyCellProps` (drop `mui`)                                   |
+| `sx` / `style` objects                  | `style` strings and CSS                                             |
+| `ref` options                           | The same option names, but a `{ current }` holder                    |
+| `memoMode`                              | Not needed: Svelte updates only what changed                         |
+
+### Snippets instead of render props
+
+Every `renderX` option became a snippet. The `render` prefix is gone and the name starts in lower case:
+
+```svelte
+{#snippet detailPanel({ row })}
+  <pre>{JSON.stringify(row.original, null, 2)}</pre>
+{/snippet}
+
+<MaterialSvelteTable options={{ columns, data, detailPanel }} />
+```
+
+Column-level snippets keep their capital letters (`Cell`, `Header`, `Footer`, `Edit`, `Filter`, `AggregatedCell`,
+`GroupedCell`, `PlaceholderCell`), because `header` and `footer` are already the plain-text options.
+
+- `renderedCellValue` in a `Cell` snippet is the raw value, not a rendered node.
+- Menu snippets (`rowActionMenuItems`, `columnActionsMenuItems`, `cellActionMenuItems`) receive
+  `internalMenuItems`: the built-in items as snippets, which you can render with `{@render item()}`.
+- `createRowDialogContent` and `editRowDialogContent` receive `internalEditCells` (the cells being edited). Render
+  each with `<MRT_EditCellTextField {cell} {table} />`.
+
+## From MUI to Svelte Material UI
+
+- The table markup is plain `<table>` elements with our own CSS. [SMUI](https://sveltematerialui.com) provides the
+  buttons, checkboxes, menus, dialog, switches and text fields.
+- Import `material-svelte-table/styles.css` and theme with `--mdc-theme-*` CSS variables. There is no theme
+  provider.
+- There are no MUI date pickers. Date, datetime and time filters use native `<input type="date | datetime-local |
+  time">`. Date values reach your filter functions as `Date` objects (`HH:mm` strings for time).
+- Autocomplete filters use a native `<datalist>`, and tooltips use the native `title` attribute.
+
+## From TanStack Table v8 to v9
+
+Material Svelte Table registers the v9 features, row models and function registries for you, but some names
+changed and they show up in your options:
+
+| v8 / MRT v3              | v9                                                                  |
+| ------------------------ | ------------------------------------------------------------------- |
+| `sortingFn`, `sortingFns`| `sortFn`, `sortFns`                                                 |
+| Pin `'left'` / `'right'` | `'start'` / `'end'` (also in `columnPinning` state and `inset-inline`)|
+| `columnSizingInfo` state | `columnResizing` (`setColumnResizing`)                              |
+| `getState()`             | `table.atoms.<slice>.get()` or `table.store.get()`                  |
+| `filterFns`, `sortFns`, `aggregationFns` options | Still options, but registered **once** when the table is created |
+| `arrIncludesSome`        | Needs array cells. `multi-select` filters now default to `arrIncludes`|
+| `table.getPrePaginationRowModel()` | `table.getPrePaginatedRowModel()`                         |
+
+<Aside type="caution">
+  Row, column and cell objects keep their methods on the prototype in v9. Do not copy them with `{ ...row }`; pass
+  the object itself.
+</Aside>
+
+## What is not ported (yet)
+
+`memoMode`, MUI-specific props (`sx`, `muiXProps`) and the MUI date pickers have no equivalent. Everything else in
+the React docs has a counterpart under the same name.

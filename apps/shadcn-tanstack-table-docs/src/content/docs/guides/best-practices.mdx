@@ -1,0 +1,41 @@
+---
+title: Best Practices and Accessibility
+description: Keep tables fast, keep options reactive, and keep them usable by everyone.
+---
+
+## Performance
+
+- **Keep `columns` stable.** Define them once, outside the component or in a plain `const`, not re-created on each
+  render. Columns are only rebuilt when grouping, filter modes, creating state or the column definitions themselves change.
+- **Pass changing data as a getter** (`get data() { return data; }`). Do not copy or map it in the template.
+- **Use `getRowId`** when rows have ids, so row state (selection, expanded) follows the row rather than its position.
+- **Virtualize large tables.** `enableRowVirtualization` and `enableColumnVirtualization` render only what is visible;
+  see [Virtualization](../virtualization/).
+- **Paginate on the server** (`manualPagination`, `manualSorting`, `manualFiltering`) for very large data sets.
+- Prefer `$state.raw` for big, replaced-not-mutated arrays so Svelte does not proxy every row.
+
+Svelte's fine grained reactivity means MRT does not need React style memoization. `memoMode` from the React version has
+no equivalent and is not needed.
+
+## Reactive options
+
+Only options read through a getter (or `state` with getters) track changes. Plain values are read when the table is
+created. This is the most common cause of "my table did not update":
+
+```svelte
+options={{ columns, data }}                        // data never updates
+options={{ columns, get data() { return data; } }} // data updates
+```
+
+Display columns, filter functions, sort functions and aggregation functions are registered once, at creation.
+
+## Accessibility
+
+- Header cells expose `aria-sort`, and the sort icon has an accessible label.
+- Checkboxes, expand buttons and action buttons have labels from the `localization` strings. Translate them; do not
+  leave them in English if your page is not.
+- Icon only buttons use `title` and `aria-label`. If you replace icons, keep the surrounding buttons.
+- Keyboard: cells, headers and footers are focusable with <kbd>Tab</kbd>; <kbd>Enter</kbd> saves a cell edit and
+  <kbd>Esc</kbd> leaves full screen. Set `enableKeyboardShortcuts: false` to take them out of the tab order.
+- Do not rely on colour alone to show state. If you restyle rows (inactive, error), add text or an icon too.
+- With `dir="rtl"`, also set `columnResizeDirection: 'rtl'` when resizing is enabled.

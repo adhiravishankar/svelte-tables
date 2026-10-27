@@ -1,0 +1,56 @@
+---
+title: Row Dragging, Ordering and Pinning
+description: Reorder rows by dragging, drag rows elsewhere, and pin rows to the top or bottom.
+---
+
+## Row ordering
+
+`enableRowOrdering` adds a drag handle that reorders rows. The table does not change your data; update it in
+`onDraggingRowChange`, or when the row is dropped:
+
+```svelte
+<script lang="ts">
+  let data = $state(people);
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    get data() {
+      return data;
+    },
+    enableRowOrdering: true,
+    enableSorting: false,
+    rowDragHandleProps: ({ table }) => ({
+      ondragend: () => {
+        const { draggingRow, hoveredRow } = table.mrtState;
+        if (hoveredRow && 'index' in hoveredRow && draggingRow) {
+          const next = [...data];
+          next.splice(hoveredRow.index as number, 0, next.splice(draggingRow.index, 1)[0]);
+          data = next;
+        }
+      },
+    }),
+  }}
+/>
+```
+
+Turn sorting off (and pagination, if you want to drag across the whole list), since a sort and a manual order cannot both apply. `enableRowDragging` shows the handle without
+enabling reordering, useful for dragging rows into your own drop target.
+
+## Row pinning
+
+```svelte
+<MaterialSvelteTable
+  options={{ columns, data, enableRowPinning: true, rowPinningDisplayMode: 'sticky' }}
+/>
+```
+
+| `rowPinningDisplayMode` | Pinned rows |
+| ----------------------- | ----------- |
+| `'sticky'` (default) | Stay at the top or bottom while the table scrolls. |
+| `'top'`, `'bottom'`, `'top-and-bottom'` | Are moved to the top or bottom, scrolling with the table. |
+| `'select-sticky'`, `'select-top'`, `'select-bottom'` | Like the above, pinned when selected. |
+
+Set `keepPinnedRows` to keep pinned rows visible when they are filtered out, and `enableRowPinning` can be a function
+to choose which rows may be pinned.

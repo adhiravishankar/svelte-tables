@@ -1,0 +1,78 @@
+---
+title: Column Pinning, Ordering and Hiding
+description: Pin columns to the edges, reorder them by dragging, and let users show or hide them.
+---
+
+## Pinning
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableColumnPinning: true,
+    initialState: { columnPinning: { start: ['mrt-row-select', 'firstName'], end: ['actions'] } },
+  }}
+/>
+```
+
+Pinned columns stick to the `start` or `end` of the table while the rest scrolls. Users pin columns from the column
+menu. Give the table a fixed height or width (for example `tableContainerProps: { style: 'max-width: 800px' }`) so it
+scrolls. Display columns have ids such as `mrt-row-select`, `mrt-row-expand`, `mrt-row-actions` and `mrt-row-numbers`.
+
+See [Column pinning](../../examples/column-pinning/) for a runnable example.
+
+## Ordering
+
+```svelte
+<MaterialSvelteTable options={{ columns, data, enableColumnOrdering: true }} />
+```
+
+This adds a drag handle to each header. To control the order yourself, keep `columnOrder` in state:
+
+```svelte
+<script lang="ts">
+  let columnOrder = $state<string[]>(['lastName', 'firstName', 'state']);
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableColumnOrdering: true,
+    onColumnOrderChange: (updater) => {
+      columnOrder = typeof updater === 'function' ? updater(columnOrder) : updater;
+    },
+    state: {
+      get columnOrder() {
+        return columnOrder;
+      },
+    },
+  }}
+/>
+```
+
+Use `enableColumnDragging: false` on a column to stop it being moved, and `columnDragHandleProps` to restyle the
+handle. Only the columns of the same header group can be moved among themselves.
+
+## Hiding
+
+Users can hide columns from the "Show/Hide columns" button in the toolbar.
+
+```ts
+{
+  columns: [
+    { accessorKey: 'id', header: 'Id', visibleInShowHideMenu: false },
+    { accessorKey: 'notes', header: 'Notes' },
+  ],
+  data,
+  initialState: { columnVisibility: { notes: false } },
+}
+```
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableHiding` | Allow hiding, for the table or a column. |
+| `visibleInShowHideMenu` (column) | Keep a column out of the menu. |
+| `initialState.columnVisibility` | Which columns start hidden. |
+| `enableColumnActions` | The per column menu also has a "Hide column" item. |

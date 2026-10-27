@@ -1,0 +1,72 @@
+---
+title: Async Loading
+description: Loading state, skeletons, progress bars, errors and refetching.
+---
+
+The table never fetches data itself. Fetch however you like, then tell it what is going on through `state`.
+
+| State | Effect |
+| ----- | ------ |
+| `isLoading` | Dims the table and, when there are no rows yet, shows skeleton rows. Shows a spinner overlay. |
+| `showSkeletons` | Show skeleton rows even when there is data. |
+| `showProgressBars` | Show the thin progress bar in the toolbars. Good for refetching while keeping rows visible. |
+| `isSaving` | Progress bar while saving (editing and creating). |
+| `showAlertBanner` | Show the alert banner, for example to report an error. |
+
+```svelte
+<script lang="ts">
+  let data = $state<Person[]>([]);
+  let isLoading = $state(true);
+  let isRefetching = $state(false);
+  let isError = $state(false);
+
+  async function load(first = false) {
+    first ? (isLoading = true) : (isRefetching = true);
+    try {
+      data = await fetchPeople();
+      isError = false;
+    } catch {
+      isError = true;
+    }
+    isLoading = isRefetching = false;
+  }
+
+  $effect(() => {
+    load(true);
+  });
+</script>
+
+{#snippet errorBanner()}Error loading data{/snippet}
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    get data() {
+      return data;
+    },
+    get toolbarAlertBannerContent() {
+      return isError ? errorBanner : undefined;
+    },
+    state: {
+      get isLoading() {
+        return isLoading;
+      },
+      get showAlertBanner() {
+        return isError;
+      },
+      get showProgressBars() {
+        return isRefetching;
+      },
+    },
+  }}
+/>
+```
+
+Notes:
+
+- Pass `data` as a getter, and use stable `columns`, so loading does not rebuild the table.
+- Skeleton rows are generated from your column ids. Columns that use `accessorKey: 'a.b'` (nested keys) work too.
+- Style the spinner and skeletons with `circularProgressProps`, `linearProgressProps` and `skeletonProps`.
+- Initial state such as the page, sort, filters, grouping and expanded rows is respected while the table is loading.
+
+For server side sorting, filtering and pagination see the [Remote data example](../../examples/remote/).
