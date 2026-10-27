@@ -1,4 +1,4 @@
-import { type MRT_Localization } from '../types/localization';
+import type { MRT_Localization } from '../types/localization';
 
 export const MRT_Localization_FA: MRT_Localization = {
   language: 'fa',
