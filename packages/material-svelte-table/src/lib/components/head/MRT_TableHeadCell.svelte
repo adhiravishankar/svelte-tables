@@ -1,0 +1,177 @@
+<script lang="ts" generics="TData extends MRT_RowData">
+  import type { HTMLThAttributes } from 'svelte/elements';
+  import type { MRT_Header, MRT_RowData, MRT_TableInstance } from '../../types';
+  import { cellKeyboardShortcuts } from '../../utils/cell.utils';
+  import {
+    getCellPadding,
+    getCommonMRTCellStyles,
+    getPinnedEdge,
+    isGridLayout,
+    mergeStyles,
+  } from '../../utils/style.utils';
+  import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_TableHeadCellSortLabel from './MRT_TableHeadCellSortLabel.svelte';
+
+  let {
+    header,
+    staticColumnIndex,
+    table,
+    ...rest
+  }: {
+    header: MRT_Header<TData>;
+    staticColumnIndex?: number;
+    table: MRT_TableInstance<TData>;
+  } & HTMLThAttributes = $props();
+
+  const column = $derived(header.column);
+  const columnDef = $derived(column.columnDef);
+  const columnDefType = $derived(columnDef.columnDefType);
+
+  const cellProps = $derived({
+    ...parseFromValuesOrFunc(table.options.tableHeadCellProps, {
+      column,
+      table,
+    }),
+    ...parseFromValuesOrFunc(columnDef.tableHeadCellProps, { column, table }),
+    ...rest,
+  });
+
+  const grid = $derived(isGridLayout(table.options.layoutMode));
+  const density = $derived(table.mrtState.density);
+  const showColumnFilters = $derived(table.mrtState.showColumnFilters);
+  const isColumnPinned = $derived(
+    table.options.enableColumnPinning &&
+      columnDefType !== 'group' &&
+      column.getIsPinned(),
+  );
+  const sorted = $derived(column.getIsSorted());
+  const align = $derived(columnDefType === 'group' ? 'center' : 'start');
+
+  const paddingBottom = $derived(
+    columnDefType === 'display'
+      ? '0'
+      : showColumnFilters || density === 'compact'
+        ? '0.4rem'
+        : '0.6rem',
+  );
+  const paddingTop = $derived(
+    columnDefType === 'group' || density === 'compact'
+      ? '0.25rem'
+      : density === 'comfortable'
+        ? '0.75rem'
+        : '1.25rem',
+  );
+
+  const headerLength = $derived(columnDef.header?.length ?? 0);
+
+  function onkeydown(event: KeyboardEvent & { currentTarget: HTMLTableCellElement }) {
+    cellProps.onkeydown?.(event as any);
+    cellKeyboardShortcuts({
+      cellValue: columnDef.header,
+      event,
+      header,
+      table,
+    });
+  }
+
+  function attach(node: HTMLTableCellElement) {
+    const refs = table.refs.tableHeadCellRefs.current;
+    if (refs) refs[column.id] = node;
+    return () => {
+      if (refs) delete refs[column.id];
+    };
+  }
+</script>
+
+<th
+  aria-sort={sorted ? (sorted === 'asc' ? 'ascending' : 'descending') : 'none'}
+  colspan={header.colSpan}
+  data-can-sort={column.getCanSort() || undefined}
+  data-index={staticColumnIndex}
+  data-pinned={!!isColumnPinned || undefined}
+  data-pinned-edge={isColumnPinned ? getPinnedEdge(column) : undefined}
+  data-sort={sorted || undefined}
+  tabindex={table.options.enableKeyboardShortcuts ? 0 : undefined}
+  {...cellProps}
+  {onkeydown}
+  {@attach attach}
+  class={['mrt-head-cell', cellProps.class]}
+  style={mergeStyles(
+    {
+      flexDirection: grid ? 'column' : undefined,
+      fontWeight: 'bold',
+      overflow: 'visible',
+      padding: getCellPadding({ columnDefType, density, kind: 'head' }),
+      paddingBottom,
+      paddingTop,
+      textAlign: align,
+      userSelect:
+        table.options.enableMultiSort && column.getCanSort() ? 'none' : undefined,
+      verticalAlign: 'top',
+    },
+    getCommonMRTCellStyles({ align, column, header, table }),
+    cellProps.style,
+  )}
+>
+  {#if !header.isPlaceholder}
+    <div class="mrt-head-cell-content">
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div
+        class="mrt-head-cell-labels"
+        class:mrt-clickable={column.getCanSort() && columnDefType !== 'group'}
+        style:overflow={columnDefType === 'data' ? 'hidden' : undefined}
+        onclick={column.getToggleSortingHandler()}
+      >
+        <div
+          class="mrt-head-cell-label"
+          style:min-width="{Math.min(headerLength, 4)}ch"
+          style:overflow={columnDefType === 'data' ? 'hidden' : undefined}
+          style:white-space={headerLength < 20 ? 'nowrap' : 'normal'}
+        >
+          {#if columnDef.Header}
+            {@render columnDef.Header({ column, header, table })}
+          {:else}
+            {columnDef.header}
+          {/if}
+        </div>
+        {#if column.getCanSort()}
+          <MRT_TableHeadCellSortLabel {header} {table} />
+        {/if}
+      </div>
+    </div>
+  {/if}
+</th>
+
+<style>
+  .mrt-head-cell {
+    border-bottom: 1px solid var(--mrt-divider);
+    box-sizing: border-box;
+    color: var(--mdc-theme-on-surface, rgba(0, 0, 0, 0.87));
+    text-align: start;
+  }
+  .mrt-head-cell:focus-visible {
+    outline: 2px solid var(--mdc-theme-primary, #6200ee);
+    outline-offset: -2px;
+  }
+  .mrt-head-cell-content {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+  }
+  .mrt-head-cell-labels {
+    align-items: center;
+    display: flex;
+  }
+  .mrt-clickable {
+    cursor: pointer;
+  }
+  .mrt-head-cell-label {
+    text-overflow: ellipsis;
+  }
+  .mrt-head-cell-label:hover {
+    text-overflow: clip;
+  }
+</style>
