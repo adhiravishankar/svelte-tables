@@ -1,0 +1,87 @@
+---
+title: Sorting
+description: Single and multi sort, sort functions, initial sort, and server-side sorting.
+---
+
+Sorting is on by default. Click a column header (or its sort icon) to cycle ascending, descending and off. Hold
+<kbd>Shift</kbd> while clicking to sort by several columns at once.
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    initialState: { sorting: [{ id: 'lastName', desc: false }] },
+  }}
+/>
+```
+
+## Options
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableSorting` | Turn sorting off for the table, or per column. |
+| `enableMultiSort` | Allow sorting by more than one column. On by default. |
+| `enableSortingRemoval` | Allow clicking a third time to clear the sort. |
+| `sortDescFirst` | Start with descending instead of ascending (also available per column). |
+| `sortFn` (column) | Pick a built in sort function, or pass your own. |
+
+## Sort functions
+
+Built in sort functions: `alphanumeric`, `alphanumericCaseSensitive`, `text`, `textCaseSensitive`, `datetime`,
+`basic`. By default MRT chooses one from the first value in the column.
+
+```ts
+{ accessorKey: 'name', header: 'Name', sortFn: 'textCaseSensitive' }
+
+{
+  accessorKey: 'priority',
+  header: 'Priority',
+  sortFn: (rowA, rowB, columnId) =>
+    order.indexOf(rowA.getValue(columnId)) - order.indexOf(rowB.getValue(columnId)),
+}
+```
+
+To refer to a custom sort function by name, register it with the `sortFns` option. Like filter functions, these are
+registered **once, when the table is created**.
+
+## Server-side sorting
+
+Set `manualSorting` and put the sorting state in `state` with an `onSortingChange` handler. Fetch the sorted data
+yourself:
+
+```svelte
+<script lang="ts">
+  let sorting = $state<MRT_SortingState>([]);
+  let data = $state<Person[]>([]);
+
+  $effect(() => {
+    fetchPeople({ sorting }).then((rows) => (data = rows));
+  });
+</script>
+
+<MaterialSvelteTable
+  options={{
+    columns,
+    get data() {
+      return data;
+    },
+    manualSorting: true,
+    onSortingChange: (updater) => {
+      sorting = typeof updater === 'function' ? updater(sorting) : updater;
+    },
+    state: {
+      get sorting() {
+        return sorting;
+      },
+    },
+  }}
+/>
+```
+
+:::note
+Options that change over time are passed as **getters** (`get data() { ... }`), so the table reads the latest value.
+Plain values are read once.
+:::
+
+See [Remote data](../../examples/remote/) for a complete example with sorting, filtering and pagination.

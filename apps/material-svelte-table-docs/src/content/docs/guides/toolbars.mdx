@@ -1,0 +1,57 @@
+---
+title: Toolbars
+description: Top and bottom toolbars, custom actions, internal buttons, density and full screen.
+---
+
+## Showing and hiding
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableTopToolbar`, `enableBottomToolbar` | Show or hide each toolbar. |
+| `enableToolbarInternalActions` | The group of built in buttons (search, filters, density, columns, full screen). |
+| `enableGlobalFilter`, `positionGlobalFilter` | The search box, and whether it sits `'left'`, `'right'` or `'none'`. |
+| `enableDensityToggle` | Compact / comfortable / spacious. Start with `initialState: { density: 'compact' }`. |
+| `enableFullScreenToggle` | The full screen button. Control it with `state: { isFullScreen }`. |
+| `enableFilters`, `enableHiding`, `enableColumnFilters` | Hide the matching toolbar buttons. |
+
+## Custom actions
+
+Add your own buttons next to the built in ones with `topToolbarCustomActions` or `bottomToolbarCustomActions`. They
+receive the table instance.
+
+```svelte
+<script lang="ts">
+  import Button, { Label } from '@smui/button';
+</script>
+
+{#snippet topToolbarCustomActions({ table })}
+  <Button
+    disabled={table.getSelectedRowModel().rows.length === 0}
+    onclick={() => remove(table.getSelectedRowModel().rows)}
+  >
+    <Label>Delete selected</Label>
+  </Button>
+{/snippet}
+
+<MaterialSvelteTable options={{ columns, data, enableRowSelection: true, topToolbarCustomActions }} />
+```
+
+`toolbarInternalActions` replaces the group of built in buttons entirely. To keep them, render them yourself or add
+your buttons through `topToolbarCustomActions` instead.
+
+## Replacing a whole toolbar
+
+Provide the `topToolbar` or `bottomToolbar` snippet to render something completely different. The snippet receives
+`{ table }`:
+
+```svelte
+{#snippet topToolbar({ table })}
+  <div>{table.getPrePaginatedRowModel().rows.length} people</div>
+{/snippet}
+```
+
+## Alert banner
+
+The banner above the table shows selection and grouping info and loading errors. Position it with
+`positionToolbarAlertBanner`, show your own message with `state: { showAlertBanner: true }` and the
+`toolbarAlertBannerProps` option, or replace its content with the `toolbarAlertBannerContent` snippet.

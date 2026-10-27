@@ -1,0 +1,63 @@
+---
+title: Grouping and Aggregation
+description: Group rows by column values and summarise each group.
+---
+
+Turn on `enableGrouping`. Each column gets a "Group by" action, and a drop zone appears in the toolbar where column
+headers can be dragged.
+
+```svelte
+<MaterialSvelteTable
+  options={{
+    columns,
+    data,
+    enableGrouping: true,
+    initialState: { grouping: ['state'], expanded: true },
+  }}
+/>
+```
+
+## Options
+
+| Option | What it does |
+| ------ | ------------ |
+| `enableGrouping` | Enable grouping, or set per column. |
+| `groupedColumnMode` | What happens to a grouped column: `'reorder'` (move it next to the expand column, default), `'remove'` (hide it) or `false` (leave it). |
+| `positionToolbarDropZone` | Where the drag and drop area shows. |
+| `aggregationFn` (column) | How a group's value is calculated. |
+| `AggregatedCell`, `GroupedCell` (column) | Snippets for the group's summary cell and its header cell. |
+
+## Aggregation
+
+`aggregationFn` takes `sum`, `min`, `max`, `extent`, `mean`, `median`, `unique`, `uniqueCount`, `count`, a list of
+those, or your own function. Show the result with an `AggregatedCell` snippet:
+
+```svelte
+{#snippet total({ cell })}
+  Total: <strong>{cell.getValue()}</strong>
+{/snippet}
+
+<MaterialSvelteTable
+  options={{
+    columns: [
+      { accessorKey: 'state', header: 'State' },
+      { accessorKey: 'salary', header: 'Salary', aggregationFn: 'sum', AggregatedCell: total },
+    ],
+    data,
+    enableGrouping: true,
+  }}
+/>
+```
+
+## Driving grouping yourself
+
+The table instance has `setGrouping` and `resetGrouping`, so any button can control it:
+
+```svelte
+<script lang="ts">
+  const table = createMaterialSvelteTable({ columns, data, enableGrouping: true });
+</script>
+
+<button onclick={() => table.setGrouping(['state'])}>Group by state</button>
+<MaterialSvelteTable {table} />
+```

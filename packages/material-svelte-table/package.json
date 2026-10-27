@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/KevinVandy/material-react-table"
+    "url": "https://github.com/adhiravishankar/material-svelte-table"
   },
   "type": "module",
   "sideEffects": [
@@ -47,7 +47,6 @@
     "dev": "vite dev",
     "build": "node scripts/build-styles.mjs && svelte-package -i src/lib -o dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "lint": "eslint .",
     "test": "vitest run",
     "storybook": "node scripts/build-styles.mjs && storybook dev -p 6006",
     "build-storybook": "node scripts/build-styles.mjs && storybook build",

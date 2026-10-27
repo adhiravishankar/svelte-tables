@@ -1,215 +1,151 @@
-# Material React Table V3
+# Material Svelte Table
 
-View [Documentation](https://www.material-react-table.com/)
+### _Quickly create Svelte data tables with Material Design_
 
-<a href="https://npmjs.com/package/material-react-table" target="_blank">
-  <img alt="" src="https://badgen.net/npm/v/material-react-table?color=blue" />
-</a>
-<a href="https://npmtrends.com/material-react-table" target="_blank">
-  <img alt="" src="https://badgen.net/npm/dt/material-react-table?label=installs&icon=npm&color=blue" />
-</a>
-<a href="https://bundlephobia.com/result?p=material-react-table" target="_blank">
-  <img alt="" src="https://badgen.net/bundlephobia/minzip/material-react-table@latest?color=blue" />
-</a>
-<a href="https://star-history.com/#kevinvandy/material-react-table&Date" target="_blank">
-  <img alt="" src="https://badgen.net/github/stars/KevinVandy/material-react-table?color=blue" />
-</a>
-<a href="https://github.com/KevinVandy/material-react-table/blob/v3/LICENSE" target="_blank">
-  <img alt="" src="https://badgen.net/github/license/KevinVandy/material-react-table?color=blue" />
-</a>
- <a
-  href="https://github.com/sponsors/kevinvandy"
-  target="_blank"
-  rel="noopener"
->
-  <img alt="" src="https://img.shields.io/badge/sponsor-violet" />
-</a>
-<a
-  href="https://discord.gg/5wqyRx6fnm"
-  target="_blank"
-  rel="noopener"
->
-  <img alt="" src="https://dcbadge.vercel.app/api/server/5wqyRx6fnm?style=flat">
-</a>
+**Built with [Svelte 5](https://svelte.dev), [Svelte Material UI](https://sveltematerialui.com) and [TanStack Table <sup>V9</sup>](https://tanstack.com/table)**
 
-## About
+Material Svelte Table is a Svelte 5 port of [Material React Table](https://github.com/KevinVandy/material-react-table)
+by Kevin Vandy, which it is based on (MIT licensed). The table logic comes from TanStack Table, the components from
+SMUI, and the API is written for runes and snippets: no hooks, no `renderX` callbacks.
 
-### _Quickly Create React Data Tables with Material Design_
+> **Status:** `4.0.0-alpha`. The feature set matches Material React Table v3 apart from the exceptions listed in
+> [Migrating from React](apps/material-svelte-table-docs/src/content/docs/getting-started/migrating-from-react.mdx).
 
-### **Built with [Material UI <sup>V6</sup>](https://mui.com) and [TanStack Table <sup>V8</sup>](https://tanstack.com/table/v8)**
+## Packages
 
-<img src="https://material-react-table.com/banner.png" alt="MRT" height="50" />
-
-> Want to use Mantine instead of Material UI? Check out [Mantine React Table](https://www.mantine-react-table.com)
-
-## Learn More
-
-- Join the [Discord](https://discord.gg/5wqyRx6fnm) server to join in on the development discussion or ask questions
-- View the [Docs Website](https://www.material-react-table.com/)
-- See all [Props, Options, APIs, Components, and Hooks](https://www.material-react-table.com/docs/api)
-
-### Quick Examples
-
-- [Basic Table](https://www.material-react-table.com/docs/examples/basic/) (See Default Features)
-- [Minimal Table](https://www.material-react-table.com/docs/examples/minimal/) (Turn off Features like Pagination, Sorting, Filtering, and Toolbars)
-- [Advanced Table](https://www.material-react-table.com/docs/examples/advanced/) (See some of the Advanced Features)
-- [Custom Headless Table](https://www.material-react-table.com/docs/examples/custom-headless/) (Build your own table markup)
-- [Dragging / Ordering Examples](https://www.material-react-table.com/docs/examples/column-ordering/) (Drag and Drop)
-- [Editing (CRUD) Examples](https://www.material-react-table.com/docs/examples/editing-crud/) (Create, Edit, and Delete Rows)
-- [Expanding / Grouping Examples](https://www.material-react-table.com/docs/examples/aggregation-and-grouping/) (Sum, Average, Count, etc.)
-- [Filtering Examples](https://www.material-react-table.com/docs/examples/filter-variants/) (Faceted Values, Switching Filters, etc.)
-- [Sticky Pinning Examples](https://www.material-react-table.com/docs/examples/sticky-header/) (Sticky Headers, Sticky Columns, Sticky Rows, etc.)
-- [Remote Data Fetching Examples](https://www.material-react-table.com/docs/examples/react-query/) (Server-side Pagination, Sorting, and Filtering)
-- [Virtualized Examples](https://www.material-react-table.com/docs/examples/virtualized/) (10,000 rows at once!)
-- [Infinite Scrolling](https://www.material-react-table.com/docs/examples/infinite-scrolling/) (Fetch data as you scroll)
-- [Localization (i18n)](https://www.material-react-table.com/docs/guides/localization#built-in-locale-examples) (Over a dozen languages built-in)
-
-View additional [storybook examples](https://www.material-react-table.dev/)
+| Path | What it is |
+| ---- | ---------- |
+| [`packages/material-svelte-table`](packages/material-svelte-table) | The library (`material-svelte-table`), plus its Storybook (400+ stories) and tests |
+| [`apps/material-svelte-table-docs`](apps/material-svelte-table-docs) | The documentation site: Astro + Starlight, with live Svelte examples |
 
 ## Features
 
-_All features can easily be enabled/disabled_
+_All features can be enabled or disabled_
 
-_**Fully Fleshed out [Docs](https://www.material-react-table.com/docs/guides#guides) are available for all features**_
+- [x] Aggregation and grouping (sum, average, count, ...)
+- [x] Cell actions (right click context menu)
+- [x] Click to copy cell values
+- [x] Column action dropdown menu
+- [x] Column hiding
+- [x] Column ordering via drag and drop
+- [x] Column pinning (frozen columns)
+- [x] Column resizing
+- [x] Customizable icons and component props
+- [x] Data editing and creating (modal, row, cell and table edit modes)
+- [x] Density toggle
+- [x] Detail panels
+- [x] Faceted values for filter options
+- [x] Filtering (client-side and server-side), with text, select, range, slider, checkbox, autocomplete and date variants
+- [x] Filter match highlighting
+- [x] Full screen mode
+- [x] Global filtering (search all columns, rank by best match)
+- [x] Header groups and footers
+- [x] Localization (i18n), with 39 built in locales
+- [x] Manage your own state, or let the table manage it
+- [x] Pagination (client-side and server-side)
+- [x] Row actions
+- [x] Row numbers
+- [x] Row ordering via drag and drop
+- [x] Row pinning
+- [x] Row selection
+- [x] Sorting (client-side and server-side)
+- [x] Theming from your Material (`--mdc-theme-*`) variables, including dark mode
+- [x] Toolbars with your own action buttons
+- [x] Tree data and expanding sub rows
+- [x] Row and column virtualization (`@tanstack/virtual-core`)
+- [x] Fully typed with TypeScript generics
 
-- [x] 30-56kb gzipped - [Bundlephobia](https://bundlephobia.com/package/material-react-table)
-- [x] Advanced TypeScript Generics Support (TypeScript Optional)
-- [x] Aggregation and Grouping (Sum, Average, Count, etc.)
-- [x] Cell Actions (Right-click Context Menu)
-- [x] Click To Copy Cell Values
-- [x] Column Action Dropdown Menu
-- [x] Column Hiding
-- [x] Column Ordering via Drag'n'Drop
-- [x] Column Pinning (Freeze Columns)
-- [x] Column Resizing
-- [x] Customize Icons
-- [x] Customize Styling of internal Mui Components
-- [x] Data Editing and Creating (5 different editing modes)
-- [x] Density Toggle
-- [x] Detail Panels (Expansion)
-- [x] Faceted Value Generation for Filter Options
-- [x] Filtering (supports client-side and server-side)
-- [x] Filter Match Highlighting
-- [x] Full Screen Mode
-- [x] Global Filtering (Search across all columns, rank by best match)
-- [x] Header Groups & Footers
-- [x] Localization (i18n) support
-- [x] Manage your own state or let the table manage it internally for you
-- [x] Pagination (supports client-side and server-side)
-- [x] Row Actions (Your Custom Action Buttons)
-- [x] Row Numbers
-- [x] Row Ordering via Drag'n'Drop
-- [x] Row Pinning
-- [x] Row Selection (Checkboxes)
-- [x] SSR compatible
-- [x] Sorting (supports client-side and server-side)
-- [x] Theming (Respects your Material UI Theme)
-- [x] Toolbars (Add your own action buttons)
-- [x] Tree Data / Expanding Sub-rows
-- [x] Virtualization (@tanstack/react-virtual)
+## Getting started
 
-## Getting Started
-
-### Installation
-
-View the full [Installation Docs](https://www.material-react-table.com/docs/getting-started/install)
-
-1. Ensure that you have React 18 or later installed
-
-2. Install Peer Dependencies (Material UI V6)
+Requires **Svelte 5**.
 
 ```bash
-npm install @mui/material @mui/x-date-pickers @mui/icons-material @emotion/react @emotion/styled
+npm install material-svelte-table
 ```
 
-3. Install material-react-table
+Import the stylesheet once (SMUI only publishes Sass, so the library ships its styles pre-compiled):
 
-```bash
-npm install material-react-table
+```ts
+import 'material-svelte-table/styles.css';
 ```
-
-> _`@tanstack/react-table`, `@tanstack/react-virtual`, and `@tanstack/match-sorter-utils`_ are internal dependencies, so you do NOT need to install them yourself.
 
 ### Usage
 
-> Read the full usage docs [here](https://www.material-react-table.com/docs/getting-started/usage/)
+```svelte
+<script lang="ts">
+  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-table';
 
-```jsx
-import { useMemo, useState, useEffect } from 'react';
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from 'material-react-table';
+  type Person = { name: string; age: number };
 
-//data must be stable reference (useState, useMemo, useQuery, defined outside of component, etc.)
-const data = [
-  {
-    name: 'John',
-    age: 30,
-  },
-  {
-    name: 'Sara',
-    age: 25,
-  },
-];
+  // define columns once, outside of any reactive code
+  const columns: MRT_ColumnDef<Person>[] = [
+    { accessorKey: 'name', header: 'Name' },
+    { accessorFn: (row) => row.age, id: 'age', header: 'Age' },
+  ];
 
-export default function App() {
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'name', //simple recommended way to define a column
-        header: 'Name',
-        muiTableHeadCellProps: { sx: { color: 'green' } }, //optional custom props
-        Cell: ({ cell }) => <span>{cell.getValue()}</span>, //optional custom cell render
-      },
-      {
-        accessorFn: (row) => row.age, //alternate way
-        id: 'age', //id required if you use accessorFn instead of accessorKey
-        header: 'Age',
-        Header: () => <i>Age</i>, //optional custom header render
-      },
-    ],
-    [],
-  );
+  let data = $state<Person[]>([
+    { name: 'John', age: 30 },
+    { name: 'Sara', age: 25 },
+  ]);
+  let rowSelection = $state({});
+</script>
 
-  //optionally, you can manage any/all of the table state yourself
-  const [rowSelection, setRowSelection] = useState({});
-
-  useEffect(() => {
-    //do something when the row selection changes
-  }, [rowSelection]);
-
-  const table = useMaterialReactTable({
+<MaterialSvelteTable
+  options={{
     columns,
-    data,
-    enableColumnOrdering: true, //enable some features
+    // options that change over time are passed as getters
+    get data() {
+      return data;
+    },
+    enableColumnOrdering: true, // enable some features
     enableRowSelection: true,
-    enablePagination: false, //disable a default feature
-    onRowSelectionChange: setRowSelection, //hoist internal state to your own state (optional)
-    state: { rowSelection }, //manage your own state, pass it back to the table (optional)
-  });
-
-  const someEventHandler = () => {
-    //read the table state during an event from the table instance
-    console.log(table.getState().sorting);
-  };
-
-  return (
-    <MaterialReactTable table={table} /> //other more lightweight MRT sub components also available
-  );
-}
+    enablePagination: false, // disable a default one
+    onRowSelectionChange: (updater) => {
+      rowSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
+    },
+    state: {
+      get rowSelection() {
+        return rowSelection;
+      },
+    },
+  }}
+/>
 ```
 
-_Open in [Code Sandbox](https://codesandbox.io/s/simple-material-react-table-example-t5c3ji)_
+Need the table instance, for example to start creating a row from your own button? Create it yourself and pass it in:
 
-## Contributors
+```svelte
+<script lang="ts">
+  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
 
-<a href="https://github.com/kevinvandy/material-react-table/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=kevinvandy/material-react-table" />
-</a>
+  const table = createMaterialSvelteTable({ columns, data });
+</script>
 
-PRs are Welcome, but please discuss in [GitHub Discussions](https://github.com/KevinVandy/material-react-table/discussions) or the [Discord Server](https://discord.gg/5wqyRx6fnm) first if it is a large change!
+<button onclick={() => table.setCreatingRow(true)}>Add person</button>
+<MaterialSvelteTable {table} />
+```
 
-Read the [Contributing Guide](https://github.com/KevinVandy/material-react-table/blob/v3/CONTRIBUTING.md) to learn how to run this project locally.
+Customization uses snippets where Material React Table used `renderX` options, for example `detailPanel`,
+`rowActions`, `topToolbarCustomActions` and `emptyRowsFallback`, and `Cell`, `Header`, `Footer` and `Edit` on columns.
 
-<!-- Use the FORCE, Luke! -->
+## Run it locally
+
+This repository uses pnpm and Turborepo.
+
+```bash
+pnpm i
+pnpm docs:dev        # documentation site on :3000 (uses the library source directly)
+pnpm storybook       # Storybook on :6006
+pnpm test            # unit and component tests
+pnpm check           # svelte-check and astro check
+pnpm build           # build the library, then the docs
+```
+
+## Contributing
+
+PRs are welcome. For large changes please open an issue first. See the [Contributing Guide](CONTRIBUTING.md) for how to
+run the project.
+
+## License
+
+MIT. Based on [Material React Table](https://github.com/KevinVandy/material-react-table), Copyright (c) 2022 Kevin Vandy.

@@ -3,6 +3,5 @@ storybook-static
 node_modules
 types
 *.json
-.next
+.astro
 *.md
-apps/material-react-table-docs/.next
