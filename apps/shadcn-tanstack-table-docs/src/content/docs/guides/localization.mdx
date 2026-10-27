@@ -12,56 +12,56 @@ Each locale is its own module, so only the ones you import end up in your bundle
 
 ```svelte
 <script lang="ts">
-  import { MaterialSvelteTable } from 'material-svelte-table';
-  import { MRT_Localization_FR } from 'material-svelte-table/locales/fr';
+  import { ShadcnSvelteTable } from 'shadcn-svelte-tanstack-table';
+  import { MRT_Localization_FR } from 'shadcn-svelte-tanstack-table/locales/fr';
 </script>
 
-<MaterialSvelteTable options={{ columns, data, localization: MRT_Localization_FR }} />
+<ShadcnSvelteTable options={{ columns, data, localization: MRT_Localization_FR }} />
 ```
 
 There are 39 built in locales:
 
 | Language | Export | Import path |
 | -------- | ------ | ----------- |
-| `ar` | `MRT_Localization_AR` | `material-svelte-table/locales/ar` |
-| `az` | `MRT_Localization_AZ` | `material-svelte-table/locales/az` |
-| `bg` | `MRT_Localization_BG` | `material-svelte-table/locales/bg` |
-| `cs` | `MRT_Localization_CS` | `material-svelte-table/locales/cs` |
-| `da` | `MRT_Localization_DA` | `material-svelte-table/locales/da` |
-| `de` | `MRT_Localization_DE` | `material-svelte-table/locales/de` |
-| `el` | `MRT_Localization_EL` | `material-svelte-table/locales/el` |
-| `en` | `MRT_Localization_EN` | `material-svelte-table/locales/en` |
-| `es` | `MRT_Localization_ES` | `material-svelte-table/locales/es` |
-| `et` | `MRT_Localization_ET` | `material-svelte-table/locales/et` |
-| `fa` | `MRT_Localization_FA` | `material-svelte-table/locales/fa` |
-| `fi` | `MRT_Localization_FI` | `material-svelte-table/locales/fi` |
-| `fr` | `MRT_Localization_FR` | `material-svelte-table/locales/fr` |
-| `he` | `MRT_Localization_HE` | `material-svelte-table/locales/he` |
-| `hr` | `MRT_Localization_HR` | `material-svelte-table/locales/hr` |
-| `hu` | `MRT_Localization_HU` | `material-svelte-table/locales/hu` |
-| `hy` | `MRT_Localization_HY` | `material-svelte-table/locales/hy` |
-| `id` | `MRT_Localization_ID` | `material-svelte-table/locales/id` |
-| `it` | `MRT_Localization_IT` | `material-svelte-table/locales/it` |
-| `ja` | `MRT_Localization_JA` | `material-svelte-table/locales/ja` |
-| `ko` | `MRT_Localization_KO` | `material-svelte-table/locales/ko` |
-| `mk` | `MRT_Localization_MK` | `material-svelte-table/locales/mk` |
-| `nl` | `MRT_Localization_NL` | `material-svelte-table/locales/nl` |
-| `no` | `MRT_Localization_NO` | `material-svelte-table/locales/no` |
-| `np` | `MRT_Localization_NP` | `material-svelte-table/locales/np` |
-| `pl` | `MRT_Localization_PL` | `material-svelte-table/locales/pl` |
-| `pt-BR` | `MRT_Localization_PT_BR` | `material-svelte-table/locales/pt-BR` |
-| `pt` | `MRT_Localization_PT` | `material-svelte-table/locales/pt` |
-| `ro` | `MRT_Localization_RO` | `material-svelte-table/locales/ro` |
-| `ru` | `MRT_Localization_RU` | `material-svelte-table/locales/ru` |
-| `sk` | `MRT_Localization_SK` | `material-svelte-table/locales/sk` |
-| `sr-Cyrl-RS` | `MRT_Localization_SR_CYRL_RS` | `material-svelte-table/locales/sr-Cyrl-RS` |
-| `sr-Latn-RS` | `MRT_Localization_SR_LATN_RS` | `material-svelte-table/locales/sr-Latn-RS` |
-| `sv` | `MRT_Localization_SV` | `material-svelte-table/locales/sv` |
-| `tr` | `MRT_Localization_TR` | `material-svelte-table/locales/tr` |
-| `uk` | `MRT_Localization_UK` | `material-svelte-table/locales/uk` |
-| `vi` | `MRT_Localization_VI` | `material-svelte-table/locales/vi` |
-| `zh-Hans` | `MRT_Localization_ZH_HANS` | `material-svelte-table/locales/zh-Hans` |
-| `zh-Hant` | `MRT_Localization_ZH_HANT` | `material-svelte-table/locales/zh-Hant` |
+| `ar` | `MRT_Localization_AR` | `shadcn-svelte-tanstack-table/locales/ar` |
+| `az` | `MRT_Localization_AZ` | `shadcn-svelte-tanstack-table/locales/az` |
+| `bg` | `MRT_Localization_BG` | `shadcn-svelte-tanstack-table/locales/bg` |
+| `cs` | `MRT_Localization_CS` | `shadcn-svelte-tanstack-table/locales/cs` |
+| `da` | `MRT_Localization_DA` | `shadcn-svelte-tanstack-table/locales/da` |
+| `de` | `MRT_Localization_DE` | `shadcn-svelte-tanstack-table/locales/de` |
+| `el` | `MRT_Localization_EL` | `shadcn-svelte-tanstack-table/locales/el` |
+| `en` | `MRT_Localization_EN` | `shadcn-svelte-tanstack-table/locales/en` |
+| `es` | `MRT_Localization_ES` | `shadcn-svelte-tanstack-table/locales/es` |
+| `et` | `MRT_Localization_ET` | `shadcn-svelte-tanstack-table/locales/et` |
+| `fa` | `MRT_Localization_FA` | `shadcn-svelte-tanstack-table/locales/fa` |
+| `fi` | `MRT_Localization_FI` | `shadcn-svelte-tanstack-table/locales/fi` |
+| `fr` | `MRT_Localization_FR` | `shadcn-svelte-tanstack-table/locales/fr` |
+| `he` | `MRT_Localization_HE` | `shadcn-svelte-tanstack-table/locales/he` |
+| `hr` | `MRT_Localization_HR` | `shadcn-svelte-tanstack-table/locales/hr` |
+| `hu` | `MRT_Localization_HU` | `shadcn-svelte-tanstack-table/locales/hu` |
+| `hy` | `MRT_Localization_HY` | `shadcn-svelte-tanstack-table/locales/hy` |
+| `id` | `MRT_Localization_ID` | `shadcn-svelte-tanstack-table/locales/id` |
+| `it` | `MRT_Localization_IT` | `shadcn-svelte-tanstack-table/locales/it` |
+| `ja` | `MRT_Localization_JA` | `shadcn-svelte-tanstack-table/locales/ja` |
+| `ko` | `MRT_Localization_KO` | `shadcn-svelte-tanstack-table/locales/ko` |
+| `mk` | `MRT_Localization_MK` | `shadcn-svelte-tanstack-table/locales/mk` |
+| `nl` | `MRT_Localization_NL` | `shadcn-svelte-tanstack-table/locales/nl` |
+| `no` | `MRT_Localization_NO` | `shadcn-svelte-tanstack-table/locales/no` |
+| `np` | `MRT_Localization_NP` | `shadcn-svelte-tanstack-table/locales/np` |
+| `pl` | `MRT_Localization_PL` | `shadcn-svelte-tanstack-table/locales/pl` |
+| `pt-BR` | `MRT_Localization_PT_BR` | `shadcn-svelte-tanstack-table/locales/pt-BR` |
+| `pt` | `MRT_Localization_PT` | `shadcn-svelte-tanstack-table/locales/pt` |
+| `ro` | `MRT_Localization_RO` | `shadcn-svelte-tanstack-table/locales/ro` |
+| `ru` | `MRT_Localization_RU` | `shadcn-svelte-tanstack-table/locales/ru` |
+| `sk` | `MRT_Localization_SK` | `shadcn-svelte-tanstack-table/locales/sk` |
+| `sr-Cyrl-RS` | `MRT_Localization_SR_CYRL_RS` | `shadcn-svelte-tanstack-table/locales/sr-Cyrl-RS` |
+| `sr-Latn-RS` | `MRT_Localization_SR_LATN_RS` | `shadcn-svelte-tanstack-table/locales/sr-Latn-RS` |
+| `sv` | `MRT_Localization_SV` | `shadcn-svelte-tanstack-table/locales/sv` |
+| `tr` | `MRT_Localization_TR` | `shadcn-svelte-tanstack-table/locales/tr` |
+| `uk` | `MRT_Localization_UK` | `shadcn-svelte-tanstack-table/locales/uk` |
+| `vi` | `MRT_Localization_VI` | `shadcn-svelte-tanstack-table/locales/vi` |
+| `zh-Hans` | `MRT_Localization_ZH_HANS` | `shadcn-svelte-tanstack-table/locales/zh-Hans` |
+| `zh-Hant` | `MRT_Localization_ZH_HANT` | `shadcn-svelte-tanstack-table/locales/zh-Hant` |
 
 ## Overriding or adding strings
 
@@ -69,7 +69,7 @@ There are 39 built in locales:
 few of its strings:
 
 ```ts
-import { MRT_Localization_DE } from 'material-svelte-table/locales/de';
+import { MRT_Localization_DE } from 'shadcn-svelte-tanstack-table/locales/de';
 
 localization: { ...MRT_Localization_DE, search: 'Suchen…', noRecordsToDisplay: 'Keine Einträge' },
 ```
@@ -81,7 +81,7 @@ Some strings contain placeholders in braces, for example `filterByColumn: 'Filte
 Type it as `MRT_Localization` and the compiler lists every key you still need:
 
 ```ts
-import type { MRT_Localization } from 'material-svelte-table';
+import type { MRT_Localization } from 'shadcn-svelte-tanstack-table';
 
 export const MyLocale: MRT_Localization = {
   language: 'xx',

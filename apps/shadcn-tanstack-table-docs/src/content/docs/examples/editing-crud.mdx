@@ -13,8 +13,7 @@ Create, edit and delete users. Edits go through a dialog, validated in the save 
 `exitEditingMode()` keeps it open. In a real app, replace the local `data` updates with requests.
 See the [Editing guide](/guides/editing/).
 
-The Create button comes from Svelte Material UI. To use it in your own app, install it too:
-`npm install @smui/button`.
+The Create button is the shadcn-svelte `Button`, which the package re-exports.
 
 <Example>
   <EditingCrud client:load />

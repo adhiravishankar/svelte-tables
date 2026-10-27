@@ -53,7 +53,7 @@ Create a table instance, and call `table.setCreatingRow(true)` from a button:
 
 ```svelte
 <script lang="ts">
-  const table = createMaterialSvelteTable({
+  const table = createShadcnSvelteTable({
     columns,
     get data() { return data },
     createDisplayMode: 'modal', // or 'row'
@@ -70,7 +70,7 @@ Create a table instance, and call `table.setCreatingRow(true)` from a button:
   <button onclick={() => table.setCreatingRow(true)}>Create new user</button>
 {/snippet}
 
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
 ```
 
 With `createDisplayMode: 'row'` the new row is inserted inline. Use `positionCreatingRow` (`'top'`, `'bottom'` or an

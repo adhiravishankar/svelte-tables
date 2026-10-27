@@ -6,7 +6,7 @@ description: Checkbox and click selection, select all, selection state and the a
 Add a checkbox column with `enableRowSelection`:
 
 ```svelte
-<MaterialSvelteTable options={{ columns, data, enableRowSelection: true }} />
+<ShadcnSvelteTable options={{ columns, data, enableRowSelection: true }} />
 ```
 
 Read the selection from the table instance, or manage it as state:
@@ -16,7 +16,7 @@ Read the selection from the table instance, or manage it as state:
   let rowSelection = $state<MRT_RowSelectionState>({});
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,
@@ -54,7 +54,7 @@ selection, otherwise it will point at the wrong rows after sorting or reloading.
 The checkbox column is optional. To select when the row is clicked, use `tableBodyRowProps`:
 
 ```svelte
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

@@ -14,7 +14,7 @@ const data = [
 ```
 
 ```svelte
-<MaterialSvelteTable options={{ columns, data, enableExpanding: true }} />
+<ShadcnSvelteTable options={{ columns, data, enableExpanding: true }} />
 ```
 
 Use `getSubRows` if your children live under another key. Start expanded with `initialState: { expanded: true }`.
@@ -38,7 +38,7 @@ own.
   <p>{row.original.biography}</p>
 {/snippet}
 
-<MaterialSvelteTable options={{ columns, data, detailPanel }} />
+<ShadcnSvelteTable options={{ columns, data, detailPanel }} />
 ```
 
 Render nothing for rows that have no details, or hide just their button with `expandButtonProps`:

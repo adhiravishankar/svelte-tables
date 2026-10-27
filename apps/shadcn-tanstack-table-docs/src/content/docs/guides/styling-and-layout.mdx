@@ -31,7 +31,7 @@ of the table wide ones.
 }
 ```
 
-Colours come from your SMUI theme and can be overridden with `mrtTheme`; see [Theming](../theming/).
+Colours come from your shadcn theme and can be overridden with `mrtTheme`; see [Theming](../theming/).
 
 ## Sticky header and footer
 
@@ -50,7 +50,7 @@ Set `enableStickyHeader: false` to let the header scroll away. The footer only s
 {#snippet caption()}Quarterly results{/snippet}
 {#snippet emptyRowsFallback()}<p>Nothing to show.</p>{/snippet}
 
-<MaterialSvelteTable options={{ columns, data, caption, emptyRowsFallback }} />
+<ShadcnSvelteTable options={{ columns, data, caption, emptyRowsFallback }} />
 ```
 
 `positionToolbarAlertBanner`, `positionPagination` and friends move the built in pieces; `enableTableHead`,

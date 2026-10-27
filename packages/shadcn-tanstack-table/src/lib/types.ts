@@ -112,7 +112,7 @@ export type ElementProps<K extends keyof HTMLElementTagNameMap> =
  * Props forwarded to a shadcn-svelte component. They accept any attribute of
  * their root element plus their own props, so these are intentionally loose.
  */
-export type SmuiProps = Record<string, any>;
+export type ShadcnProps = Record<string, any>;
 
 /** Either a static props object or a function that derives one from context. */
 export type PropsOrFn<TProps, TContext> =
@@ -477,20 +477,20 @@ export interface MRT_ColumnDef<
    * `id` defaults to the `accessorKey` or `header` if not specified.
    */
   id?: LiteralUnion<string & keyof TData>;
-  columnActionsButtonProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  columnDragHandleProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  copyButtonProps?: PropsOrFn<SmuiProps, MRT_CellContext<TData, TValue>>;
-  editTextFieldProps?: PropsOrFn<SmuiProps, MRT_CellContext<TData, TValue>>;
-  filterAutocompleteProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  filterCheckboxProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  filterSliderProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
+  columnActionsButtonProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  columnDragHandleProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  copyButtonProps?: PropsOrFn<ShadcnProps, MRT_CellContext<TData, TValue>>;
+  editTextFieldProps?: PropsOrFn<ShadcnProps, MRT_CellContext<TData, TValue>>;
+  filterAutocompleteProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  filterCheckboxProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  filterSliderProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
   filterTextFieldProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     MRT_ColumnContext<TData> & { rangeFilterIndex?: number }
   >;
   /** Props for the native `<input type="date | datetime-local | time">` filters. */
   filterDateInputProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     MRT_ColumnContext<TData> & { rangeFilterIndex?: number }
   >;
   tableBodyCellProps?: PropsOrFn<
@@ -758,50 +758,50 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   mrtTheme?: Partial<MRT_Theme>;
 
   bottomToolbarProps?: PropsOrFn<ElementProps<'div'>, TableContext<TData>>;
-  circularProgressProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
-  columnActionsButtonProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  columnDragHandleProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  copyButtonProps?: PropsOrFn<SmuiProps, MRT_CellContext<TData>>;
-  createRowDialogProps?: PropsOrFn<SmuiProps, RowContext<TData>>;
+  circularProgressProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
+  columnActionsButtonProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  columnDragHandleProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  copyButtonProps?: PropsOrFn<ShadcnProps, MRT_CellContext<TData>>;
+  createRowDialogProps?: PropsOrFn<ShadcnProps, RowContext<TData>>;
   detailPanelProps?: PropsOrFn<ElementProps<'td'>, RowContext<TData>>;
-  editRowDialogProps?: PropsOrFn<SmuiProps, RowContext<TData>>;
-  editTextFieldProps?: PropsOrFn<SmuiProps, MRT_CellContext<TData>>;
-  expandAllButtonProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
+  editRowDialogProps?: PropsOrFn<ShadcnProps, RowContext<TData>>;
+  editTextFieldProps?: PropsOrFn<ShadcnProps, MRT_CellContext<TData>>;
+  expandAllButtonProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
   expandButtonProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     RowContext<TData> & { staticRowIndex?: number }
   >;
-  filterAutocompleteProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
-  filterCheckboxProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
+  filterAutocompleteProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
+  filterCheckboxProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
   filterDateInputProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     MRT_ColumnContext<TData> & { rangeFilterIndex?: number }
   >;
-  filterSliderProps?: PropsOrFn<SmuiProps, MRT_ColumnContext<TData>>;
+  filterSliderProps?: PropsOrFn<ShadcnProps, MRT_ColumnContext<TData>>;
   filterTextFieldProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     MRT_ColumnContext<TData> & { rangeFilterIndex?: number }
   >;
   linearProgressProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     TableContext<TData> & { isTopToolbar: boolean }
   >;
   paginationProps?: PropsOrFn<
-    SmuiProps & {
+    ShadcnProps & {
       disabled?: boolean;
       rowsPerPageOptions?: { label: string; value: number }[] | number[];
       showRowsPerPage?: boolean;
     },
     TableContext<TData>
   >;
-  rowDragHandleProps?: PropsOrFn<SmuiProps, RowContext<TData>>;
-  searchTextFieldProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
-  selectAllCheckboxProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
+  rowDragHandleProps?: PropsOrFn<ShadcnProps, RowContext<TData>>;
+  searchTextFieldProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
+  selectAllCheckboxProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
   selectCheckboxProps?: PropsOrFn<
-    SmuiProps,
+    ShadcnProps,
     RowContext<TData> & { staticRowIndex?: number }
   >;
-  skeletonProps?: PropsOrFn<SmuiProps, MRT_CellContext<TData>>;
+  skeletonProps?: PropsOrFn<ShadcnProps, MRT_CellContext<TData>>;
   tableBodyCellProps?: PropsOrFn<ElementProps<'td'>, MRT_CellContext<TData>>;
   tableBodyProps?: PropsOrFn<ElementProps<'tbody'>, TableContext<TData>>;
   tableBodyRowProps?: PropsOrFn<
@@ -826,8 +826,8 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   >;
   tablePaperProps?: PropsOrFn<ElementProps<'div'>, TableContext<TData>>;
   tableProps?: PropsOrFn<ElementProps<'table'>, TableContext<TData>>;
-  toolbarAlertBannerChipProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
-  toolbarAlertBannerProps?: PropsOrFn<SmuiProps, TableContext<TData>>;
+  toolbarAlertBannerChipProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
+  toolbarAlertBannerProps?: PropsOrFn<ShadcnProps, TableContext<TData>>;
   topToolbarProps?: PropsOrFn<ElementProps<'div'>, TableContext<TData>>;
 
   onActionCellChange?: OnChangeFn<MRT_Cell<TData> | null>;

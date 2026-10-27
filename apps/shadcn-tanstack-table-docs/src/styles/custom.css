@@ -1,16 +1,33 @@
 /*
- * Material Svelte Table reads the standard Material theme variables. Map them
- * to Starlight's, so the live tables follow the site's colors and its
- * light/dark switch.
+ * Tailwind without its preflight, so it does not restyle Starlight, plus the
+ * library's shadcn tokens. The tokens are mapped onto Starlight's colors below,
+ * so the live tables follow the site's colors and its light/dark switch.
  */
-@import 'material-svelte-table/styles.css';
+@layer base, starlight, theme, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import 'shadcn-svelte-tanstack-table/styles.css';
 
-:root {
-  --mdc-theme-primary: var(--sl-color-accent);
-  --mdc-theme-secondary: var(--sl-color-accent-high);
-  --mdc-theme-surface: var(--sl-color-bg);
-  --mdc-theme-on-surface: var(--sl-color-text);
-  --mdc-theme-on-primary: var(--sl-color-black);
+:root,
+[data-theme='dark'],
+[data-theme='light'] {
+  --background: var(--sl-color-bg);
+  --foreground: var(--sl-color-text);
+  --card: var(--sl-color-bg);
+  --card-foreground: var(--sl-color-text);
+  --popover: var(--sl-color-bg-nav);
+  --popover-foreground: var(--sl-color-text);
+  --primary: var(--sl-color-accent);
+  --primary-foreground: var(--sl-color-black);
+  --secondary: var(--sl-color-accent-high);
+  --secondary-foreground: var(--sl-color-black);
+  --muted: var(--sl-color-gray-5);
+  --muted-foreground: var(--sl-color-gray-2);
+  --accent: var(--sl-color-gray-5);
+  --accent-foreground: var(--sl-color-text);
+  --border: var(--sl-color-gray-5);
+  --input: var(--sl-color-gray-4);
+  --ring: var(--sl-color-accent);
 }
 
 /* Starlight styles bare tables in prose; the live tables are not prose. */

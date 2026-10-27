@@ -7,7 +7,7 @@ Turn on `enableGrouping`. Each column gets a "Group by" action, and a drop zone 
 headers can be dragged.
 
 ```svelte
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,
@@ -37,7 +37,7 @@ those, or your own function. Show the result with an `AggregatedCell` snippet:
   Total: <strong>{cell.getValue()}</strong>
 {/snippet}
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns: [
       { accessorKey: 'state', header: 'State' },
@@ -55,9 +55,9 @@ The table instance has `setGrouping` and `resetGrouping`, so any button can cont
 
 ```svelte
 <script lang="ts">
-  const table = createMaterialSvelteTable({ columns, data, enableGrouping: true });
+  const table = createShadcnSvelteTable({ columns, data, enableGrouping: true });
 </script>
 
 <button onclick={() => table.setGrouping(['state'])}>Group by state</button>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
 ```

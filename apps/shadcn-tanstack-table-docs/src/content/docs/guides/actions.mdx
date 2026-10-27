@@ -10,7 +10,7 @@ description: Action columns, action menus, cell menus, click to copy and row num
 
 ```svelte
 <script lang="ts">
-  import { MRT_ActionMenuItem } from 'material-svelte-table';
+  import { MRT_ActionMenuItem } from 'shadcn-svelte-tanstack-table';
 </script>
 
 {#snippet rowActionMenuItems({ row, closeMenu, table })}
@@ -24,7 +24,7 @@ description: Action columns, action menus, cell menus, click to copy and row num
   />
 {/snippet}
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{ columns, data, enableRowActions: true, rowActionMenuItems }}
 />
 ```
@@ -43,7 +43,7 @@ Enable a context menu for individual cells:
   <MRT_ActionMenuItem label="Copy" onclick={() => { copy(cell.getValue()); closeMenu(); }} {table} />
 {/snippet}
 
-<MaterialSvelteTable options={{ columns, data, enableCellActions: true, cellActionMenuItems }} />
+<ShadcnSvelteTable options={{ columns, data, enableCellActions: true, cellActionMenuItems }} />
 ```
 
 `enableCellActions` can be a function that decides per cell. Open the menu by right clicking a cell, or from the cell

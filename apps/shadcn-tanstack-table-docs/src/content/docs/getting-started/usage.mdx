@@ -33,7 +33,7 @@ first value forever:
   let isLoading = $state(true);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     // reactive: a getter
@@ -58,21 +58,21 @@ first value forever:
 
 ## Using the table instance
 
-`<MaterialSvelteTable options={...} />` creates a table for you. When you need the instance, for example to start
+`<ShadcnSvelteTable options={...} />` creates a table for you. When you need the instance, for example to start
 creating a row from a button, or to read the selected rows, create it yourself and pass it in:
 
 ```svelte
 <script lang="ts">
-  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
+  import { ShadcnSvelteTable, createShadcnSvelteTable } from 'shadcn-svelte-tanstack-table';
 
-  const table = createMaterialSvelteTable({ columns, data });
+  const table = createShadcnSvelteTable({ columns, data });
 </script>
 
 <button onclick={() => table.resetColumnFilters(true)}>Clear filters</button>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
 ```
 
-`createMaterialSvelteTable` registers effects, so call it while a component is initializing.
+`createShadcnSvelteTable` registers effects, so call it while a component is initializing.
 
 The instance is a TanStack Table v9 table plus a few MRT additions:
 

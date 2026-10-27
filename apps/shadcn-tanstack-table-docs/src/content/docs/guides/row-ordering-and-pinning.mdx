@@ -13,7 +13,7 @@ description: Reorder rows by dragging, drag rows elsewhere, and pin rows to the 
   let data = $state(people);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     get data() {
@@ -41,7 +41,7 @@ enabling reordering, useful for dragging rows into your own drop target.
 ## Row pinning
 
 ```svelte
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{ columns, data, enableRowPinning: true, rowPinningDisplayMode: 'sticky' }}
 />
 ```

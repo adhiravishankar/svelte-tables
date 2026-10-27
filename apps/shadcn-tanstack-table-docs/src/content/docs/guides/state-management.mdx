@@ -14,14 +14,14 @@ Inside a template, a `$derived` or an `$effect`, read a TanStack slice from `tab
 
 ```svelte
 <script lang="ts">
-  const table = createMaterialSvelteTable({ columns, data });
+  const table = createShadcnSvelteTable({ columns, data });
 
   const sorting = $derived(table.atoms.sorting.get());
   const pageIndex = $derived(table.atoms.pagination.get().pageIndex);
 </script>
 
 <p>Page {pageIndex + 1}, sorted by {sorting.map((s) => s.id).join(', ') || 'nothing'}</p>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
 ```
 
 State that MRT adds (density, full screen, the row being edited, …) is on `table.mrtState`. Both are reactive.
@@ -36,7 +36,7 @@ either a value or an updater function:
   let sorting = $state<MRT_SortingState>([]);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

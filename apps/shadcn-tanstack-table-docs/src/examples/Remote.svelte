@@ -1,11 +1,11 @@
 <script lang="ts">
   import {
-    MaterialSvelteTable,
+    ShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_ColumnFiltersState,
     type MRT_PaginationState,
     type MRT_SortingState,
-  } from 'material-svelte-table';
+  } from 'shadcn-svelte-tanstack-table';
   import { fetchPeople } from '../data/fakeApi';
   import type { Person } from '../data/makeData';
 
@@ -66,7 +66,7 @@
 {#if isError}
   <p role="alert" style="color: tomato">Could not load the data. Change a filter to try again.</p>
 {/if}
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     get data() {

@@ -3,14 +3,14 @@ title: Table Instance and Events
 description: Create the table yourself to read and drive it from outside, and listen for table events.
 ---
 
-`MaterialSvelteTable` creates a table for you from `options`. To read or change the table from elsewhere in your
-component, create it with `createMaterialSvelteTable` and hand it over:
+`ShadcnSvelteTable` creates a table for you from `options`. To read or change the table from elsewhere in your
+component, create it with `createShadcnSvelteTable` and hand it over:
 
 ```svelte
 <script lang="ts">
-  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
+  import { ShadcnSvelteTable, createShadcnSvelteTable } from 'shadcn-svelte-tanstack-table';
 
-  const table = createMaterialSvelteTable({
+  const table = createShadcnSvelteTable({
     columns,
     data,
     enableRowSelection: true,
@@ -20,10 +20,10 @@ component, create it with `createMaterialSvelteTable` and hand it over:
 </script>
 
 <button onclick={() => table.resetRowSelection()}>Clear {selected} selected</button>
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
 ```
 
-`createMaterialSvelteTable` must run while a component initialises (like any rune based code). The instance is a
+`createShadcnSvelteTable` must run while a component initialises (like any rune based code). The instance is a
 TanStack Table v9 table with MRT's additions:
 
 | Member | |

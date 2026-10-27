@@ -1,5 +1,6 @@
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
@@ -9,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 const useLibrarySource = process.argv.includes('dev');
 const lib = (path) =>
   fileURLToPath(
-    new URL(`../../packages/material-svelte-table/${path}`, import.meta.url),
+    new URL(`../../packages/shadcn-tanstack-table/${path}`, import.meta.url),
   );
 
 export default defineConfig({
@@ -18,17 +19,17 @@ export default defineConfig({
   integrations: [
     svelte(),
     starlight({
-      title: 'Material Svelte Table',
+      title: 'Shadcn Svelte Table',
       description:
-        'A fully featured Material Design data table for Svelte 5, built on TanStack Table v9 and Svelte Material UI.',
+        'A fully featured shadcn-svelte data table for Svelte 5, built on TanStack Table v9, bits-ui and Tailwind CSS.',
       customCss: ['./src/styles/custom.css'],
       editLink: {
         baseUrl:
-          'https://github.com/adhiravishankar/material-svelte-table/edit/main/apps/material-svelte-table-docs/',
+          'https://github.com/adhiravishankar/svelte-tables/edit/main/apps/shadcn-tanstack-table-docs/',
       },
       social: [
         {
-          href: 'https://github.com/adhiravishankar/material-svelte-table',
+          href: 'https://github.com/adhiravishankar/svelte-tables',
           icon: 'github',
           label: 'GitHub',
         },
@@ -55,23 +56,23 @@ export default defineConfig({
     }),
   ],
   vite: {
-    // SMUI ships ESM with extensionless relative imports, which Node cannot
-    // resolve, so Vite has to bundle it (and the library that imports it)
-    // for the prerender.
+    plugins: [tailwindcss()],
+    // The library ships .svelte files and bits-ui, which Node cannot import
+    // as is, so Vite has to bundle them for the prerender.
     environments: {
       prerender: {
-        resolve: { noExternal: [/^@smui\//, 'material-svelte-table'] },
+        resolve: { noExternal: [/^bits-ui/, 'shadcn-svelte-tanstack-table'] },
       },
     },
     resolve: useLibrarySource
       ? {
           alias: [
             {
-              find: /^material-svelte-table\/styles\.css$/,
+              find: /^shadcn-svelte-tanstack-table\/styles\.css$/,
               replacement: lib('src/lib/styles.css'),
             },
             {
-              find: /^material-svelte-table$/,
+              find: /^shadcn-svelte-tanstack-table$/,
               replacement: lib('src/lib/index.ts'),
             },
           ],

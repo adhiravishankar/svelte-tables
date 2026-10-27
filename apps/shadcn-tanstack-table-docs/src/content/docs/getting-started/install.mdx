@@ -1,12 +1,13 @@
 ---
 title: Install
-description: Install Material Svelte Table and load its styles.
+description: Install Shadcn Svelte Table and load its styles.
 ---
 
 import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-Material Svelte Table needs **Svelte 5**. Everything else it uses (TanStack Table v9, TanStack Virtual and
-[Svelte Material UI](https://sveltematerialui.com)) is installed with it.
+Shadcn Svelte Table needs **Svelte 5** and **Tailwind CSS 4**. Everything else it uses (TanStack Table v9,
+TanStack Virtual, [bits-ui](https://bits-ui.com) and the [shadcn-svelte](https://shadcn-svelte.com) components) is
+installed with it.
 
 <Steps>
 
@@ -15,36 +16,37 @@ Material Svelte Table needs **Svelte 5**. Everything else it uses (TanStack Tabl
    <Tabs syncKey="pm">
      <TabItem label="npm">
        ```sh
-       npm install material-svelte-table
+       npm install shadcn-svelte-tanstack-table
        ```
      </TabItem>
      <TabItem label="pnpm">
        ```sh
-       pnpm add material-svelte-table
+       pnpm add shadcn-svelte-tanstack-table
        ```
      </TabItem>
      <TabItem label="yarn">
        ```sh
-       yarn add material-svelte-table
+       yarn add shadcn-svelte-tanstack-table
        ```
      </TabItem>
    </Tabs>
 
-2. Import the stylesheet once, for example in your root layout. It contains the base styles of the Svelte
-   Material UI components the table is built from.
+2. Import the stylesheet once, after Tailwind, in your global CSS. It makes Tailwind scan the library for the
+   classes it uses and defines the standard shadcn-svelte tokens.
 
-   ```ts
-   import 'material-svelte-table/styles.css';
+   ```css
+   @import 'tailwindcss';
+   @import 'shadcn-svelte-tanstack-table/styles.css';
    ```
 
-3. Define the Material theme variables you want. The table reads these and has sensible fallbacks, so this
-   step is optional. See [Theming](/guides/theming/).
+3. Optionally, define your own shadcn tokens after that import. If your app already has a shadcn-svelte setup, the
+   table uses your tokens as they are. See [Theming](/guides/theming/).
 
    ```css
    :root {
-     --mdc-theme-primary: #1976d2;
-     --mdc-theme-surface: #ffffff;
-     --mdc-theme-on-surface: #000000;
+     --primary: oklch(0.55 0.2 260);
+     --card: oklch(1 0 0);
+     --foreground: oklch(0.145 0 0);
    }
    ```
 

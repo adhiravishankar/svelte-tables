@@ -18,10 +18,11 @@
     "@astrojs/starlight": "^0.42.7",
     "@astrojs/svelte": "^9.1.1",
     "@faker-js/faker": "^10.6.0",
-    "@smui/button": "^9.0.6",
+    "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "shadcn-svelte-tanstack-table": "*",
     "svelte": "^5.57.3",
+    "tailwindcss": "^4.3.3",
     "typescript": "6.0.3"
   },
   "engines": {

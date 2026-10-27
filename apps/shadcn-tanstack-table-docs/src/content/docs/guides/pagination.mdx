@@ -6,7 +6,7 @@ description: Page size, pager position and style, and server-side pagination.
 Client-side pagination is on by default, with 10 rows per page.
 
 ```svelte
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,
@@ -52,7 +52,7 @@ Set `manualPagination`, pass `rowCount`, and keep `pagination` in your own state
   });
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     get data() { return data; },

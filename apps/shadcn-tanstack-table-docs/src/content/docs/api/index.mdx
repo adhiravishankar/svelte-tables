@@ -7,9 +7,9 @@ sidebar:
 
 ## Reference pages
 
-- [Table Options](/api/table-options/): every option of `createMaterialSvelteTable`, with types and defaults.
+- [Table Options](/api/table-options/): every option of `createShadcnSvelteTable`, with types and defaults.
 - [Column Options](/api/column-options/): every option of a column definition.
-- [State](/api/state/): the state Material Svelte Table adds to TanStack Table's.
+- [State](/api/state/): the state Shadcn Svelte Table adds to TanStack Table's.
 
 These three pages are generated from the library's TypeScript source, so they always match the version you install.
 
@@ -17,16 +17,16 @@ These three pages are generated from the library's TypeScript source, so they al
 
 | Export                                         | What it is                                                            |
 | ---------------------------------------------- | --------------------------------------------------------------------- |
-| `MaterialSvelteTable`                          | The table component. Takes `options`, or a `table` you created        |
-| `createMaterialSvelteTable(options)`           | Creates the table instance. Call it while a component initializes     |
+| `ShadcnSvelteTable`                          | The table component. Takes `options`, or a `table` you created        |
+| `createShadcnSvelteTable(options)`           | Creates the table instance. Call it while a component initializes     |
 | `createMRTColumnHelper<TData>()`               | Helper for typed column definitions                                   |
 | `MRT_*` components                             | The parts of the table: `MRT_TableBody`, `MRT_TopToolbar`, `MRT_GlobalFilterTextField`, … Use them to build custom layouts |
 | `MRT_ActionMenuItem`, `MRT_Menu`, `MRT_IconButton` | Building blocks for your own menu items and toolbar buttons       |
 | `MRT_EditCellTextField`, `MRT_EditActionButtons` | For custom edit dialogs                                             |
 | `MRT_Default_Icons`                            | The default icon set                                                  |
 | `MRT_FilterFns`, `MRT_SortFns`, `MRT_AggregationFns` | The built-in functions                                          |
-| `MRT_Localization_EN`                          | English strings. Other languages: `material-svelte-table/locales/<code>` |
-| `material-svelte-table/styles.css`             | The stylesheet to import once                                         |
+| `MRT_Localization_EN`                          | English strings. Other languages: `shadcn-svelte-tanstack-table/locales/<code>` |
+| `shadcn-svelte-tanstack-table/styles.css`             | The stylesheet to import once                                         |
 
 ## Types
 

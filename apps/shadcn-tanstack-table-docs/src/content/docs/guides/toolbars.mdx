@@ -21,7 +21,7 @@ receive the table instance.
 
 ```svelte
 <script lang="ts">
-  import Button, { Label } from '@smui/button';
+  import { Button } from 'shadcn-svelte-tanstack-table';
 </script>
 
 {#snippet topToolbarCustomActions({ table })}
@@ -29,11 +29,11 @@ receive the table instance.
     disabled={table.getSelectedRowModel().rows.length === 0}
     onclick={() => remove(table.getSelectedRowModel().rows)}
   >
-    <Label>Delete selected</Label>
+    Delete selected
   </Button>
 {/snippet}
 
-<MaterialSvelteTable options={{ columns, data, enableRowSelection: true, topToolbarCustomActions }} />
+<ShadcnSvelteTable options={{ columns, data, enableRowSelection: true, topToolbarCustomActions }} />
 ```
 
 `toolbarInternalActions` replaces the group of built in buttons entirely. To keep them, render them yourself or add

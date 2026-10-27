@@ -6,7 +6,7 @@ description: Pin columns to the edges, reorder them by dragging, and let users s
 ## Pinning
 
 ```svelte
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,
@@ -25,7 +25,7 @@ See [Column pinning](../../examples/column-pinning/) for a runnable example.
 ## Ordering
 
 ```svelte
-<MaterialSvelteTable options={{ columns, data, enableColumnOrdering: true }} />
+<ShadcnSvelteTable options={{ columns, data, enableColumnOrdering: true }} />
 ```
 
 This adds a drag handle to each header. To control the order yourself, keep `columnOrder` in state:
@@ -35,7 +35,7 @@ This adds a drag handle to each header. To control the order yourself, keep `col
   let columnOrder = $state<string[]>(['lastName', 'firstName', 'state']);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

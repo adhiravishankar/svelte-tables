@@ -68,3 +68,4 @@ export { default as MRT_EditRowModal } from './components/modals/MRT_EditRowModa
 export { default as MRT_CopyButton } from './components/buttons/MRT_CopyButton.svelte';
 export { default as MRT_CellActionMenu } from './components/menus/MRT_CellActionMenu.svelte';
 export { default as MRT_TableLoadingOverlay } from './components/table/MRT_TableLoadingOverlay.svelte';
+export { Button, buttonVariants } from './components/ui/button';

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const lib = join(root, '../../packages/material-svelte-table/src/lib');
+const lib = join(root, '../../packages/shadcn-tanstack-table/src/lib');
 const outDir = join(root, 'src/content/docs/api');
 mkdirSync(outDir, { recursive: true });
 
@@ -138,8 +138,8 @@ write(
   page({
     body: table(tableOptions, { withDefaults: true }),
     description:
-      'Every option of createMaterialSvelteTable and the MaterialSvelteTable component.',
-    intro: `Options for \`createMaterialSvelteTable\` and \`<MaterialSvelteTable options={…} />\`. Only \`columns\` and \`data\`
+      'Every option of createShadcnSvelteTable and the ShadcnSvelteTable component.',
+    intro: `Options for \`createShadcnSvelteTable\` and \`<ShadcnSvelteTable options={…} />\`. Only \`columns\` and \`data\`
 are required.
 
 Anything reactive (\`data\`, \`state\`, …) must be passed as a [getter](/getting-started/usage/#reactive-options).
@@ -176,7 +176,7 @@ write(
   page({
     body: table(stateMembers, { withDefaults: false }),
     description: 'The state MRT adds to the TanStack Table state.',
-    intro: `State that Material Svelte Table owns, available as \`table.mrtState\`, in \`initialState\` and (as getters) in
+    intro: `State that Shadcn Svelte Table owns, available as \`table.mrtState\`, in \`initialState\` and (as getters) in
 \`state\`. See [State Management](/guides/state-management/).
 
 Everything else (sorting, filters, pagination, selection, …) is TanStack Table state, read with

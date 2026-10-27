@@ -1,19 +1,19 @@
 ---
 title: Migrating from Material React Table
-description: How Material React Table concepts map to Material Svelte Table.
+description: How Material React Table concepts map to Shadcn Svelte Table.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
 If you know Material React Table (MRT) v3, most of the API carries over by name. The differences come from three
-places: Svelte instead of React, Svelte Material UI instead of MUI, and TanStack Table v9 instead of v8.
+places: Svelte instead of React, shadcn-svelte instead of MUI, and TanStack Table v9 instead of v8.
 
 ## From React to Svelte
 
 | React                                   | Svelte                                                              |
 | --------------------------------------- | ------------------------------------------------------------------- |
-| `<MaterialReactTable table={table} />`  | `<MaterialSvelteTable {table} />`                                   |
-| `useMaterialReactTable({ ... })`        | `createMaterialSvelteTable({ ... })`                                |
+| `<MaterialReactTable table={table} />`  | `<ShadcnSvelteTable {table} />`                                   |
+| `useMaterialReactTable({ ... })`        | `createShadcnSvelteTable({ ... })`                                |
 | `useState` for controlled state         | `$state`, passed to the table as a getter                           |
 | `renderTopToolbar`, `renderDetailPanel` | A snippet: `topToolbar`, `detailPanel` (drop `render`, lowercase)    |
 | `Cell: ({ cell }) => <b>{...}</b>`      | `Cell` is a snippet: `{#snippet cell({ cell })}…{/snippet}`          |
@@ -31,7 +31,7 @@ Every `renderX` option became a snippet. The `render` prefix is gone and the nam
   <pre>{JSON.stringify(row.original, null, 2)}</pre>
 {/snippet}
 
-<MaterialSvelteTable options={{ columns, data, detailPanel }} />
+<ShadcnSvelteTable options={{ columns, data, detailPanel }} />
 ```
 
 Column-level snippets keep their capital letters (`Cell`, `Header`, `Footer`, `Edit`, `Filter`, `AggregatedCell`,
@@ -43,19 +43,19 @@ Column-level snippets keep their capital letters (`Cell`, `Header`, `Footer`, `E
 - `createRowDialogContent` and `editRowDialogContent` receive `internalEditCells` (the cells being edited). Render
   each with `<MRT_EditCellTextField {cell} {table} />`.
 
-## From MUI to Svelte Material UI
+## From MUI to shadcn-svelte
 
-- The table markup is plain `<table>` elements with our own CSS. [SMUI](https://sveltematerialui.com) provides the
-  buttons, checkboxes, menus, dialog, switches and text fields.
-- Import `material-svelte-table/styles.css` and theme with `--mdc-theme-*` CSS variables. There is no theme
-  provider.
+- The table markup is plain `<table>` elements with our own CSS. [shadcn-svelte](https://shadcn-svelte.com) (built
+  on bits-ui and Tailwind) provides the buttons, checkboxes, menus, dialog, switches and text fields.
+- Import `shadcn-svelte-tanstack-table/styles.css` after Tailwind and theme with the shadcn CSS variables
+  (`--primary`, `--card`, ...). There is no theme provider.
 - There are no MUI date pickers. Date, datetime and time filters use native `<input type="date | datetime-local |
   time">`. Date values reach your filter functions as `Date` objects (`HH:mm` strings for time).
 - Autocomplete filters use a native `<datalist>`, and tooltips use the native `title` attribute.
 
 ## From TanStack Table v8 to v9
 
-Material Svelte Table registers the v9 features, row models and function registries for you, but some names
+Shadcn Svelte Table registers the v9 features, row models and function registries for you, but some names
 changed and they show up in your options:
 
 | v8 / MRT v3              | v9                                                                  |

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-table';
+  import { ShadcnSvelteTable, type MRT_ColumnDef } from 'shadcn-svelte-tanstack-table';
   import { type Person, makeData } from '../data/makeData';
 
   const columns: MRT_ColumnDef<Person>[] = [
@@ -12,7 +12,7 @@
   const data = makeData(40);
 </script>
 
-<MaterialSvelteTable
+<ShadcnSvelteTable
   options={{
     columns,
     data,

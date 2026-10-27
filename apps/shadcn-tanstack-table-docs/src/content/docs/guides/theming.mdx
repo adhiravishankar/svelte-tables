@@ -1,34 +1,37 @@
 ---
 title: Theming
-description: Style the table with Material theme CSS variables, mrtTheme and plain CSS.
+description: Style the table with the shadcn theme CSS variables, mrtTheme and plain CSS.
 ---
 
 ## CSS variables
 
-There is no theme provider. The table, and the Svelte Material UI components inside it, read the standard Material
-theme variables, with fallbacks if you do not define them:
+There is no theme provider. The table, and the shadcn-svelte components inside it, read the standard shadcn
+theme variables. `shadcn-svelte-tanstack-table/styles.css` defines light and dark defaults:
 
-| Variable                | Used for                                         |
-| ----------------------- | ------------------------------------------------ |
-| `--mdc-theme-primary`   | Buttons, focus rings, selected pages, switches   |
-| `--mdc-theme-secondary` | Secondary accents                                |
-| `--mdc-theme-surface`   | The table background                             |
-| `--mdc-theme-on-surface`| Text and dividers                                |
-| `--mdc-theme-on-primary`| Text on primary-colored surfaces                 |
+| Variable               | Used for                                         |
+| ---------------------- | ------------------------------------------------ |
+| `--primary`            | Buttons, focus rings, selected rows, switches    |
+| `--primary-foreground` | Text on primary-colored surfaces                 |
+| `--secondary`          | Secondary accents                                |
+| `--card`               | The table background                             |
+| `--foreground`         | Text and dividers                                |
+| `--accent`             | Hovered and highlighted menu items               |
+| `--border`, `--input`  | Borders of inputs and buttons                    |
 
 Define them on `:root`, or on any element to theme just the tables inside it:
 
 ```css
 :root {
-  --mdc-theme-primary: #1976d2;
-  --mdc-theme-surface: #ffffff;
-  --mdc-theme-on-surface: #000000;
+  --primary: oklch(0.55 0.2 260);
+  --card: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
+.dark,
 [data-theme='dark'] {
-  --mdc-theme-primary: #90caf9;
-  --mdc-theme-surface: #1e1e1e;
-  --mdc-theme-on-surface: #ffffff;
+  --primary: oklch(0.75 0.12 250);
+  --card: oklch(0.205 0 0);
+  --foreground: oklch(0.985 0 0);
 }
 ```
 
@@ -92,7 +95,7 @@ Pass any of the bundled locales, or your own strings, with `localization`. Anyth
 English.
 
 ```ts
-import { MRT_Localization_ES } from 'material-svelte-table/locales/es';
+import { MRT_Localization_ES } from 'shadcn-svelte-tanstack-table/locales/es';
 
 options={{ columns, data, localization: MRT_Localization_ES }}
 ```

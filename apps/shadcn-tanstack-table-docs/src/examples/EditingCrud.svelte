@@ -1,13 +1,13 @@
 <script lang="ts">
-  import Button, { Label } from '@smui/button';
+  import { Button } from 'shadcn-svelte-tanstack-table';
   import {
     MRT_ActionMenuItem,
-    MaterialSvelteTable,
-    createMaterialSvelteTable,
+    ShadcnSvelteTable,
+    createShadcnSvelteTable,
     type MRT_ColumnDef,
     type MRT_Row,
     type MRT_TableInstance,
-  } from 'material-svelte-table';
+  } from 'shadcn-svelte-tanstack-table';
   import { type Person, makeData, states } from '../data/makeData';
 
   let data = $state(makeData(12));
@@ -37,7 +37,7 @@
   };
 
   // The table instance is needed to start creating from the toolbar button.
-  const table = createMaterialSvelteTable<Person>({
+  const table = createShadcnSvelteTable<Person>({
     columns,
     createDisplayMode: 'modal',
     get data() {
@@ -87,9 +87,7 @@
 {/snippet}
 
 {#snippet createButton()}
-  <Button onclick={() => table.setCreatingRow(true)} variant="raised">
-    <Label>Create new user</Label>
-  </Button>
+  <Button onclick={() => table.setCreatingRow(true)}>Create new user</Button>
 {/snippet}
 
 {#if Object.values(validationErrors).some(Boolean)}
@@ -97,4 +95,4 @@
     {Object.values(validationErrors).filter(Boolean).join(' · ')}
   </p>
 {/if}
-<MaterialSvelteTable {table} />
+<ShadcnSvelteTable {table} />
