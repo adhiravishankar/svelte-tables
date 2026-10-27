@@ -200,5 +200,13 @@ export const defineTableOptions = <TData extends MRT_RowData>(
     rowPinningDisplayMode,
     selectAllMode,
     ...rest,
+    // TanStack Table v9 only expands rows that can expand. A row with a detail
+    // panel always can, even without sub rows.
+    getRowCanExpand:
+      rest.getRowCanExpand ??
+      (rest.detailPanel
+        ? (row: { subRows: unknown[] }) =>
+            !!row.subRows?.length || !!rest.detailPanel
+        : undefined),
   } as unknown as MRT_DefinedTableOptions<TData>;
 };

@@ -10,6 +10,9 @@
     mergeStyles,
   } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_DisplayHeader from './MRT_DisplayHeader.svelte';
+  import MRT_TableHeadCellFilterContainer from './MRT_TableHeadCellFilterContainer.svelte';
+  import MRT_TableHeadCellFilterLabel from './MRT_TableHeadCellFilterLabel.svelte';
   import MRT_TableHeadCellSortLabel from './MRT_TableHeadCellSortLabel.svelte';
 
   let {
@@ -131,15 +134,23 @@
         >
           {#if columnDef.Header}
             {@render columnDef.Header({ column, header, table })}
+          {:else if columnDefType === 'display'}
+            <MRT_DisplayHeader {header} {table} />
           {:else}
             {columnDef.header}
           {/if}
         </div>
+        {#if column.getCanFilter()}
+          <MRT_TableHeadCellFilterLabel {header} {table} />
+        {/if}
         {#if column.getCanSort()}
           <MRT_TableHeadCellSortLabel {header} {table} />
         {/if}
       </div>
     </div>
+  {/if}
+  {#if table.options.columnFilterDisplayMode === 'subheader' && column.getCanFilter()}
+    <MRT_TableHeadCellFilterContainer {header} {table} />
   {/if}
 </th>
 

@@ -15,6 +15,7 @@
     mergeStyles,
   } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import MRT_DisplayCell from './MRT_DisplayCell.svelte';
   import MRT_TableBodyCellValue from './MRT_TableBodyCellValue.svelte';
 
   let {
@@ -68,15 +69,6 @@
     return columnDefType === 'display'
       ? size / 2
       : Math.round(Math.random() * (size - size / 3) + size / 3);
-  });
-
-  const rowNumber = $derived.by(() => {
-    const { pageIndex, pageSize } = table.atoms.pagination.get();
-    return (
-      (table.options.rowNumberDisplayMode === 'static'
-        ? (staticRowIndex || 0) + (pageSize || 0) * (pageIndex || 0)
-        : row.index) + 1
-    );
   });
 
   function onkeydown(event: KeyboardEvent & { currentTarget: HTMLTableCellElement }) {
@@ -149,8 +141,8 @@
         staticRowIndex,
         table,
       })}
-    {:else if column.id === 'mrt-row-numbers'}
-      {rowNumber}
+    {:else}
+      <MRT_DisplayCell {cell} {staticColumnIndex} {staticRowIndex} {table} />
     {/if}
   {:else}
     <MRT_TableBodyCellValue {cell} {staticColumnIndex} {staticRowIndex} {table} />

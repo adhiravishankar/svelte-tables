@@ -117,6 +117,10 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
   // re-run once TanStack state becomes readable.
   let table = $state.raw<MRT_TableInstance<TData> | undefined>(undefined);
 
+  // modes that name a registered filter function; anything else (a custom
+  // function on the column) is left untouched
+  const filterFnNames = new Set(Object.keys(features.filterFns ?? {}));
+
   const defined = $derived.by(() => defineTableOptions(options, id));
 
   // ---------------------------------------------------------------------------
@@ -255,6 +259,7 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     const { leading, trailing } = getDisplayColumnDefs(stateful);
     lastColumns = prepareColumns({
       columnDefs: [...leading, ...stateful.columns, ...trailing],
+      filterFnNames,
       tableOptions: stateful,
     });
     return lastColumns;

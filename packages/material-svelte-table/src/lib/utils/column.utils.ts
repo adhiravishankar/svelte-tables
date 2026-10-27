@@ -42,9 +42,12 @@ export const getAllLeafColumnDefs = <TData extends MRT_RowData>(
  */
 export const prepareColumns = <TData extends MRT_RowData>({
   columnDefs,
+  filterFnNames,
   tableOptions,
 }: {
   columnDefs: MRT_ColumnDef<TData>[];
+  /** Names of the registered filter functions; other modes are left alone. */
+  filterFnNames?: ReadonlySet<string>;
   tableOptions: MRT_DefinedTableOptions<TData> & {
     state?: { columnFilterFns?: Record<string, MRT_FilterOption> };
   };
@@ -53,7 +56,10 @@ export const prepareColumns = <TData extends MRT_RowData>({
     defaultDisplayColumn,
     state: { columnFilterFns = {} } = {},
   } = tableOptions;
-  return columnDefs.map((columnDef) => {
+  // column defs are copied, never mutated: they are often module-level
+  // constants shared between tables
+  return columnDefs.map((originalColumnDef) => {
+    let columnDef = { ...originalColumnDef };
     //assign columnId
     if (!columnDef.id) columnDef.id = getColumnId(columnDef);
     //assign columnDefType
@@ -63,12 +69,13 @@ export const prepareColumns = <TData extends MRT_RowData>({
       //recursively prepare columns if this is a group column
       columnDef.columns = prepareColumns({
         columnDefs: columnDef.columns,
+        filterFnNames,
         tableOptions,
       });
     } else if (columnDef.columnDefType === 'data') {
       //assign the active filter mode
       const filterMode = columnFilterFns[columnDef.id];
-      if (filterMode) {
+      if (filterMode && (!filterFnNames || filterFnNames.has(filterMode))) {
         columnDef.filterFn = filterMode;
         (columnDef as MRT_DefinedColumnDef<TData>)._filterFn = filterMode;
       }
@@ -103,7 +110,9 @@ export const getDefaultColumnFilterFn = <TData extends MRT_RowData>(
   columnDef: MRT_ColumnDef<TData>,
 ): MRT_FilterOption => {
   const { filterVariant } = columnDef;
-  if (filterVariant === 'multi-select') return 'arrIncludesSome';
+  // v9's arrIncludesSome only matches array cell values; arrIncludes matches
+  // strings and arrays alike with the same "any of these" meaning
+  if (filterVariant === 'multi-select') return 'arrIncludes';
   if (filterVariant?.includes('range')) return 'betweenInclusive';
   if (filterVariant === 'select' || filterVariant === 'checkbox')
     return 'equals';

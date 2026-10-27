@@ -4,6 +4,7 @@
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import { debounce, parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_IconButton from '../buttons/MRT_IconButton.svelte';
+  import MRT_FilterOptionMenu from '../menus/MRT_FilterOptionMenu.svelte';
 
   let {
     table,
@@ -21,6 +22,7 @@
   const { localization } = $derived(table.options);
 
   // the input is local so typing stays instant while the filter is debounced
+  let modeAnchor = $state<HTMLElement | null>(null);
   let searchValue = $state(untrack(() => table.atoms.globalFilter.get() ?? ''));
 
   const setFilterDebounced = debounce(
@@ -72,7 +74,18 @@
       {...textFieldProps}
     >
       {#snippet leadingIcon()}
-        <SearchIcon class="mrt-global-filter-icon" />
+        {#if table.options.enableGlobalFilterModes}
+          <MRT_IconButton
+            label={localization.changeSearchMode}
+            onclick={(e: MouseEvent) => (modeAnchor = e.currentTarget as HTMLElement)}
+            size="mini"
+            style="height: 1.75rem; width: 1.75rem; padding: 0"
+          >
+            <SearchIcon />
+          </MRT_IconButton>
+        {:else}
+          <SearchIcon class="mrt-global-filter-icon" />
+        {/if}
       {/snippet}
       {#snippet trailingIcon()}
         <MRT_IconButton
@@ -85,6 +98,12 @@
         </MRT_IconButton>
       {/snippet}
     </Textfield>
+    <MRT_FilterOptionMenu
+      anchorEl={modeAnchor}
+      onSelect={handleClear}
+      setAnchorEl={(el) => (modeAnchor = el)}
+      {table}
+    />
   </div>
 {/if}
 

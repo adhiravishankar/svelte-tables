@@ -307,6 +307,9 @@ importers:
       '@smui/menu':
         specifier: ^9.0.6
         version: 9.0.6
+      '@smui/menu-surface':
+        specifier: ^9.0.6
+        version: 9.0.6
       '@smui/select':
         specifier: ^9.0.6
         version: 9.0.6
@@ -2480,9 +2483,6 @@ packages:
   es-iterator-helpers@1.2.0:
     resolution: {integrity: sha512-tpxqxncxnpw3c93u8n3VOzACmRFoVmWJqbWXvX/JfKbkhBw1oslgPrUfeSt2psuqyEJFD6N/9lg5i7bsKpoq+Q==}
     engines: {node: '>= 0.4'}
-
-  es-module-lexer@1.5.4:
-    resolution: {integrity: sha512-MVNK56NiMrOwitFB7cqDwq0CQutbw+0BvLshJSse0MUNU+y1FC3bUS/AQg7oUng+/wKrrki7JfmwtVHkVfPLlw==}
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
@@ -6870,8 +6870,6 @@ snapshots:
       iterator.prototype: 1.1.4
       safe-array-concat: 1.1.3
 
-  es-module-lexer@1.5.4: {}
-
   es-module-lexer@1.7.0: {}
 
   es-object-atoms@1.0.0:
@@ -9295,7 +9293,7 @@ snapshots:
       browserslist: 4.24.2
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.17.1
-      es-module-lexer: 1.5.4
+      es-module-lexer: 1.7.0
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1

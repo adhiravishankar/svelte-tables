@@ -5,6 +5,7 @@
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
   import MRT_TableBodyCell from './MRT_TableBodyCell.svelte';
+  import MRT_TableDetailPanel from './MRT_TableDetailPanel.svelte';
 
   let {
     pinnedRowIds,
@@ -120,3 +121,6 @@
     />
   {/each}
 </tr>
+{#if table.options.detailPanel && !row.getIsGrouped()}
+  <MRT_TableDetailPanel {row} {staticRowIndex} {table} />
+{/if}
