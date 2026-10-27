@@ -1,4 +1,5 @@
 <script lang="ts" generics="TData extends MRT_RowData">
+  import { untrack } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_RowData, MRT_TableInstance } from '../../types';
   import {
@@ -7,6 +8,10 @@
     parseCSSVarId,
   } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import {
+    createColumnVirtualizer,
+    provideColumnVirtualizer,
+  } from '../../hooks/createMRTVirtualizers.svelte';
   import MRT_TableBody from '../body/MRT_TableBody.svelte';
   import MRT_TableFooter from '../footer/MRT_TableFooter.svelte';
   import MRT_TableHead from '../head/MRT_TableHead.svelte';
@@ -16,6 +21,9 @@
     ...rest
   }: { table: MRT_TableInstance<TData> } & HTMLAttributes<HTMLTableElement> =
     $props();
+
+  // virtualizing columns is decided once, when the table is created
+  provideColumnVirtualizer(untrack(() => createColumnVirtualizer(table)));
 
   const tableProps = $derived({
     ...parseFromValuesOrFunc(table.options.tableProps, { table }),

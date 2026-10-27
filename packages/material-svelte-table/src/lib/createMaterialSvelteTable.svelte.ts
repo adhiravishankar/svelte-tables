@@ -31,6 +31,20 @@ import { getDefaultColumnOrderIds } from './utils/displayColumn.utils';
 import { getCanRankRows } from './utils/row.utils';
 import { createRow } from './utils/tanstack.helpers';
 
+/** A reactive cell that does not proxy its value. */
+class StateBox<T> {
+  #value = $state.raw<T>() as T;
+  constructor(value: T) {
+    this.#value = value;
+  }
+  get value() {
+    return this.#value;
+  }
+  set value(next: T) {
+    this.#value = next;
+  }
+}
+
 /** State that MRT owns itself; everything else belongs to TanStack Table. */
 const MRT_STATE_KEYS = [
   'actionCell',
@@ -165,9 +179,13 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     } as Pick<MRT_TableState<TData>, MRT_StateKey>; // loading flags stay undefined: an explicit false disables them
   });
 
-  // Row, column and cell objects must not be deep-proxied, so the record is
-  // replaced as a whole on every change.
-  let internalState = $state.raw(initialMrtState);
+  // One reactive box per key (never deep-proxied: values include row, column
+  // and cell objects). A single shared record would make every state change
+  // wake every reader, and the TanStack adapter re-syncs all options (and
+  // wraps `data` in a new proxy, rebuilding every row) whenever one of them
+  // is invalidated.
+  const boxes = {} as Record<MRT_StateKey, StateBox<any>>;
+  for (const key of MRT_STATE_KEYS) boxes[key] = new StateBox(initialMrtState[key]);
 
   /**
    * The effective MRT state: controlled values from the `state` option win over
@@ -181,7 +199,7 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
         const controlled = options.state as Record<string, any> | undefined;
         return controlled && key in controlled
           ? controlled[key]
-          : internalState[key];
+          : boxes[key].value;
       },
     });
   }
@@ -191,15 +209,12 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
       key: K,
       getHandler: () => ((updater: any) => void) | undefined,
     ) =>
-    (updater: MRT_Updater<(typeof internalState)[K]>) => {
+    (updater: MRT_Updater<(typeof initialMrtState)[K]>) => {
       const handler = getHandler();
       if (handler) {
         handler(updater);
       } else {
-        internalState = {
-          ...internalState,
-          [key]: functionalUpdate(updater, internalState[key]),
-        };
+        boxes[key].value = functionalUpdate(updater, boxes[key].value);
       }
     };
 
@@ -274,11 +289,11 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     ),
   );
 
+  // (assigned, not just read: a bare read statement can be optimised away
+  // before Svelte sees it, which would silently drop the dependency)
+  let columnsInputs = '';
   const columns = $derived.by(() => {
-    void groupingKey;
-    void filterFnsKey;
-    void hasCreatingRow;
-    void defined;
+    columnsInputs = `${groupingKey}|${filterFnsKey}|${hasCreatingRow}|${defined.id}`;
     if (isColumnsFrozen) return lastColumns;
     const stateful = untrack(() => getStatefulOptions());
     const { leading, trailing } = getDisplayColumnDefs(stateful);
@@ -362,6 +377,11 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
   instance.refs.filterInputRefs.current = {};
   instance.refs.tableHeadCellRefs.current = {};
 
+  // TanStack keeps a reactive copy in `table.options`; this is what was passed in
+  Object.defineProperty(instance, 'userOptions', {
+    get: () => defined,
+  });
+
   Object.defineProperty(instance, 'mrtState', {
     enumerable: true,
     get: () => mrtState,
@@ -379,7 +399,7 @@ export function createMaterialSvelteTable<TData extends MRT_RowData>(
     if (handler) {
       handler(next);
     } else {
-      internalState = { ...internalState, creatingRow: next };
+      boxes.creatingRow.value = next;
     }
   };
   instance.setDensity = makeSetter('density', () => opts().onDensityChange);

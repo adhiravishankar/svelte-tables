@@ -1,5 +1,7 @@
 <script lang="ts" generics="TData extends MRT_RowData">
+  import { untrack } from 'svelte';
   import type { HTMLThAttributes } from 'svelte/elements';
+  import { useColumnVirtualizer } from '../../hooks/createMRTVirtualizers.svelte';
   import type { MRT_Header, MRT_RowData, MRT_TableInstance } from '../../types';
   import { cellKeyboardShortcuts } from '../../utils/cell.utils';
   import {
@@ -29,6 +31,7 @@
     table: MRT_TableInstance<TData>;
   } & HTMLThAttributes = $props();
 
+  const columnVirtualizer = useColumnVirtualizer();
   const column = $derived(header.column);
   const columnDef = $derived(column.columnDef);
   const columnDefType = $derived(columnDef.columnDefType);
@@ -140,6 +143,9 @@
   function attach(node: HTMLTableCellElement) {
     const refs = table.refs.tableHeadCellRefs.current;
     if (refs) refs[column.id] = node;
+    if (columnDefType !== 'group') {
+      untrack(() => columnVirtualizer?.instance.measureElement(node));
+    }
     return () => {
       if (refs) delete refs[column.id];
     };

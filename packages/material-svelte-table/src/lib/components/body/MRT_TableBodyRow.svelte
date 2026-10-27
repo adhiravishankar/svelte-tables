@@ -1,6 +1,14 @@
 <script lang="ts" generics="TData extends MRT_RowData">
   import type { HTMLAttributes } from 'svelte/elements';
-  import type { MRT_Row, MRT_RowData, MRT_TableInstance } from '../../types';
+  import { untrack } from 'svelte';
+  import { useColumnVirtualizer } from '../../hooks/createMRTVirtualizers.svelte';
+  import type {
+    MRT_Row,
+    MRT_RowData,
+    MRT_RowVirtualizer,
+    MRT_TableInstance,
+    MRT_VirtualItem,
+  } from '../../types';
   import { getIsRowSelected } from '../../utils/row.utils';
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -10,14 +18,18 @@
   let {
     pinnedRowIds,
     row,
+    rowVirtualizer,
     staticRowIndex,
     table,
+    virtualRow,
     ...rest
   }: {
     pinnedRowIds?: string[];
     row: MRT_Row<TData>;
+    rowVirtualizer?: { instance: MRT_RowVirtualizer };
     staticRowIndex: number;
     table: MRT_TableInstance<TData>;
+    virtualRow?: MRT_VirtualItem;
   } & HTMLAttributes<HTMLTableRowElement> = $props();
 
   const rowProps = $derived({
@@ -28,6 +40,26 @@
     }),
     ...rest,
   });
+
+  const columnVirtualizer = useColumnVirtualizer();
+  const virtualizer = $derived(columnVirtualizer?.instance);
+  const visibleCells = $derived(row.getVisibleCells());
+  const cellItems = $derived(
+    virtualizer
+      ? virtualizer.virtualColumns
+          .map((v) => ({ cell: visibleCells[v.index], index: v.index }))
+          .filter((item) => item.cell)
+      : visibleCells.map((cell, index) => ({ cell, index })),
+  );
+
+  let rowElement = $state<HTMLTableRowElement | null>(null);
+  function attachRow(node: HTMLTableRowElement) {
+    rowElement = node;
+    untrack(() => rowVirtualizer?.instance.measureElement(node));
+    return () => {
+      rowElement = null;
+    };
+  }
 
   const grid = $derived(isGridLayout(table.options.layoutMode));
   const density = $derived(table.mrtState.density);
@@ -87,6 +119,7 @@
     }
   }}
   {...rowProps}
+  {@attach attachRow}
   class={['mrt-body-row', rowProps.class]}
   style={mergeStyles(
     {
@@ -100,27 +133,41 @@
       boxSizing: 'border-box',
       display: grid ? 'flex' : undefined,
       opacity: isRowPinned ? 0.97 : isDraggingRow || isHoveredRow ? 0.5 : 1,
-      position: sticky && isRowPinned ? 'sticky' : 'relative',
-      top:
-        topPinnedIndex !== undefined && isRowPinned
+      position: virtualRow
+        ? 'absolute'
+        : sticky && isRowPinned
+          ? 'sticky'
+          : 'relative',
+      top: virtualRow
+        ? 0
+        : topPinnedIndex !== undefined && isRowPinned
           ? `${topPinnedIndex * rowHeight + (table.options.enableStickyHeader || table.mrtState.isFullScreen ? tableHeadHeight - 1 : 0)}px`
           : undefined,
-      transition: 'all 150ms ease-in-out',
+      transform: virtualRow ? `translateY(${virtualRow.start}px)` : undefined,
+      transition: virtualRow ? 'none' : 'all 150ms ease-in-out',
       width: '100%',
       zIndex: sticky && isRowPinned ? 2 : 0,
     },
     rowProps.style,
   )}
 >
-  {#each row.getVisibleCells() as cell, staticColumnIndex (cell.id)}
-    <MRT_TableBodyCell
-      {cell}
-      {staticColumnIndex}
-      {staticRowIndex}
-      {table}
-    />
+  {#if virtualizer?.virtualPaddingLeft}
+    <td style="display: flex; width: {virtualizer.virtualPaddingLeft}px"></td>
+  {/if}
+  {#each cellItems as { cell, index } (cell.id)}
+    <MRT_TableBodyCell {cell} staticColumnIndex={index} {staticRowIndex} {table} />
   {/each}
+  {#if virtualizer?.virtualPaddingRight}
+    <td style="display: flex; width: {virtualizer.virtualPaddingRight}px"></td>
+  {/if}
 </tr>
 {#if table.options.detailPanel && !row.getIsGrouped()}
-  <MRT_TableDetailPanel {row} {staticRowIndex} {table} />
+  <MRT_TableDetailPanel
+    parentRow={rowElement}
+    {row}
+    {rowVirtualizer}
+    {staticRowIndex}
+    {table}
+    {virtualRow}
+  />
 {/if}

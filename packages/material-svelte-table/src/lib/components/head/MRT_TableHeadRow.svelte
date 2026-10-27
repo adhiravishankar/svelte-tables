@@ -7,6 +7,7 @@
   } from '../../types';
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import { useColumnVirtualizer } from '../../hooks/createMRTVirtualizers.svelte';
   import MRT_TableHeadCell from './MRT_TableHeadCell.svelte';
 
   let {
@@ -17,6 +18,16 @@
     headerGroup: MRT_HeaderGroup<TData>;
     table: MRT_TableInstance<TData>;
   } & HTMLAttributes<HTMLTableRowElement> = $props();
+
+  const columnVirtualizer = useColumnVirtualizer();
+  const virtualizer = $derived(columnVirtualizer?.instance);
+  const items = $derived(
+    virtualizer
+      ? virtualizer.virtualColumns
+          .map((v) => ({ header: headerGroup.headers[v.index], index: v.index }))
+          .filter((item) => item.header)
+      : headerGroup.headers.map((header, index) => ({ header, index })),
+  );
 
   const rowProps = $derived({
     ...parseFromValuesOrFunc(table.options.tableHeadRowProps, {
@@ -45,7 +56,13 @@
     rowProps.style,
   )}
 >
-  {#each headerGroup.headers as header, staticColumnIndex (header.id)}
-    <MRT_TableHeadCell {header} {staticColumnIndex} {table} />
+  {#if virtualizer?.virtualPaddingLeft}
+    <th style="display: flex; width: {virtualizer.virtualPaddingLeft}px"></th>
+  {/if}
+  {#each items as { header, index } (header.id)}
+    <MRT_TableHeadCell {header} staticColumnIndex={index} {table} />
   {/each}
+  {#if virtualizer?.virtualPaddingRight}
+    <th style="display: flex; width: {virtualizer.virtualPaddingRight}px"></th>
+  {/if}
 </tr>

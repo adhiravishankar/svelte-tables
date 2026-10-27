@@ -263,6 +263,12 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   };
   /** The MRT-specific state (everything not owned by a TanStack feature). */
   mrtState: MRT_TableState<TData>;
+  /**
+   * The options as you passed them (with MRT defaults). `table.options` is a
+   * reactive copy made by TanStack Table, so objects such as instance refs
+   * should be written through this instead.
+   */
+  userOptions: MRT_DefinedTableOptions<TData>;
   setActionCell: OnChangeFn<MRT_Cell<TData> | null>;
   setColumnFilterFns: OnChangeFn<MRT_ColumnFilterFnsState>;
   setCreatingRow: OnChangeFn<MRT_Row<TData> | null | true>;

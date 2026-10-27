@@ -1,9 +1,11 @@
 <script lang="ts" generics="TData extends MRT_RowData">
+  import { untrack } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
   import type { MRT_Row, MRT_RowData, MRT_TableInstance } from '../../types';
   import { getMRT_Rows } from '../../utils/row.utils';
   import { isGridLayout, mergeStyles } from '../../utils/style.utils';
   import { parseFromValuesOrFunc } from '../../utils/utils';
+  import { createRowVirtualizer } from '../../hooks/createMRTVirtualizers.svelte';
   import MRT_TableBodyRow from './MRT_TableBodyRow.svelte';
 
   let {
@@ -44,6 +46,35 @@
 
   const rows: MRT_Row<TData>[] = $derived(getMRT_Rows(table));
 
+  // virtualizing rows is decided once, when the table is created
+  const rowVirtualizer = untrack(() => createRowVirtualizer(table, () => rows));
+
+  /** What to render: every row, or only the virtual ones (with their position). */
+  const rowItems = $derived.by(() => {
+    if (!rowVirtualizer) {
+      return rows.map((row, staticRowIndex) => ({
+        key: `${row.id}-${row.index}`,
+        row,
+        staticRowIndex,
+        virtualRow: undefined,
+      }));
+    }
+    const items = [];
+    for (const virtualRow of rowVirtualizer.virtualRows) {
+      let staticRowIndex = virtualRow.index;
+      if (table.options.detailPanel) {
+        // detail panels are the odd virtual items
+        if (virtualRow.index % 2 === 1) continue;
+        staticRowIndex = virtualRow.index / 2;
+      }
+      const row = rows[staticRowIndex];
+      if (row) {
+        items.push({ key: `${row.id}-${row.index}`, row, staticRowIndex, virtualRow });
+      }
+    }
+    return items;
+  });
+
   const hasFilters = $derived(
     !!table.atoms.globalFilter.get() || table.atoms.columnFilters.get().length > 0,
   );
@@ -79,6 +110,7 @@
   style={mergeStyles(
     {
       display: grid ? 'grid' : undefined,
+      height: rowVirtualizer ? `${rowVirtualizer.instance.getTotalSize()}px` : undefined,
       minHeight: !rows.length ? '100px' : undefined,
       position: 'relative',
     },
@@ -103,8 +135,15 @@
       </td>
     </tr>
   {:else}
-    {#each rows as row, staticRowIndex (`${row.id}-${row.index}`)}
-      <MRT_TableBodyRow {pinnedRowIds} {row} {staticRowIndex} {table} />
+    {#each rowItems as { key, row, staticRowIndex, virtualRow } (key)}
+      <MRT_TableBodyRow
+        {pinnedRowIds}
+        {row}
+        {rowVirtualizer}
+        {staticRowIndex}
+        {table}
+        {virtualRow}
+      />
     {/each}
   {/if}
 </tbody>
