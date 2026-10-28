@@ -3,6 +3,7 @@ import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
+import rehypeBase from '../../scripts/rehype-base.mjs';
 
 // While running `astro dev`, use the library's source so edits show up without
 // rebuilding the package. `astro build` uses the real, built package, which is
@@ -15,6 +16,11 @@ export default defineConfig({
   // Set SITE_URL when deploying; it enables the sitemap and canonical URLs.
   // Cloudflare Pages provides CF_PAGES_URL (the URL of the current deployment).
   site: process.env.SITE_URL ?? process.env.CF_PAGES_URL,
+  // Set BASE_PATH to serve the site from a sub path (GitHub Pages: /svelte-tables/<site>).
+  base: process.env.BASE_PATH,
+  markdown: {
+    rehypePlugins: [[rehypeBase, { base: process.env.BASE_PATH }]],
+  },
   integrations: [
     svelte(),
     starlight({

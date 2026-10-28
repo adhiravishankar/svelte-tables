@@ -215,6 +215,40 @@ npm run build -w shadcn-svelte-headless-table-docs   # build a docs site (build 
 The workspace names are `material-svelte-tanstack-table`, `shadcn-svelte-tanstack-table`, `material-svelte-headless-table` and
 `shadcn-svelte-headless-table`, each with a `-docs` site.
 
+## Publish to npm
+
+One script logs in (runs `npm login` if you are not), builds, runs `svelte-check` and the tests, then publishes all
+four libraries. Versions that are already on npm are skipped.
+
+```bash
+npm run publish:all -- --dry-run          # everything except the upload
+npm run publish:all                       # publish all four
+npm run publish:all -- shadcn-svelte-headless-table   # only some (package name or folder)
+npm run publish:all -- --otp 123456       # one-time password, if you use 2FA
+npm run publish:all -- --tag next         # publish under a dist-tag
+npm run publish:all -- --skip-checks      # skip svelte-check and the tests
+```
+
+## Deploy the docs to GitHub Pages
+
+A workflow ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)) builds all four docs sites on every push to
+`main` and publishes them as one GitHub Pages site, with a landing page that links to each:
+
+```
+https://<owner>.github.io/svelte-tables/                    landing page
+https://<owner>.github.io/svelte-tables/material-tanstack/
+https://<owner>.github.io/svelte-tables/shadcn-tanstack/
+https://<owner>.github.io/svelte-tables/material-headless/
+https://<owner>.github.io/svelte-tables/shadcn-headless/
+```
+
+Turn it on once: **Settings > Pages > Build and deployment > Source: GitHub Actions**. Then push to `main`, or run the
+workflow by hand from the Actions tab.
+
+`npm run build:pages` does the same build locally into `_site/`. Each site is built with `BASE_PATH=/<repository>/<site>`
+(absolute links in the docs get that prefix). Set `PAGES_REPO` if the repository is not called `svelte-tables`, and
+`SITE_URL` for a custom domain.
+
 ## Deploy the docs to Cloudflare Pages
 
 Each docs site is a static Astro build, so it deploys to Cloudflare Pages as is. Create one Pages project per site

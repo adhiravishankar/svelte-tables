@@ -21,7 +21,9 @@
     "storybook": "npm run storybook -w material-svelte-tanstack-table",
     "storybook:build": "npm run build-storybook -w material-svelte-tanstack-table",
     "format": "vp fmt",
-    "format:check": "vp fmt --check"
+    "format:check": "vp fmt --check",
+    "publish:all": "node scripts/publish.mjs",
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "devDependencies": {
     "vite-plus": "^1.4.0",
