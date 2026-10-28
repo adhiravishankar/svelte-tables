@@ -1,24 +1,44 @@
-# Material Svelte Table
+# Svelte Tables
 
-### _Quickly create Svelte data tables with Material Design_
+### _Data tables for Svelte 5 in four flavors_
 
-**Built with [Svelte 5](https://svelte.dev), [Svelte Material UI](https://sveltematerialui.com) and [TanStack Table <sup>V9</sup>](https://tanstack.com/table)**
+Four table libraries live in this monorepo. They share a goal (a full featured data table with a Svelte 5 API of runes
+and snippets) and differ in two choices: where the table logic comes from, and which components draw it.
 
-Material Svelte Table is a Svelte 5 port of [Material React Table](https://github.com/KevinVandy/material-react-table)
-by Kevin Vandy, which it is based on (MIT licensed). The table logic comes from TanStack Table, the components from
-SMUI, and the API is written for runes and snippets: no hooks, no `renderX` callbacks.
+|                                                 | **TanStack Table V9** logic                        | **Svelte Headless Table** logic                         |
+| ----------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
+| **Material** ([Svelte Material UI](https://sveltematerialui.com)) | [`material-svelte-table`](packages/material-tanstack-table) | [`material-svelte-headless-table`](packages/material-headless-table) |
+| **shadcn** ([shadcn-svelte](https://shadcn-svelte.com), bits-ui and Tailwind CSS 4) | [`shadcn-svelte-tanstack-table`](packages/shadcn-tanstack-table) | [`shadcn-svelte-headless-table`](packages/shadcn-headless-table) |
 
-> **Status:** `4.0.0-alpha`. The feature set matches Material React Table v3 apart from the exceptions listed in
-> [Migrating from React](apps/material-svelte-table-docs/src/content/docs/getting-started/migrating-from-react.mdx).
+The TanStack packages are Svelte 5 ports of [Material React Table](https://github.com/KevinVandy/material-react-table)
+by Kevin Vandy, which they are based on (MIT licensed). The headless packages are smaller: they use only what
+[`@humanspeak/svelte-headless-table`](https://table.svelte.page) offers as plugins, and render rows with
+[`@humanspeak/svelte-virtual-list`](https://virtuallist.svelte.page) when virtualized.
 
-## Packages
+> **Status:** `4.0.0-alpha`. The TanStack packages match Material React Table v3 apart from the exceptions listed in
+> [Migrating from React](apps/material-tanstack-table-docs/src/content/docs/getting-started/migrating-from-react.mdx).
 
-| Path | What it is |
-| ---- | ---------- |
-| [`packages/material-svelte-table`](packages/material-svelte-table) | The library (`material-svelte-table`), plus its Storybook (400+ stories) and tests |
-| [`apps/material-svelte-table-docs`](apps/material-svelte-table-docs) | The documentation site: Astro + Starlight, with live Svelte examples |
+## Packages and docs
+
+Each library has a documentation site (Astro + Starlight, with live Svelte examples).
+
+| Library | Docs site |
+| ------- | --------- |
+| [`packages/material-tanstack-table`](packages/material-tanstack-table), with Storybook (400+ stories) and tests | [`apps/material-tanstack-table-docs`](apps/material-tanstack-table-docs) |
+| [`packages/shadcn-tanstack-table`](packages/shadcn-tanstack-table), with Storybook and tests | [`apps/shadcn-tanstack-table-docs`](apps/shadcn-tanstack-table-docs) |
+| [`packages/material-headless-table`](packages/material-headless-table), with tests | [`apps/material-headless-table-docs`](apps/material-headless-table-docs) |
+| [`packages/shadcn-headless-table`](packages/shadcn-headless-table), with tests | [`apps/shadcn-headless-table-docs`](apps/shadcn-headless-table-docs) |
+
+## Which one?
+
+- **Pick a TanStack package** for the full feature set and the TanStack table instance underneath.
+- **Pick a headless package** for a smaller table whose features are all Svelte Headless Table plugins.
+- **Pick Material** if your app uses Svelte Material UI and `--mdc-theme-*` variables, **shadcn** if it uses
+  shadcn-svelte and Tailwind.
 
 ## Features
+
+### TanStack packages
 
 _All features can be enabled or disabled_
 
@@ -49,15 +69,36 @@ _All features can be enabled or disabled_
 - [x] Row pinning
 - [x] Row selection
 - [x] Sorting (client-side and server-side)
-- [x] Theming from your Material (`--mdc-theme-*`) variables, including dark mode
+- [x] Theming (Material `--mdc-theme-*` variables, or shadcn tokens), including dark mode
 - [x] Toolbars with your own action buttons
 - [x] Tree data and expanding sub rows
 - [x] Row and column virtualization (`@tanstack/virtual-core`)
 - [x] Fully typed with TypeScript generics
 
+### Headless packages
+
+Each one is a Svelte Headless Table plugin:
+
+- [x] Sorting, with multi sort (`addSortBy`)
+- [x] Column filters: text, select, range and checkbox (`addColumnFilters`)
+- [x] Global search (`addTableFilter`)
+- [x] Pagination (`addPagination`)
+- [x] Row selection (`addSelectedRows`)
+- [x] Column hiding (`addHiddenColumns`)
+- [x] Column ordering via drag and drop (`addColumnOrder`)
+- [x] Column resizing (`addResizedColumns`)
+- [x] Grouping with aggregation, and expandable groups (`addGroupBy`, `addExpandedRows`)
+- [x] Row virtualization (`@humanspeak/svelte-virtual-list`)
+- [x] Density toggle, striped rows, loading bar, footers and 39 built in locales
+
+Not included, because they are not plugins: column pinning, in-table editing, fuzzy search modes, facet counts and
+detail panels.
+
 ## Getting started
 
-Requires **Svelte 5**.
+All packages need **Svelte 5**. The shadcn packages also need **Tailwind CSS 4**.
+
+### TanStack, Material
 
 ```bash
 npm install material-svelte-table
@@ -68,8 +109,6 @@ Import the stylesheet once (SMUI only publishes Sass, so the library ships its s
 ```ts
 import 'material-svelte-table/styles.css';
 ```
-
-### Usage
 
 ```svelte
 <script lang="ts">
@@ -87,7 +126,6 @@ import 'material-svelte-table/styles.css';
     { name: 'John', age: 30 },
     { name: 'Sara', age: 25 },
   ]);
-  let rowSelection = $state({});
 </script>
 
 <MaterialSvelteTable
@@ -100,33 +138,57 @@ import 'material-svelte-table/styles.css';
     enableColumnOrdering: true, // enable some features
     enableRowSelection: true,
     enablePagination: false, // disable a default one
-    onRowSelectionChange: (updater) => {
-      rowSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
-    },
-    state: {
-      get rowSelection() {
-        return rowSelection;
-      },
-    },
   }}
 />
 ```
 
-Need the table instance, for example to start creating a row from your own button? Create it yourself and pass it in:
+### TanStack, shadcn
+
+```bash
+npm install shadcn-svelte-tanstack-table
+```
+
+Import the stylesheet after Tailwind in your global CSS. It makes Tailwind scan the library and defines the
+shadcn-svelte tokens:
+
+```css
+@import 'tailwindcss';
+@import 'shadcn-svelte-tanstack-table/styles.css';
+```
+
+The component and the options are the same as above, with `ShadcnSvelteTable` and `createShadcnSvelteTable`.
+
+### Headless
+
+```bash
+npm install material-svelte-headless-table   # or shadcn-svelte-headless-table
+```
+
+Import the same stylesheet as above for the flavor you chose, then pass `columns` and `data`. Every feature is a prop:
 
 ```svelte
 <script lang="ts">
-  import { MaterialSvelteTable, createMaterialSvelteTable } from 'material-svelte-table';
+  import { ShadcnHeadlessTable, type HeadlessColumnDef } from 'shadcn-svelte-headless-table';
 
-  const table = createMaterialSvelteTable({ columns, data });
+  type Person = { name: string; age: number; city: string };
+
+  const columns: HeadlessColumnDef<Person>[] = [
+    { accessor: 'name', header: 'Name' },
+    { accessor: 'age', header: 'Age', align: 'end', width: 100 },
+    { accessor: 'city', header: 'City', filterVariant: 'select' },
+  ];
+
+  let data = $state<Person[]>([]);
 </script>
 
-<button onclick={() => table.setCreatingRow(true)}>Add person</button>
-<MaterialSvelteTable {table} />
+<ShadcnHeadlessTable {columns} {data} enableRowSelection enableColumnFilters enableGrouping />
 ```
 
+Use `MaterialHeadlessTable` from `material-svelte-headless-table` for the Material flavor. Add
+`enableVirtualization height={480}` to render only the rows in view.
+
 Customization uses snippets where Material React Table used `renderX` options, for example `detailPanel`,
-`rowActions`, `topToolbarCustomActions` and `emptyRowsFallback`, and `Cell`, `Header`, `Footer` and `Edit` on columns.
+`rowActions` and `topToolbarCustomActions` in the TanStack packages, and `cell` on a column in all of them.
 
 ## Run it locally
 
@@ -134,12 +196,24 @@ This repository uses npm workspaces and Vite+.
 
 ```bash
 npm install
-npm run docs:dev        # documentation site on :3000 (uses the library source directly)
-npm run storybook       # Storybook on :6006
+npm run docs:dev        # Material TanStack docs on :3000 (uses the library source directly)
+npm run storybook       # Material TanStack Storybook on :6006
 npm run test            # unit and component tests
 npm run check           # svelte-check and astro check
-npm run build         # build the library, then the docs
+npm run build           # build the library, then the docs
 ```
+
+The root scripts target the Material TanStack package. Run the others by workspace name:
+
+```bash
+npm run build -w shadcn-svelte-headless-table        # build a library
+npm run test  -w shadcn-svelte-headless-table        # test a library
+npm run dev   -w shadcn-svelte-headless-table-docs   # a docs site on :3000
+npm run build -w shadcn-svelte-headless-table-docs   # build a docs site (build the library first)
+```
+
+The workspace names are `material-svelte-table`, `shadcn-svelte-tanstack-table`, `material-svelte-headless-table` and
+`shadcn-svelte-headless-table`, each with a `-docs` site.
 
 ## Contributing
 
@@ -148,4 +222,5 @@ run the project.
 
 ## License
 
-MIT. Based on [Material React Table](https://github.com/KevinVandy/material-react-table), Copyright (c) 2022 Kevin Vandy.
+MIT. The TanStack packages are based on [Material React Table](https://github.com/KevinVandy/material-react-table),
+Copyright (c) 2022 Kevin Vandy.

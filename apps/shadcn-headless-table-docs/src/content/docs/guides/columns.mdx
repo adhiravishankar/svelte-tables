@@ -23,7 +23,8 @@ const columns: HeadlessColumnDef<Person>[] = [
 | `cell` | A snippet that renders the cell. It gets `{ value, row, rowId }`. |
 | `align` | `start`, `center` or `end`. |
 | `width`, `minWidth`, `maxWidth` | Pixel sizes. Columns without a width share the free space. |
-| `enableSorting`, `enableHiding`, `enableResizing`, `enableGlobalFilter` | Turn a feature off for one column. |
+| `enableSorting`, `enableHiding`, `enableResizing`, `enableGlobalFilter`, `enableGrouping`, `enableColumnOrdering` | Turn a feature off for one column. |
+| `aggregate`, `aggregateFormat` | What group rows show for the column. |
 | `filterVariant`, `filterOptions` | The column filter. See [Filtering](/guides/filtering/). |
 | `sortValue`, `searchValue` | Map the value to what sorting and search compare. |
 

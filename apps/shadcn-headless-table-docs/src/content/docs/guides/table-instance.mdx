@@ -19,7 +19,7 @@ markup with Svelte Headless Table's view model.
 ```
 
 `table.state` has `sorting`, `columnFilters`, `globalFilter`, `pageIndex`, `pageSize`, `selectedRows`, `hiddenColumns`,
-`expandedRows` and `density`.
+`columnOrder`, `grouping` and `density`.
 
 | Method | |
 | ------ | - |
@@ -28,7 +28,9 @@ markup with Svelte Headless Table's view model.
 | `setPageIndex(i)`, `setPageSize(n)` | Paging |
 | `toggleRow(id, on?)`, `toggleAllRows(on?)`, `isRowSelected(id)` | Selection |
 | `toggleColumn(id, visible?)`, `isColumnVisible(id)` | Columns |
-| `toggleExpanded(id, on?)`, `isExpanded(id)`, `setDensity(d)` | Panels and density |
+| `setColumnOrder(ids)`, `moveColumn(id, targetId)` | Order |
+| `toggleGrouping(id)`, `isGrouped(id)`, `toggleGroupRow(id)`, `isGroupExpanded(id)` | Grouping |
+| `setDensity(d)` | Density |
 
 `table.viewModel` is the Svelte Headless Table view model (`table.viewModel.current.rows`, `.visibleColumns` and so
 on), and `table.rows` / `table.filteredRows` are the rows on the page and after filtering.

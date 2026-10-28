@@ -6,10 +6,6 @@ export type { MRT_Localization as HeadlessLocalization };
 export type RowData = Record<string, any>;
 export type Density = 'comfortable' | 'compact' | 'spacious';
 export type FilterVariant = 'text' | 'select' | 'range' | 'checkbox';
-export type GlobalFilterMode = 'contains' | 'fuzzy' | 'startsWith';
-export type EditMode = 'cell' | 'row';
-export type EditVariant = 'number' | 'select' | 'text';
-export type Pin = 'end' | 'start';
 export type AggregateFn = 'count' | 'max' | 'mean' | 'min' | 'sum' | ((values: any[]) => unknown);
 
 export interface FilterOption {
@@ -51,31 +47,14 @@ export interface HeadlessColumnDef<TData extends RowData, TValue = any> {
   sortValue?: (value: TValue) => number | string;
   /** Map the value to the text that the global search looks at. */
   searchValue?: (value: TValue) => string;
-  /** Show how many rows have each value next to the options of the `select` filter. */
-  showFacetCounts?: boolean;
   /** Allow dragging the header to reorder. Needs `enableColumnOrdering`. */
   enableColumnOrdering?: boolean;
-  /** Allow pinning. Needs `enableColumnPinning`. */
-  enablePinning?: boolean;
   /** Allow grouping by this column. Needs `enableGrouping`. */
   enableGrouping?: boolean;
   /** How grouped rows combine this column. */
   aggregate?: AggregateFn;
   /** Format the aggregated value. */
   aggregateFormat?: (value: any) => string;
-  /** Allow editing the cells of this column. Needs `enableEditing`. Default `true`. */
-  enableEditing?: boolean;
-  editVariant?: EditVariant;
-  /** Choices of the `select` edit variant. Default: the distinct values of the column. */
-  editOptions?: FilterOption[];
-}
-
-export interface EditSaveContext<TData extends RowData> {
-  /** The row as it is now. */
-  row: TData;
-  rowId: string;
-  /** The edited values, by column id. */
-  values: Record<string, unknown>;
 }
 
 export interface HeadlessTableState {
@@ -87,16 +66,11 @@ export interface HeadlessTableState {
   /** Row ids. */
   selectedRows: string[];
   hiddenColumns: string[];
-  expandedRows: string[];
   density: Density;
   /** Column ids, in display order. */
   columnOrder: string[];
-  columnPinning: { end: string[]; start: string[] };
   /** Column ids the rows are grouped by. */
   grouping: string[];
-  globalFilterMode: GlobalFilterMode;
-  /** The cell or row being edited. */
-  editing: { columnId?: string; rowId: string } | null;
 }
 
 export interface HeadlessTableOptions<TData extends RowData> {
@@ -118,15 +92,8 @@ export interface HeadlessTableOptions<TData extends RowData> {
   enableDensityToggle?: boolean;
   /** Drag headers to reorder the columns. */
   enableColumnOrdering?: boolean;
-  /** Pin columns to the start or end of the table. */
-  enableColumnPinning?: boolean;
   /** Group rows by columns, with aggregated values. */
   enableGrouping?: boolean;
-  /** `cell`: double click a cell. `row`: an edit button on each row. */
-  enableEditing?: boolean;
-  editMode?: EditMode;
-  /** Show a menu with column actions in each header. Default: when any column feature is on. */
-  enableColumnActions?: boolean;
   /** Show the toolbars. Default `true`. */
   enableTopToolbar?: boolean;
   enableBottomToolbar?: boolean;
@@ -143,8 +110,6 @@ export interface HeadlessTableOptions<TData extends RowData> {
   /** Estimated row height in pixels, used until rows are measured. */
   estimatedRowHeight?: number;
 
-  /** The panel shown under an expanded row. Rows get an expand button when set. */
-  renderDetailPanel?: Snippet<[CellContext<TData>]>;
   /** Extra controls in the top toolbar. */
   topToolbarActions?: Snippet<[HeadlessTableInstance<TData>]>;
   /** Shown instead of the body when there are no rows. */
@@ -155,8 +120,6 @@ export interface HeadlessTableOptions<TData extends RowData> {
   localization?: MRT_Localization;
   initialState?: Partial<HeadlessTableState>;
 
-  /** Called with the edited values when an edit is saved. Update your data here. */
-  onEditSave?: (context: EditSaveContext<TData>) => void | Promise<void>;
   onRowClick?: (context: CellContext<TData>, event: MouseEvent) => void;
   onSelectionChange?: (selectedRows: TData[]) => void;
   /** Class names for the parts. */
@@ -180,9 +143,6 @@ export interface HeadlessTableInstance<TData extends RowData = RowData> {
   readonly selectedRows: TData[];
   readonly allSelected: boolean;
   readonly someSelected: boolean;
-  /** Values being typed into the row or cell that is being edited. */
-  readonly draft: Record<string, unknown>;
-  readonly isSaving: boolean;
 
   setSorting(id: string, event?: Event): void;
   clearSorting(id: string): void;
@@ -196,30 +156,13 @@ export interface HeadlessTableInstance<TData extends RowData = RowData> {
   isRowSelected(rowId: string): boolean;
   toggleColumn(id: string, visible?: boolean): void;
   isColumnVisible(id: string): boolean;
-  toggleExpanded(rowId: string, value?: boolean): void;
-  isExpanded(rowId: string): boolean;
   setDensity(density: Density): void;
-  /** Put pinned columns first and last. Works on header cells and row cells. */
-  arrange<T extends { id: string }>(items: T[]): T[];
   toggleGroupRow(rowId: string): void;
   isGroupExpanded(rowId: string): boolean;
   setColumnOrder(order: string[]): void;
-  /** Move a column to where another column is. */
+  /** Move a column to where another column is (after it when moving right). */
   moveColumn(id: string, beforeId: string): void;
-  pinColumn(id: string, pin: Pin | false): void;
-  /** The pin of a column. */
-  pinOf(id: string): Pin | undefined;
   toggleGrouping(id: string): void;
   isGrouped(id: string): boolean;
-  setGlobalFilterMode(mode: GlobalFilterMode): void;
-  /** Start editing a cell, or a whole row when `columnId` is left out. */
-  startEditing(rowId: string, columnId?: string): void;
-  setDraft(columnId: string, value: unknown): void;
-  cancelEditing(): void;
-  saveEditing(): Promise<void>;
-  /** The measured width of each rendered header, used for sticky pinned columns. */
-  setColumnWidth(id: string, width: number): void;
-  /** `left` / `right` offset, in pixels, of a pinned column. */
-  pinOffset(id: string): number;
   resetFilters(): void;
 }

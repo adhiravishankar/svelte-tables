@@ -106,21 +106,6 @@ describe('createHeadlessTable: more features', () => {
     expect(table.state.columnOrder).toEqual(['city', 'name', 'age']);
   });
 
-  it('pins columns and offsets them by the measured widths', () => {
-    const table = setup({ enableColumnPinning: true });
-    table.pinColumn('city', 'start');
-    table.pinColumn('name', 'end');
-    flushSync();
-    expect(ids(table)).toEqual(['city', 'age', 'name']);
-    table.setColumnWidth('age', 100);
-    table.setColumnWidth('name', 120);
-    table.setColumnWidth('city', 80);
-    expect(table.pinOffset('city')).toBe(48);
-    expect(table.pinOffset('name')).toBe(0);
-    table.pinColumn('city', false);
-    flushSync();
-    expect(table.pinOf('city')).toBeUndefined();
-  });
 
   it('groups rows and aggregates', () => {
     const table = setup({
@@ -144,39 +129,5 @@ describe('createHeadlessTable: more features', () => {
     expect(table.isGroupExpanded(paris.id)).toBe(true);
   });
 
-  it('switches the search mode', () => {
-    const table = setup({ enableGrouping: false });
-    table.setGlobalFilter('crl');
-    flushSync();
-    expect(names(table)).toEqual([]);
-    table.setGlobalFilterMode('fuzzy');
-    flushSync();
-    expect(names(table)).toEqual(['Carol']);
-    table.setGlobalFilterMode('startsWith');
-    table.setGlobalFilter('b');
-    flushSync();
-    expect(names(table)).toEqual(['Bob']);
-  });
 
-  it('edits a cell and a row', async () => {
-    const saved: unknown[] = [];
-    const table = setup({
-      enableEditing: true,
-      onEditSave: (context) => {
-        saved.push(context);
-      },
-    });
-    table.startEditing('Bob', 'age');
-    expect(table.draft).toEqual({ age: 25 });
-    table.setDraft('age', 26);
-    await table.saveEditing();
-    expect(saved).toEqual([{ row: people[1], rowId: 'Bob', values: { age: 26 } }]);
-    expect(table.state.editing).toBeNull();
-
-    table.startEditing('Dave');
-    expect(table.state.editing).toEqual({ columnId: undefined, rowId: 'Dave' });
-    expect(table.draft).toEqual({ age: 19, city: 'Oslo', name: 'Dave' });
-    table.cancelEditing();
-    expect(table.state.editing).toBeNull();
-  });
 });

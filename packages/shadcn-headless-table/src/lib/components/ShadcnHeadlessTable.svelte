@@ -36,7 +36,6 @@
   const virtualized = $derived(!!options.enableVirtualization);
   const paginated = $derived(options.enablePagination !== false && !virtualized);
   const selectable = $derived(!!options.enableRowSelection);
-  const expandable = $derived(!!options.renderDetailPanel);
   const showTop = $derived(options.enableTopToolbar !== false);
   const showBottom = $derived(options.enableBottomToolbar !== false);
   const height = $derived(
@@ -50,7 +49,6 @@
   <HeadlessRow
     cellClass={options.classes?.cell}
     {defs}
-    detail={options.renderDetailPanel}
     {localization}
     onRowClick={options.onRowClick}
     rowClass={options.classes?.row}
@@ -65,8 +63,8 @@
     data={options.data}
     {defs}
     enableColumnFilters={!!options.enableColumnFilters}
+    enableColumnOrdering={!!options.enableColumnOrdering}
     enableResizing={!!options.enableColumnResizing}
-    {expandable}
     {localization}
     {selectable}
     table={instance}
@@ -138,7 +136,6 @@
     {#if hasFooter}
       <div class="hdt-row hdt-foot-row" role="row">
         {#if selectable}<div class="hdt-cell hdt-fixed" style="flex: 0 0 48px"></div>{/if}
-        {#if expandable}<div class="hdt-cell hdt-fixed" style="flex: 0 0 48px"></div>{/if}
         {#each instance.visibleColumns as column (column.id)}
           <div class="hdt-cell" role="cell" style="flex: 1 1 0; min-width: {defs[column.id]?.minWidth ?? 96}px">
             {defs[column.id]?.footer ?? ''}

@@ -20,15 +20,12 @@ import type {
   AggregateFn,
   Density,
   FilterOption,
-  GlobalFilterMode,
   HeadlessColumnDef,
   HeadlessTableInstance,
   HeadlessTableOptions,
   HeadlessTableState,
-  Pin,
   RowData,
 } from './types';
-import { EXPAND_COLUMN_WIDTH, SELECT_COLUMN_WIDTH } from './utils/cell';
 
 export const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
 
@@ -39,24 +36,6 @@ const includesText = ({ filterValue, value }: { filterValue: unknown; value: unk
 
 const equals = ({ filterValue, value }: { filterValue: unknown; value: unknown }) =>
   String(value) === String(filterValue);
-
-/** The letters of `query` appear in `text`, in order. */
-export const fuzzyMatch = (text: string, query: string) => {
-  const haystack = text.toLowerCase();
-  let from = 0;
-  for (const letter of query.toLowerCase()) {
-    from = haystack.indexOf(letter, from);
-    if (from === -1) return false;
-    from += 1;
-  }
-  return true;
-};
-
-const matchers: Record<GlobalFilterMode, (text: string, query: string) => boolean> = {
-  contains: (text, query) => text.toLowerCase().includes(query.toLowerCase()),
-  fuzzy: fuzzyMatch,
-  startsWith: (text, query) => text.toLowerCase().startsWith(query.toLowerCase()),
-};
 
 const aggregators: Record<string, (values: any[]) => unknown> = {
   count: (values) => values.length,
@@ -71,31 +50,24 @@ const getAggregator = (aggregate: AggregateFn) =>
 export const getColumnId = <TData extends RowData>(column: HeadlessColumnDef<TData>) =>
   column.id ?? String(column.accessor);
 
-const readValue = <TData extends RowData>(column: HeadlessColumnDef<TData>, row: TData) =>
-  typeof column.accessor === 'function'
-    ? column.accessor(row)
-    : row[column.accessor as keyof TData];
-
-/** The distinct values of a column, as options for a select. */
+/** The distinct values of a column, as options for a `select` filter. */
 export function getSelectOptions<TData extends RowData>(
   column: HeadlessColumnDef<TData>,
   data: TData[],
-  options: { counts?: boolean; explicit?: FilterOption[] } = {},
 ): FilterOption[] {
-  if (options.explicit) return options.explicit;
-  const counts = new Map<string | number | boolean, number>();
+  if (column.filterOptions) return column.filterOptions;
+  const read =
+    typeof column.accessor === 'function'
+      ? column.accessor
+      : (row: TData) => row[column.accessor as keyof TData];
+  const values = new Set<string | number | boolean>();
   for (const row of data) {
-    const value = readValue(column, row);
-    if (value !== undefined && value !== null && value !== '') {
-      counts.set(value, (counts.get(value) ?? 0) + 1);
-    }
+    const value = read(row);
+    if (value !== undefined && value !== null && value !== '') values.add(value);
   }
-  return [...counts.entries()]
-    .sort(([a], [b]) => String(a).localeCompare(String(b), undefined, { numeric: true }))
-    .map(([value, count]) => ({
-      label: options.counts ? `${value} (${count})` : String(value),
-      value,
-    }));
+  return [...values]
+    .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }))
+    .map((value) => ({ label: String(value), value }));
 }
 
 /**
@@ -103,6 +75,10 @@ export function getSelectOptions<TData extends RowData>(
  * component is initializing. `options` is a getter so that `data` (and the
  * other reactive options) can change; the columns and the set of enabled
  * features are read once, when the table is created.
+ *
+ * Every feature is a Svelte Headless Table plugin: sort, column filters,
+ * table filter, group by, expanded rows, column order, hidden columns,
+ * resized columns, selected rows and pagination.
  */
 export function createHeadlessTable<TData extends RowData>(
   getOptions: () => HeadlessTableOptions<TData>,
@@ -117,18 +93,9 @@ export function createHeadlessTable<TData extends RowData>(
   const selectable = !!initial.enableRowSelection;
   const resizable = !!initial.enableColumnResizing;
   const orderable = !!initial.enableColumnOrdering;
-  const pinnable = !!initial.enableColumnPinning;
   const groupable = !!initial.enableGrouping;
-  const editable = !!initial.enableEditing;
   const columnDefs = initial.columns;
   const getRowId = initial.getRowId;
-  const defById = Object.fromEntries(columnDefs.map((def) => [getColumnId(def), def]));
-  const leadingWidth =
-    (selectable ? SELECT_COLUMN_WIDTH : 0) + (initial.renderDetailPanel ? EXPAND_COLUMN_WIDTH : 0);
-
-  let globalMode = $state<GlobalFilterMode>(
-    initialState.globalFilterMode ?? 'contains',
-  );
 
   const plugins: Record<string, any> = {};
   if (sortable) {
@@ -143,7 +110,7 @@ export function createHeadlessTable<TData extends RowData>(
   if (filterable) plugins.filter = addColumnFilters();
   if (searchable) {
     plugins.search = addTableFilter({
-      fn: ({ filterValue, value }) => matchers[globalMode](value, filterValue),
+      fn: includesText,
       initialFilterValue: initialState.globalFilter ?? '',
     });
   }
@@ -244,17 +211,6 @@ export function createHeadlessTable<TData extends RowData>(
   const states = vm.pluginStates as Record<string, any>;
 
   let density = $state<Density>(initialState.density ?? 'comfortable');
-  let expanded = $state<Record<string, boolean>>(
-    Object.fromEntries((initialState.expandedRows ?? []).map((id) => [id, true])),
-  );
-  let pinning = $state<{ end: string[]; start: string[] }>({
-    end: [...(initialState.columnPinning?.end ?? [])],
-    start: [...(initialState.columnPinning?.start ?? [])],
-  });
-  let widths = $state<Record<string, number>>({});
-  let editing = $state<{ columnId?: string; rowId: string } | null>(initialState.editing ?? null);
-  let draft = $state<Record<string, unknown>>({});
-  let saving = $state(false);
 
   const allRows = $derived(vm.current.rows);
   const rows = $derived(paginated ? vm.current.pageRows : vm.current.rows);
@@ -283,20 +239,7 @@ export function createHeadlessTable<TData extends RowData>(
     });
   }
 
-  /** The ids of every column, in the order they are shown, ignoring hidden ones. */
-  const orderedIds = $derived<string[]>(vm.current.visibleColumns.map((column: any) => column.id));
-  const pinOf = (id: string): Pin | undefined =>
-    pinning.start.includes(id) ? 'start' : pinning.end.includes(id) ? 'end' : undefined;
-
-  /** Pinned columns first or last, the rest in their order. */
-  const arranged = $derived.by(() => {
-    const start = pinning.start.filter((id) => orderedIds.includes(id));
-    const end = pinning.end.filter((id) => orderedIds.includes(id));
-    const middle = orderedIds.filter((id) => !start.includes(id) && !end.includes(id));
-    return [...start, ...middle, ...end];
-  });
-
-  const instance: HeadlessTableInstance<TData> = {
+  return {
     get viewModel() {
       return vm;
     },
@@ -307,12 +250,8 @@ export function createHeadlessTable<TData extends RowData>(
       return {
         columnFilters: filterable ? { ...states.filter.filterValues.current } : {},
         columnOrder: orderable ? [...states.order.columnIdOrder.current] : [],
-        columnPinning: { end: [...pinning.end], start: [...pinning.start] },
         density,
-        editing,
-        expandedRows: Object.keys(expanded).filter((id) => expanded[id]),
         globalFilter: searchable ? (states.search.filterValue.current as string) : '',
-        globalFilterMode: globalMode,
         grouping: groupable ? [...states.group.groupByIds.current] : [],
         hiddenColumns: [...states.hide.hiddenColumnIds.current],
         pageIndex: paginated ? states.page.pageIndex.current : 0,
@@ -333,7 +272,7 @@ export function createHeadlessTable<TData extends RowData>(
       return allRows;
     },
     get visibleColumns() {
-      return arranged.map((id) => vm.current.visibleColumns.find((column: any) => column.id === id));
+      return vm.current.visibleColumns;
     },
     get pageCount() {
       return paginated ? states.page.pageCount.current : 1;
@@ -347,17 +286,7 @@ export function createHeadlessTable<TData extends RowData>(
     get someSelected() {
       return selectedIds.length > 0 && !(selectable && selectedIds.length >= dataRows.length);
     },
-    get draft() {
-      return draft;
-    },
-    get isSaving() {
-      return saving;
-    },
 
-    arrange(items) {
-      const position = new Map(arranged.map((id, index) => [id, index]));
-      return [...items].sort((a, b) => (position.get(a.id) ?? 0) - (position.get(b.id) ?? 0));
-    },
     setSorting(id, event) {
       if (!sortable) return;
       states.sort.sortKeys.toggleId(id, {
@@ -384,9 +313,6 @@ export function createHeadlessTable<TData extends RowData>(
       if (!searchable) return;
       states.search.filterValue.current = value;
       if (paginated) states.page.pageIndex.current = 0;
-    },
-    setGlobalFilterMode(mode) {
-      globalMode = mode;
     },
     setPageIndex(index) {
       if (paginated) {
@@ -427,11 +353,27 @@ export function createHeadlessTable<TData extends RowData>(
     isColumnVisible(id) {
       return !(states.hide.hiddenColumnIds.current as string[]).includes(id);
     },
-    toggleExpanded(rowId, value) {
-      expanded[rowId] = value ?? !expanded[rowId];
+    setColumnOrder(order) {
+      if (orderable) states.order.columnIdOrder.current = order;
     },
-    isExpanded(rowId) {
-      return !!expanded[rowId];
+    moveColumn(id, beforeId) {
+      if (!orderable || id === beforeId) return;
+      const current: string[] = states.order.columnIdOrder.current.length
+        ? [...states.order.columnIdOrder.current]
+        : columnDefs.map(getColumnId);
+      const from = current.indexOf(id);
+      const to = current.indexOf(beforeId);
+      if (from === -1 || to === -1) return;
+      // dragging right drops after the target, dragging left drops before it
+      const without = current.filter((columnId) => columnId !== id);
+      without.splice(without.indexOf(beforeId) + (from < to ? 1 : 0), 0, id);
+      states.order.columnIdOrder.current = without;
+    },
+    toggleGrouping(id) {
+      if (groupable) states.group.groupByIds.toggle(id);
+    },
+    isGrouped(id) {
+      return groupable && states.group.groupByIds.has(id);
     },
     toggleGroupRow(rowId) {
       if (groupable) states.expand.expandedIds.toggle(rowId);
@@ -442,90 +384,9 @@ export function createHeadlessTable<TData extends RowData>(
     setDensity(next) {
       density = next;
     },
-    setColumnOrder(order) {
-      if (orderable) states.order.columnIdOrder.current = order;
-    },
-    moveColumn(id, beforeId) {
-      if (!orderable || id === beforeId) return;
-      const current: string[] = states.order.columnIdOrder.current.length
-        ? [...states.order.columnIdOrder.current]
-        : columnDefs.map(getColumnId);
-      const without = current.filter((columnId) => columnId !== id);
-      const index = without.indexOf(beforeId);
-      if (index === -1) return;
-      without.splice(index, 0, id);
-      states.order.columnIdOrder.current = without;
-    },
-    pinColumn(id, pin) {
-      if (!pinnable) return;
-      pinning = {
-        end: pinning.end.filter((columnId) => columnId !== id),
-        start: pinning.start.filter((columnId) => columnId !== id),
-      };
-      if (pin) pinning[pin] = [...pinning[pin], id];
-    },
-    pinOf,
-    toggleGrouping(id) {
-      if (groupable) states.group.groupByIds.toggle(id);
-    },
-    isGrouped(id) {
-      return groupable && states.group.groupByIds.has(id);
-    },
-    setColumnWidth(id, width) {
-      if (widths[id] !== width) widths[id] = width;
-    },
-    pinOffset(id) {
-      const pin = pinOf(id);
-      if (pin === 'start') {
-        const before = arranged.slice(0, arranged.indexOf(id));
-        return leadingWidth + before.reduce((sum, columnId) => sum + (widths[columnId] ?? 0), 0);
-      }
-      if (pin === 'end') {
-        const after = arranged.slice(arranged.indexOf(id) + 1);
-        return after.reduce((sum, columnId) => sum + (widths[columnId] ?? 0), 0);
-      }
-      return 0;
-    },
-    startEditing(rowId, columnId) {
-      if (!editable) return;
-      const row = dataRows.find((candidate: any) => candidate.dataId === rowId) as any;
-      if (!row) return;
-      const ids = columnId
-        ? [columnId]
-        : columnDefs.map(getColumnId).filter((id) => defById[id].enableEditing !== false);
-      if (columnId && defById[columnId]?.enableEditing === false) return;
-      draft = Object.fromEntries(ids.map((id) => [id, readValue(defById[id], row.original)]));
-      editing = { columnId, rowId };
-    },
-    setDraft(columnId, value) {
-      draft[columnId] = value;
-    },
-    cancelEditing() {
-      editing = null;
-      draft = {};
-    },
-    async saveEditing() {
-      const current = editing;
-      if (!current) return;
-      const row = dataRows.find((candidate: any) => candidate.dataId === current.rowId) as any;
-      if (!row) return;
-      saving = true;
-      try {
-        await getOptions().onEditSave?.({
-          row: row.original,
-          rowId: current.rowId,
-          values: { ...draft },
-        });
-        editing = null;
-        draft = {};
-      } finally {
-        saving = false;
-      }
-    },
     resetFilters() {
       if (filterable) states.filter.filterValues.current = {};
       if (searchable) states.search.filterValue.current = '';
     },
   };
-  return instance;
 }

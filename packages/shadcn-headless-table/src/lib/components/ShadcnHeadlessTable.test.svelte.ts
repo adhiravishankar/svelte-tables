@@ -145,19 +145,12 @@ describe('ShadcnHeadlessTable', () => {
     expect(selected.at(-1)).toHaveLength(4);
   });
 
-  it('hides and shows columns', async () => {
+  it('hides columns', () => {
     const root = render({ initialState: { hiddenColumns: ['age'] } });
     expect(rows(root)[0]).toBe('Carol|Paris');
     expect(root.querySelectorAll('.hdt-head-cell')).toHaveLength(2);
   });
 
-  it('shows a detail panel for an expanded row', () => {
-    const root = render({
-      // a snippet is needed to enable the panel; the test only checks the button
-      renderDetailPanel: (() => {}) as any,
-    });
-    expect(root.querySelectorAll('.hdt-body-row button[aria-label="Expand"]')).toHaveLength(4);
-  });
 
   it('shows the loading bar', () => {
     const root = render({ isLoading: true });
@@ -170,5 +163,32 @@ describe('ShadcnHeadlessTable', () => {
     expect(root.querySelector('.hdt-pagination')).toBeNull();
     expect(root.querySelector('.hdt-total')?.textContent).toContain('4 of 4');
     expect(root.querySelectorAll('.hdt-body-row').length).toBeGreaterThan(0);
+  });
+
+  it('orders columns by dragging a header onto another', () => {
+    const root = render({ enableColumnOrdering: true });
+    const [name, age] = Array.from(root.querySelectorAll<HTMLElement>('.hdt-head-cell'));
+    expect(name.getAttribute('draggable')).toBe('true');
+    name.dispatchEvent(new Event('dragstart', { bubbles: true }));
+    flushSync();
+    age.dispatchEvent(new Event('drop', { bubbles: true, cancelable: true }));
+    flushSync();
+    expect(Array.from(root.querySelectorAll('.hdt-head-cell')).map((c) => c.textContent?.trim())).toEqual([
+      'Age',
+      'Name',
+      'City',
+    ]);
+  });
+
+  it('groups rows from the header button', () => {
+    const root = render({ enableGrouping: true, enablePagination: false });
+    root.querySelector<HTMLElement>('button[aria-label="Group by City"]')!.click();
+    flushSync();
+    const groups = root.querySelectorAll('.hdt-group-row');
+    expect(groups).toHaveLength(3);
+    expect(root.querySelectorAll('.hdt-body-row')).toHaveLength(3);
+    (groups[0] as HTMLElement).click();
+    flushSync();
+    expect(root.querySelectorAll('.hdt-body-row').length).toBeGreaterThan(3);
   });
 });

@@ -6,6 +6,7 @@ export type { MRT_Localization as HeadlessLocalization };
 export type RowData = Record<string, any>;
 export type Density = 'comfortable' | 'compact' | 'spacious';
 export type FilterVariant = 'text' | 'select' | 'range' | 'checkbox';
+export type AggregateFn = 'count' | 'max' | 'mean' | 'min' | 'sum' | ((values: any[]) => unknown);
 
 export interface FilterOption {
   label: string;
@@ -46,6 +47,14 @@ export interface HeadlessColumnDef<TData extends RowData, TValue = any> {
   sortValue?: (value: TValue) => number | string;
   /** Map the value to the text that the global search looks at. */
   searchValue?: (value: TValue) => string;
+  /** Allow dragging the header to reorder. Needs `enableColumnOrdering`. */
+  enableColumnOrdering?: boolean;
+  /** Allow grouping by this column. Needs `enableGrouping`. */
+  enableGrouping?: boolean;
+  /** How grouped rows combine this column. */
+  aggregate?: AggregateFn;
+  /** Format the aggregated value. */
+  aggregateFormat?: (value: any) => string;
 }
 
 export interface HeadlessTableState {
@@ -57,8 +66,11 @@ export interface HeadlessTableState {
   /** Row ids. */
   selectedRows: string[];
   hiddenColumns: string[];
-  expandedRows: string[];
   density: Density;
+  /** Column ids, in display order. */
+  columnOrder: string[];
+  /** Column ids the rows are grouped by. */
+  grouping: string[];
 }
 
 export interface HeadlessTableOptions<TData extends RowData> {
@@ -78,6 +90,10 @@ export interface HeadlessTableOptions<TData extends RowData> {
   enableColumnVisibility?: boolean;
   enableColumnResizing?: boolean;
   enableDensityToggle?: boolean;
+  /** Drag headers to reorder the columns. */
+  enableColumnOrdering?: boolean;
+  /** Group rows by columns, with aggregated values. */
+  enableGrouping?: boolean;
   /** Show the toolbars. Default `true`. */
   enableTopToolbar?: boolean;
   enableBottomToolbar?: boolean;
@@ -94,8 +110,6 @@ export interface HeadlessTableOptions<TData extends RowData> {
   /** Estimated row height in pixels, used until rows are measured. */
   estimatedRowHeight?: number;
 
-  /** The panel shown under an expanded row. Rows get an expand button when set. */
-  renderDetailPanel?: Snippet<[CellContext<TData>]>;
   /** Extra controls in the top toolbar. */
   topToolbarActions?: Snippet<[HeadlessTableInstance<TData>]>;
   /** Shown instead of the body when there are no rows. */
@@ -142,8 +156,13 @@ export interface HeadlessTableInstance<TData extends RowData = RowData> {
   isRowSelected(rowId: string): boolean;
   toggleColumn(id: string, visible?: boolean): void;
   isColumnVisible(id: string): boolean;
-  toggleExpanded(rowId: string, value?: boolean): void;
-  isExpanded(rowId: string): boolean;
   setDensity(density: Density): void;
+  toggleGroupRow(rowId: string): void;
+  isGroupExpanded(rowId: string): boolean;
+  setColumnOrder(order: string[]): void;
+  /** Move a column to where another column is (after it when moving right). */
+  moveColumn(id: string, beforeId: string): void;
+  toggleGrouping(id: string): void;
+  isGrouped(id: string): boolean;
   resetFilters(): void;
 }

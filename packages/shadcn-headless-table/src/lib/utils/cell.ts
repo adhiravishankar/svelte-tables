@@ -1,7 +1,6 @@
 import type { HeadlessColumnDef, RowData } from '../types';
 
 export const SELECT_COLUMN_WIDTH = 48;
-export const EXPAND_COLUMN_WIDTH = 48;
 
 /** `{ width: '10px' }` -> `width: 10px`. Strings pass through. */
 export const styleToString = (style: unknown): string =>

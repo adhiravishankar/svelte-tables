@@ -12,7 +12,7 @@ only the rows near the viewport, so very long tables stay fast. The header stays
 <MaterialHeadlessTable {columns} {data} enableVirtualization height={500} estimatedRowHeight={53} />
 ```
 
-- Rows are measured as they appear, so rows can have different heights (detail panels do). `estimatedRowHeight` is
+- Rows are measured as they appear, so rows can have different heights. `estimatedRowHeight` is
   used until they are measured.
 - The table does not page when virtualized; the bottom toolbar shows the row count.
 - Rows are keyed by their id, so give the table a stable `getRowId` when the data is replaced.

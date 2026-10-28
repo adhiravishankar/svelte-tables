@@ -9,15 +9,12 @@
     HeadlessTableInstance,
     RowData,
   } from '../types';
-  import type { Snippet } from 'svelte';
-  import { cellStyle, EXPAND_COLUMN_WIDTH, SELECT_COLUMN_WIDTH } from '../utils/cell';
-  import Button from './kit/Button.svelte';
+  import { cellStyle, SELECT_COLUMN_WIDTH } from '../utils/cell';
   import Checkbox from './kit/Checkbox.svelte';
 
   let {
     cellClass,
     defs,
-    detail,
     localization,
     onRowClick,
     rowClass,
@@ -27,7 +24,6 @@
   }: {
     cellClass?: string;
     defs: Record<string, HeadlessColumnDef<TData>>;
-    detail?: Snippet<[CellContext<TData>]>;
     localization: HeadlessLocalization;
     onRowClick?: (context: CellContext<TData>, event: MouseEvent) => void;
     rowClass?: string;
@@ -36,61 +32,73 @@
     table: HeadlessTableInstance<TData>;
   } = $props();
 
-  const selected = $derived(table.isRowSelected(row.dataId));
-  const expanded = $derived(!!detail && table.isExpanded(row.dataId));
+  // Rows made by the group by plugin have no data of their own.
+  const isData = $derived(row.isData());
+  const rowId = $derived<string>(isData ? row.dataId : row.id);
+  const selected = $derived(isData && table.isRowSelected(rowId));
   const context = $derived<CellContext<TData>>({
     row: row.original,
-    rowId: row.dataId,
+    rowId,
     value: undefined,
   });
+
+  const groupColumn = $derived(isData ? undefined : table.state.grouping[row.depth]);
+  const groupOpen = $derived(!isData && table.isGroupExpanded(row.id));
+  const leafCount = (item: any): number =>
+    item.subRows?.length ? item.subRows.reduce((sum: number, sub: any) => sum + leafCount(sub), 0) : 1;
+  const indent = $derived(row.depth > 0 ? `padding-inline-start: calc(0.75rem + ${row.depth}rem); ` : '');
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div
   {...row.current.attrs}
-  aria-selected={selectable ? selected : undefined}
+  aria-expanded={isData ? undefined : groupOpen}
+  aria-selected={selectable && isData ? selected : undefined}
   class="hdt-row hdt-body-row {rowClass ?? ''}"
-  class:hdt-clickable={!!onRowClick}
+  class:hdt-clickable={!!onRowClick || !isData}
+  class:hdt-group-row={!isData}
   data-selected={selected}
-  onclick={(event) => onRowClick?.(context, event)}
+  onclick={(event) => (isData ? onRowClick?.(context, event) : table.toggleGroupRow(row.id))}
 >
   {#if selectable}
     <div class="hdt-cell hdt-fixed" role="cell" style="flex: 0 0 {SELECT_COLUMN_WIDTH}px">
-      <Checkbox
-        checked={selected}
-        label={localization.toggleSelectRow}
-        onchange={(value) => table.toggleRow(row.dataId, value)}
-      />
+      {#if isData}
+        <Checkbox
+          checked={selected}
+          label={localization.toggleSelectRow}
+          onchange={(value) => table.toggleRow(rowId, value)}
+        />
+      {/if}
     </div>
   {/if}
-  {#if detail}
-    <div class="hdt-cell hdt-fixed" role="cell" style="flex: 0 0 {EXPAND_COLUMN_WIDTH}px">
-      <Button
-        aria-expanded={expanded}
-        aria-label={expanded ? localization.collapse : localization.expand}
-        icon
-        onclick={(event: MouseEvent) => {
-          event.stopPropagation();
-          table.toggleExpanded(row.dataId);
-        }}
-        title={expanded ? localization.collapse : localization.expand}
-      >
-        {#if expanded}<ExpandMoreIcon />{:else}<ChevronRightIcon />{/if}
-      </Button>
-    </div>
-  {/if}
-  {#each row.cells as cell (cell.id)}
+  {#each row.cells as cell, index (cell.id)}
     <div
       {...cell.current.attrs}
       class="hdt-cell {cellClass ?? ''}"
-      style={cellStyle(defs[cell.column.id], cell.current.attrs.style)}
+      style="{index === 0 ? indent : ''}{cellStyle(defs[cell.id], cell.current.attrs.style)}"
     >
-      <Render of={cell.render()} />
+      {#if !isData && cell.id === groupColumn}
+        <span class="hdt-group-toggle">
+          {#if groupOpen}<ExpandMoreIcon />{:else}<ChevronRightIcon />{/if}
+          <Render of={cell.render()} />
+          <span class="hdt-group-count">({leafCount(row)})</span>
+        </span>
+      {:else}
+        <Render of={cell.render()} />
+      {/if}
     </div>
   {/each}
 </div>
-{#if expanded && detail}
-  <div class="hdt-detail" role="row">
-    <div role="cell">{@render detail(context)}</div>
-  </div>
-{/if}
+
+<style>
+  .hdt-group-toggle {
+    align-items: center;
+    display: inline-flex;
+    font-weight: 600;
+    gap: 0.25rem;
+  }
+  .hdt-group-count {
+    color: var(--hdt-muted);
+    font-weight: normal;
+  }
+</style>

@@ -93,3 +93,41 @@ describe('createHeadlessTable', () => {
     expect(table.visibleColumns.map((column: any) => column.id)).toEqual(['name', 'city']);
   });
 });
+
+describe('createHeadlessTable: more features', () => {
+  const ids = (table: ReturnType<typeof setup>) =>
+    table.visibleColumns.map((column: any) => column.id);
+
+  it('orders columns', () => {
+    const table = setup({ enableColumnOrdering: true });
+    table.moveColumn('city', 'name');
+    flushSync();
+    expect(ids(table)).toEqual(['city', 'name', 'age']);
+    expect(table.state.columnOrder).toEqual(['city', 'name', 'age']);
+  });
+
+
+  it('groups rows and aggregates', () => {
+    const table = setup({
+      columns: [
+        { accessor: 'name', header: 'Name' },
+        { accessor: 'age', aggregate: 'mean', header: 'Age' },
+        { accessor: 'city', header: 'City' },
+      ],
+      enableGrouping: true,
+    });
+    table.toggleGrouping('city');
+    flushSync();
+    const groups = table.rows.filter((row: any) => !row.isData());
+    expect(groups).toHaveLength(3);
+    const paris = groups.find((row: any) => row.cellForId.city.value === 'Paris') as any;
+    expect(paris.cellForId.age.value).toBe(35.5);
+    expect(table.rows).toHaveLength(3);
+    table.toggleGroupRow(paris.id);
+    flushSync();
+    expect(table.rows).toHaveLength(5);
+    expect(table.isGroupExpanded(paris.id)).toBe(true);
+  });
+
+
+});

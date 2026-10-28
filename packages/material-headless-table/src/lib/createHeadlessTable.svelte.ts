@@ -4,6 +4,9 @@ import {
 } from '@humanspeak/svelte-headless-table';
 import {
   addColumnFilters,
+  addColumnOrder,
+  addExpandedRows,
+  addGroupBy,
   addHiddenColumns,
   addPagination,
   addResizedColumns,
@@ -14,6 +17,7 @@ import {
 } from '@humanspeak/svelte-headless-table/plugins';
 import { untrack } from 'svelte';
 import type {
+  AggregateFn,
   Density,
   FilterOption,
   HeadlessColumnDef,
@@ -32,6 +36,16 @@ const includesText = ({ filterValue, value }: { filterValue: unknown; value: unk
 
 const equals = ({ filterValue, value }: { filterValue: unknown; value: unknown }) =>
   String(value) === String(filterValue);
+
+const aggregators: Record<string, (values: any[]) => unknown> = {
+  count: (values) => values.length,
+  max: (values) => Math.max(...values.map(Number)),
+  mean: (values) => values.reduce((sum, value) => sum + Number(value), 0) / (values.length || 1),
+  min: (values) => Math.min(...values.map(Number)),
+  sum: (values) => values.reduce((sum, value) => sum + Number(value), 0),
+};
+const getAggregator = (aggregate: AggregateFn) =>
+  typeof aggregate === 'function' ? aggregate : aggregators[aggregate];
 
 export const getColumnId = <TData extends RowData>(column: HeadlessColumnDef<TData>) =>
   column.id ?? String(column.accessor);
@@ -61,6 +75,10 @@ export function getSelectOptions<TData extends RowData>(
  * component is initializing. `options` is a getter so that `data` (and the
  * other reactive options) can change; the columns and the set of enabled
  * features are read once, when the table is created.
+ *
+ * Every feature is a Svelte Headless Table plugin: sort, column filters,
+ * table filter, group by, expanded rows, column order, hidden columns,
+ * resized columns, selected rows and pagination.
  */
 export function createHeadlessTable<TData extends RowData>(
   getOptions: () => HeadlessTableOptions<TData>,
@@ -74,6 +92,8 @@ export function createHeadlessTable<TData extends RowData>(
   const searchable = initial.enableGlobalFilter !== false;
   const selectable = !!initial.enableRowSelection;
   const resizable = !!initial.enableColumnResizing;
+  const orderable = !!initial.enableColumnOrdering;
+  const groupable = !!initial.enableGrouping;
   const columnDefs = initial.columns;
   const getRowId = initial.getRowId;
 
@@ -90,9 +110,16 @@ export function createHeadlessTable<TData extends RowData>(
   if (filterable) plugins.filter = addColumnFilters();
   if (searchable) {
     plugins.search = addTableFilter({
-      fn: ({ filterValue, value }) => includesText({ filterValue, value }),
+      fn: includesText,
       initialFilterValue: initialState.globalFilter ?? '',
     });
+  }
+  if (groupable) {
+    plugins.group = addGroupBy({ initialGroupByIds: initialState.grouping ?? [] });
+    plugins.expand = addExpandedRows();
+  }
+  if (orderable) {
+    plugins.order = addColumnOrder({ initialColumnIdOrder: initialState.columnOrder ?? [] });
   }
   plugins.hide = addHiddenColumns({
     initialHiddenColumnIds: initialState.hiddenColumns ?? [],
@@ -142,6 +169,16 @@ export function createHeadlessTable<TData extends RowData>(
           getFilterValue: def.searchValue,
         };
       }
+      if (groupable) {
+        const aggregator = def.aggregate ? getAggregator(def.aggregate) : undefined;
+        columnPlugins.group = {
+          disable: def.enableGrouping === false,
+          getAggregateValue: aggregator,
+          cell: aggregator
+            ? ({ value }: any) => (def.aggregateFormat ? def.aggregateFormat(value) : String(value))
+            : undefined,
+        };
+      }
       if (resizable) {
         columnPlugins.resize = {
           disable: def.enableResizing === false,
@@ -174,12 +211,10 @@ export function createHeadlessTable<TData extends RowData>(
   const states = vm.pluginStates as Record<string, any>;
 
   let density = $state<Density>(initialState.density ?? 'comfortable');
-  let expanded = $state<Record<string, boolean>>(
-    Object.fromEntries((initialState.expandedRows ?? []).map((id) => [id, true])),
-  );
 
   const allRows = $derived(vm.current.rows);
   const rows = $derived(paginated ? vm.current.pageRows : vm.current.rows);
+  const dataRows = $derived(allRows.filter((row: any) => row.isData()));
 
   const selectedIds = $derived<string[]>(
     selectable
@@ -189,7 +224,7 @@ export function createHeadlessTable<TData extends RowData>(
       : [],
   );
   const selectedRows = $derived(
-    allRows.filter((row: any) => selectedIds.includes(row.dataId)).map((row: any) => row.original as TData),
+    dataRows.filter((row: any) => selectedIds.includes(row.dataId)).map((row: any) => row.original as TData),
   );
 
   if (selectable && initial.onSelectionChange) {
@@ -214,9 +249,10 @@ export function createHeadlessTable<TData extends RowData>(
     get state() {
       return {
         columnFilters: filterable ? { ...states.filter.filterValues.current } : {},
+        columnOrder: orderable ? [...states.order.columnIdOrder.current] : [],
         density,
-        expandedRows: Object.keys(expanded).filter((id) => expanded[id]),
         globalFilter: searchable ? (states.search.filterValue.current as string) : '',
+        grouping: groupable ? [...states.group.groupByIds.current] : [],
         hiddenColumns: [...states.hide.hiddenColumnIds.current],
         pageIndex: paginated ? states.page.pageIndex.current : 0,
         pageSize: paginated ? states.page.pageSize.current : allRows.length,
@@ -245,10 +281,10 @@ export function createHeadlessTable<TData extends RowData>(
       return selectedRows;
     },
     get allSelected() {
-      return selectable && allRows.length > 0 && selectedIds.length >= allRows.length;
+      return selectable && dataRows.length > 0 && selectedIds.length >= dataRows.length;
     },
     get someSelected() {
-      return selectedIds.length > 0 && !(selectable && selectedIds.length >= allRows.length);
+      return selectedIds.length > 0 && !(selectable && selectedIds.length >= dataRows.length);
     },
 
     setSorting(id, event) {
@@ -299,8 +335,10 @@ export function createHeadlessTable<TData extends RowData>(
     toggleAllRows(value) {
       if (!selectable) return;
       const set = states.select.selectedDataIds;
-      const next = value ?? !(allRows.length > 0 && selectedIds.length >= allRows.length);
-      const ids = (paginated ? rows : allRows).map((row: any) => row.dataId as string);
+      const next = value ?? !(dataRows.length > 0 && selectedIds.length >= dataRows.length);
+      const ids = (paginated ? rows : dataRows)
+        .filter((row: any) => row.isData())
+        .map((row: any) => row.dataId as string);
       if (next) set.addAll(ids);
       else set.removeAll(ids);
     },
@@ -315,11 +353,33 @@ export function createHeadlessTable<TData extends RowData>(
     isColumnVisible(id) {
       return !(states.hide.hiddenColumnIds.current as string[]).includes(id);
     },
-    toggleExpanded(rowId, value) {
-      expanded[rowId] = value ?? !expanded[rowId];
+    setColumnOrder(order) {
+      if (orderable) states.order.columnIdOrder.current = order;
     },
-    isExpanded(rowId) {
-      return !!expanded[rowId];
+    moveColumn(id, beforeId) {
+      if (!orderable || id === beforeId) return;
+      const current: string[] = states.order.columnIdOrder.current.length
+        ? [...states.order.columnIdOrder.current]
+        : columnDefs.map(getColumnId);
+      const from = current.indexOf(id);
+      const to = current.indexOf(beforeId);
+      if (from === -1 || to === -1) return;
+      // dragging right drops after the target, dragging left drops before it
+      const without = current.filter((columnId) => columnId !== id);
+      without.splice(without.indexOf(beforeId) + (from < to ? 1 : 0), 0, id);
+      states.order.columnIdOrder.current = without;
+    },
+    toggleGrouping(id) {
+      if (groupable) states.group.groupByIds.toggle(id);
+    },
+    isGrouped(id) {
+      return groupable && states.group.groupByIds.has(id);
+    },
+    toggleGroupRow(rowId) {
+      if (groupable) states.expand.expandedIds.toggle(rowId);
+    },
+    isGroupExpanded(rowId) {
+      return groupable && states.expand.expandedIds.has(rowId);
     },
     setDensity(next) {
       density = next;

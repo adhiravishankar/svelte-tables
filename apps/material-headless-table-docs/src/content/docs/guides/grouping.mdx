@@ -1,0 +1,28 @@
+---
+title: "Grouping"
+description: "Group rows by a column and aggregate the rest."
+sidebar:
+  order: 7
+---
+
+`enableGrouping` adds a group button to each header (the group by plugin). Grouped rows show the value, the number of
+rows, and the aggregate of every other column. Click a group row to expand it. Group by several columns for nested
+groups.
+
+```svelte
+<MaterialHeadlessTable
+  columns={[
+    { accessor: 'state', header: 'State' },
+    { accessor: 'salary', header: 'Total', aggregate: 'sum', aggregateFormat: (value) => `$${value}` },
+  ]}
+  {data}
+  enableGrouping
+  initialState={{ grouping: ['state'] }}
+/>
+```
+
+- `aggregate` is `count`, `sum`, `mean`, `min`, `max` or a function of the values. Without it the cell is empty on
+  group rows.
+- `enableGrouping: false` on a column removes its group button.
+- `table.toggleGrouping(id)` groups from your own controls, and the toolbar shows a chip for each grouped column.
+- Selection and row clicks apply to data rows, not to group rows.

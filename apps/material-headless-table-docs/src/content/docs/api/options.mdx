@@ -22,6 +22,8 @@ Props of `MaterialHeadlessTable`.
 | `enableMultiRowSelection` | `boolean` | `true` | |
 | `enableColumnVisibility` | `boolean` | `true` | The columns menu. |
 | `enableColumnResizing` | `boolean` | `false` | |
+| `enableColumnOrdering` | `boolean` | `false` | Drag headers. |
+| `enableGrouping` | `boolean` | `false` | Group by and aggregation. |
 | `enableDensityToggle` | `boolean` | `true` | |
 | `enableTopToolbar`, `enableBottomToolbar` | `boolean` | `true` | |
 | `enableVirtualization` | `boolean` | `false` | Svelte Virtual List. |
@@ -30,11 +32,10 @@ Props of `MaterialHeadlessTable`.
 | `striped` | `boolean` | `false` | |
 | `isLoading` | `boolean` | `false` | Shows the progress bar. |
 | `pageSizes` | `number[]` | `[10, 25, 50, 100]` | |
-| `renderDetailPanel` | `Snippet<[{ row, rowId }]>` | | Adds expand buttons. |
 | `topToolbarActions` | `Snippet<[table]>` | | Extra toolbar controls. |
 | `emptyState` | `Snippet` | | Replaces the empty message. |
 | `localization` | `HeadlessLocalization` | English | |
-| `initialState` | `Partial<HeadlessTableState>` | | `sorting`, `columnFilters`, `globalFilter`, `pageIndex`, `pageSize`, `selectedRows`, `hiddenColumns`, `expandedRows`, `density`. |
+| `initialState` | `Partial<HeadlessTableState>` | | `sorting`, `columnFilters`, `globalFilter`, `pageIndex`, `pageSize`, `selectedRows`, `hiddenColumns`, `columnOrder`, `grouping`, `density`. |
 | `onRowClick` | `(context, event) => void` | | |
 | `onSelectionChange` | `(rows) => void` | | |
 | `classes`, `class` | | | |

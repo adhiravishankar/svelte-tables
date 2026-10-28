@@ -1,24 +1,30 @@
 ---
 title: "Columns, sizing and density"
-description: "Hide columns, resize them and change the row height."
+description: "Hide, reorder and resize columns, and change the row height."
 sidebar:
   order: 6
 ---
 
 ## Show and hide columns
 
-The columns button in the toolbar lists every column. Start with some hidden using
+The columns button in the toolbar lists every column (the hidden columns plugin). Start with some hidden using
 `initialState={{ hiddenColumns: ['email'] }}`; `enableHiding: false` on a column keeps it visible, and
 `enableColumnVisibility={false}` removes the button.
 
+## Reordering
+
+`enableColumnOrdering` lets users drag a header onto another one (the column order plugin). Dropping to the right
+puts the column after the target, dropping to the left puts it before. `enableColumnOrdering: false` on a column
+keeps it from being dragged. Start with an order using `initialState={{ columnOrder: ['age', 'name'] }}`.
+
 ## Resizing
 
-`enableColumnResizing` lets users drag the edge of a header, and double click it to reset. Start widths come from
-`width`, limited by `minWidth` and `maxWidth`. `enableResizing: false` on a column pins its width.
+`enableColumnResizing` lets users drag the edge of a header, and double click it to reset (the resized columns
+plugin). Start widths come from `width`, limited by `minWidth` and `maxWidth`. `enableResizing: false` on a column
+pins its width.
 
 ## Density
 
 The density button cycles `comfortable`, `compact` and `spacious`. Start with one using
-`initialState={{ density: 'compact' }}`, or remove the button with `enableDensityToggle={false}`.
-
-`striped` adds zebra rows.
+`initialState={{ density: 'compact' }}`, or remove the button with `enableDensityToggle={false}`. `striped` adds zebra
+rows.
