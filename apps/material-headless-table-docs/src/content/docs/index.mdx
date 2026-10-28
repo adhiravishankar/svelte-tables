@@ -1,0 +1,38 @@
+---
+title: Material Headless Table
+description: A Material Design data table for Svelte 5, built on Svelte Headless Table, Svelte Virtual List and Svelte Material UI.
+template: splash
+hero:
+  tagline: A Material Design data table for Svelte 5, built on Svelte Headless Table, Svelte Virtual List and Svelte Material UI. Written in TypeScript with runes and snippets.
+  actions:
+    - text: Get started
+      link: /getting-started/install/
+      icon: right-arrow
+    - text: See the examples
+      link: /examples/basic/
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import Example from '../../components/Example.astro';
+import Hero from '../../examples/Hero.svelte';
+
+<Example>
+  <Hero client:load />
+</Example>
+
+<CardGrid stagger>
+  <Card title="Headless underneath" icon="setting">
+    Built on Svelte Headless Table, so sorting, filtering, paging and selection are plugins you can also use
+    directly through the table instance.
+  </Card>
+  <Card title="Fast with big data" icon="rocket">
+    Svelte Virtual List renders only the rows in view, so 10,000 rows scroll smoothly.
+  </Card>
+  <Card title="Svelte Material UI look" icon="seti:table">
+    Toolbar, filters, menus, checkboxes and pagination use Svelte Material UI components and follow your theme.
+  </Card>
+  <Card title="Svelte 5 native" icon="puzzle">
+    Runes for state, snippets for rendering and plain objects for columns. No stores or render props.
+  </Card>
+</CardGrid>

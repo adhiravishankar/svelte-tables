@@ -1,0 +1,50 @@
+---
+title: Usage
+description: Render your first table.
+---
+
+Pass `columns` and `data`. Every feature has a prop that turns it on or off.
+
+```svelte
+<script lang="ts">
+  import { MaterialHeadlessTable, type HeadlessColumnDef } from 'material-svelte-headless-table';
+
+  type Person = { name: string; age: number; city: string };
+
+  // Define the columns once: they are read when the table is created.
+  const columns: HeadlessColumnDef<Person>[] = [
+    { accessor: 'name', header: 'Name' },
+    { accessor: 'age', header: 'Age', align: 'end', width: 100 },
+    { accessor: 'city', header: 'City', filterVariant: 'select' },
+  ];
+
+  let data = $state<Person[]>([]);
+</script>
+
+<MaterialHeadlessTable {columns} {data} enableRowSelection enableColumnFilters />
+```
+
+`data` is reactive: assign a new array and the table updates. The columns and the set of enabled features are read
+once, when the table is created.
+
+## Reading the table from outside
+
+Bind `table` to get the table instance. It exposes the state (`table.state`) and methods such as `setSorting`,
+`setGlobalFilter`, `setPageIndex` and `toggleAllRows`. See [The table instance](/guides/table-instance/).
+
+```svelte
+<script lang="ts">
+  import type { HeadlessTableInstance } from 'material-svelte-headless-table';
+
+  let table = $state<HeadlessTableInstance<Person>>();
+</script>
+
+<MaterialHeadlessTable bind:table {columns} {data} />
+<button onclick={() => table?.setGlobalFilter('Paris')}>Search Paris</button>
+```
+
+## What is not included
+
+This table covers the common features through Svelte Headless Table's plugins. It has no column pinning, grouping
+with aggregation, in-table editing, column drag and drop, or fuzzy filter modes. If you need those, see the
+TanStack Table based packages in the same repository.

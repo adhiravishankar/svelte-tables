@@ -1,0 +1,49 @@
+---
+title: "Theming"
+description: "Colors, classes and localization."
+sidebar:
+  order: 10
+---
+
+The table reads the standard shadcn tokens, and `shadcn-svelte-headless-table/styles.css` defines light and dark defaults:
+
+| Variable               | Used for                                      |
+| ---------------------- | --------------------------------------------- |
+| `--card`               | The table background                          |
+| `--card-foreground`    | Text                                          |
+| `--border`, `--input`  | Dividers and the borders of inputs            |
+| `--accent`             | Hovered rows and menu items                   |
+| `--primary`            | Focus rings, checked boxes, the loading bar   |
+| `--muted-foreground`   | Secondary text                                |
+
+Define them on `:root`, on `.dark`, or on any element to theme just the tables inside it:
+
+```css
+:root {
+  --primary: oklch(0.55 0.2 260);
+  --card: oklch(1 0 0);
+}
+
+.dark {
+  --primary: oklch(0.75 0.12 250);
+  --card: oklch(0.205 0 0);
+}
+```
+
+
+## Classes
+
+`classes` adds class names to the parts: `container`, `toolbar`, `bottomToolbar`, `row` and `cell`. `class` goes on
+the outer element.
+
+## Localization
+
+Pass any of the bundled locales, or your own strings, with `localization`:
+
+```ts
+import { MRT_Localization_ES } from 'shadcn-svelte-headless-table/locales/es';
+```
+
+```svelte
+<ShadcnHeadlessTable {columns} {data} localization={MRT_Localization_ES} />
+```

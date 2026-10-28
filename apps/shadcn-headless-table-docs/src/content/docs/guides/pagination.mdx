@@ -1,0 +1,16 @@
+---
+title: "Pagination"
+description: "Page through the rows."
+sidebar:
+  order: 4
+---
+
+Pagination is on by default, with a bottom toolbar that has the page size, the range and the page buttons.
+
+```svelte
+<ShadcnHeadlessTable {columns} {data} pageSizes={[10, 20, 50]} initialState={{ pageSize: 20 }} />
+```
+
+- `enablePagination={false}` shows every row.
+- `enableBottomToolbar={false}` hides the toolbar (paging then needs your own buttons and `table.setPageIndex`).
+- With [virtualization](/guides/virtualization/) the table does not page.

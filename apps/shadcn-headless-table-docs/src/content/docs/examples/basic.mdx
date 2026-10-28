@@ -1,0 +1,19 @@
+---
+title: "Basic Example"
+description: "Columns and data are all it takes."
+sidebar:
+  order: 1
+---
+
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Basic from '../../../examples/Basic.svelte';
+
+Click a header to sort (hold Shift for several columns), use the search box, the density and columns buttons in the toolbar, and page through the rows.
+
+<Example>
+  <Basic client:load />
+</Example>
+
+<ExampleSource name="Basic" />

@@ -1,0 +1,50 @@
+---
+title: "Theming"
+description: "Colors, classes and localization."
+sidebar:
+  order: 10
+---
+
+The table, and the Svelte Material UI components inside it, read the standard Material theme variables, with
+fallbacks if you do not define them:
+
+| Variable                 | Used for                                         |
+| ------------------------ | ------------------------------------------------ |
+| `--mdc-theme-primary`    | Focus rings, checked boxes, the loading bar      |
+| `--mdc-theme-surface`    | The table background                             |
+| `--mdc-theme-on-surface` | Text and dividers                                |
+| `--mdc-theme-on-primary` | Text on primary-colored surfaces                 |
+
+Define them on `:root`, or on any element to theme just the tables inside it:
+
+```css
+:root {
+  --mdc-theme-primary: #1976d2;
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #000000;
+}
+
+[data-theme='dark'] {
+  --mdc-theme-primary: #90caf9;
+  --mdc-theme-surface: #1e1e1e;
+  --mdc-theme-on-surface: #ffffff;
+}
+```
+
+
+## Classes
+
+`classes` adds class names to the parts: `container`, `toolbar`, `bottomToolbar`, `row` and `cell`. `class` goes on
+the outer element.
+
+## Localization
+
+Pass any of the bundled locales, or your own strings, with `localization`:
+
+```ts
+import { MRT_Localization_ES } from 'material-svelte-headless-table/locales/es';
+```
+
+```svelte
+<MaterialHeadlessTable {columns} {data} localization={MRT_Localization_ES} />
+```

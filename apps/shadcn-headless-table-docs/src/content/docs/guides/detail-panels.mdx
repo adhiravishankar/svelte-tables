@@ -1,0 +1,19 @@
+---
+title: "Detail panels"
+description: "An expandable panel under each row."
+sidebar:
+  order: 7
+---
+
+Pass a snippet as `renderDetailPanel`. Rows get an expand button, and the snippet renders under the expanded row.
+It gets `{ row, rowId }`.
+
+```svelte
+{#snippet detail({ row }: CellContext<Person>)}
+  <p>{row.notes}</p>
+{/snippet}
+
+<ShadcnHeadlessTable {columns} {data} renderDetailPanel={detail} />
+```
+
+`table.toggleExpanded(id)` and `initialState={{ expandedRows: ['a'] }}` control which rows are open.

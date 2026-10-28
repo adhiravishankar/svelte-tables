@@ -1,0 +1,18 @@
+---
+title: "Sorting"
+description: "Sort by one or several columns."
+sidebar:
+  order: 2
+---
+
+Sorting is on by default. Click a header to sort ascending, again for descending, and a third time to clear it. Hold
+Shift to sort by several columns. `aria-sort` is set on the header.
+
+```svelte
+<ShadcnHeadlessTable {columns} {data} enableMultiSort={false} initialState={{ sorting: [{ id: 'age', desc: true }] }} />
+```
+
+- `enableSorting={false}` turns it off; `enableSorting: false` on a column excludes that column.
+- `sortValue` changes what is compared, for example to sort dates stored as text:
+  `{ accessor: 'date', header: 'Date', sortValue: (value) => Date.parse(value) }`.
+- `table.setSorting(id)` and `table.clearSorting(id)` sort from your own buttons.

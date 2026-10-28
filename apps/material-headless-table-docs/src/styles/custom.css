@@ -1,0 +1,33 @@
+/*
+ * Material Headless Table reads the standard Material theme variables. Map them
+ * to Starlight's, so the live tables follow the site's colors and its
+ * light/dark switch.
+ */
+@import 'material-svelte-headless-table/styles.css';
+
+:root {
+  --mdc-theme-primary: var(--sl-color-accent);
+  --mdc-theme-secondary: var(--sl-color-accent-high);
+  --mdc-theme-surface: var(--sl-color-bg);
+  --mdc-theme-on-surface: var(--sl-color-text);
+  --mdc-theme-on-primary: var(--sl-color-black);
+}
+
+/* Starlight styles bare tables in prose; the live tables are not prose. */
+.example {
+  margin: 1.5rem 0;
+}
+.example :where(table) {
+  display: table;
+  margin: 0;
+}
+.example-source {
+  margin-top: 0.5rem;
+}
+.example-controls {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}

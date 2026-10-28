@@ -1,0 +1,43 @@
+---
+title: "Options"
+description: "Props of the table component."
+sidebar:
+  order: 1
+---
+
+
+Props of `ShadcnHeadlessTable`.
+
+| Prop | Type | Default | |
+| ---- | ---- | ------- | - |
+| `columns` | `HeadlessColumnDef<TData>[]` | required | Read once. |
+| `data` | `TData[]` | required | Reactive. |
+| `getRowId` | `(row, index) => string` | row index | Stable ids for selection and expansion. |
+| `enableSorting` | `boolean` | `true` | |
+| `enableMultiSort` | `boolean` | `true` | Shift-click to add a sort. |
+| `enableGlobalFilter` | `boolean` | `true` | The search box. |
+| `enableColumnFilters` | `boolean` | `false` | A filter under each header. |
+| `enablePagination` | `boolean` | `true` | Ignored when virtualized. |
+| `enableRowSelection` | `boolean` | `false` | |
+| `enableMultiRowSelection` | `boolean` | `true` | |
+| `enableColumnVisibility` | `boolean` | `true` | The columns menu. |
+| `enableColumnResizing` | `boolean` | `false` | |
+| `enableDensityToggle` | `boolean` | `true` | |
+| `enableTopToolbar`, `enableBottomToolbar` | `boolean` | `true` | |
+| `enableVirtualization` | `boolean` | `false` | Svelte Virtual List. |
+| `height` | `number \| string` | `480` | Scroll area height when virtualized. |
+| `estimatedRowHeight` | `number` | `53` | Until rows are measured. |
+| `striped` | `boolean` | `false` | |
+| `isLoading` | `boolean` | `false` | Shows the progress bar. |
+| `pageSizes` | `number[]` | `[10, 25, 50, 100]` | |
+| `renderDetailPanel` | `Snippet<[{ row, rowId }]>` | | Adds expand buttons. |
+| `topToolbarActions` | `Snippet<[table]>` | | Extra toolbar controls. |
+| `emptyState` | `Snippet` | | Replaces the empty message. |
+| `localization` | `HeadlessLocalization` | English | |
+| `initialState` | `Partial<HeadlessTableState>` | | `sorting`, `columnFilters`, `globalFilter`, `pageIndex`, `pageSize`, `selectedRows`, `hiddenColumns`, `expandedRows`, `density`. |
+| `onRowClick` | `(context, event) => void` | | |
+| `onSelectionChange` | `(rows) => void` | | |
+| `classes`, `class` | | | |
+| `bind:table` | `HeadlessTableInstance<TData>` | | |
+
+The feature props (`enable...`, `initialState`, `getRowId`) are read when the table is created.

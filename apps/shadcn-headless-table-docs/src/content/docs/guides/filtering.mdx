@@ -1,0 +1,36 @@
+---
+title: "Filtering and search"
+description: "Column filters and the global search."
+sidebar:
+  order: 3
+---
+
+## Global search
+
+The search box in the top toolbar looks at every column. Use `enableGlobalFilter={false}` to remove it, or
+`enableGlobalFilter: false` on a column to leave that column out. `searchValue` changes the text a column offers.
+
+## Column filters
+
+Set `enableColumnFilters` to show a filter under each header.
+
+| `filterVariant` | Filter | Matches |
+| --------------- | ------ | ------- |
+| `text` (default) | A text box | Values that contain the text, ignoring case |
+| `select` | A select | Values equal to the chosen option |
+| `range` | Min and max boxes | Numbers between the two |
+| `checkbox` | A three state checkbox | `true`, `false` or any |
+| `false` | None | |
+
+A `select` lists the distinct values of the column unless you pass `filterOptions`:
+
+```ts
+{
+  accessor: 'status',
+  header: 'Status',
+  filterVariant: 'select',
+  filterOptions: [{ label: 'Open', value: 'open' }, { label: 'Closed', value: 'closed' }],
+}
+```
+
+Start with filters applied using `initialState={{ columnFilters: { status: 'open' }, globalFilter: 'ann' }}`.

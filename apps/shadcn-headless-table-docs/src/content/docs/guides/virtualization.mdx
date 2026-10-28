@@ -1,0 +1,18 @@
+---
+title: "Virtualization"
+description: "Render only the rows in view with Svelte Virtual List."
+sidebar:
+  order: 8
+---
+
+`enableVirtualization` shows every row in a scroll area of `height` (pixels or a CSS length, default 480) and renders
+only the rows near the viewport, so very long tables stay fast. The header stays above the scroll area.
+
+```svelte
+<ShadcnHeadlessTable {columns} {data} enableVirtualization height={500} estimatedRowHeight={53} />
+```
+
+- Rows are measured as they appear, so rows can have different heights (detail panels do). `estimatedRowHeight` is
+  used until they are measured.
+- The table does not page when virtualized; the bottom toolbar shows the row count.
+- Rows are keyed by their id, so give the table a stable `getRowId` when the data is replaced.

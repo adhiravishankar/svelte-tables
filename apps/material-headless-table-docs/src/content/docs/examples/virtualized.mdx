@@ -1,0 +1,19 @@
+---
+title: "Virtualized"
+description: "10,000 rows with Svelte Virtual List."
+sidebar:
+  order: 3
+---
+
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Virtualized from '../../../examples/Virtualized.svelte';
+
+With `enableVirtualization` the table shows every row in a scroll area and renders only the ones in view.
+
+<Example>
+  <Virtualized client:load />
+</Example>
+
+<ExampleSource name="Virtualized" />

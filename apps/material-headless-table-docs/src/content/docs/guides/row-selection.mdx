@@ -1,0 +1,24 @@
+---
+title: "Row selection"
+description: "Select rows with checkboxes."
+sidebar:
+  order: 5
+---
+
+`enableRowSelection` adds a checkbox column and a select all checkbox. Selection survives sorting and filtering.
+`enableMultiRowSelection={false}` allows one row at a time.
+
+```svelte
+<MaterialHeadlessTable
+  {columns}
+  {data}
+  enableRowSelection
+  getRowId={(row) => row.id}
+  onSelectionChange={(rows) => (selected = rows)}
+/>
+```
+
+- Without `getRowId` a row's id is its index in `data`, so ids change when the data does.
+- `table.selectedRows` has the selected items, `table.toggleRow(id)` and `table.toggleAllRows()` change the selection.
+- `initialState={{ selectedRows: ['a', 'b'] }}` starts with rows selected.
+- `onRowClick` runs when a row is clicked.

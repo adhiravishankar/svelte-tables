@@ -1,0 +1,34 @@
+---
+title: "The table instance"
+description: "Read and drive the table from your own code."
+sidebar:
+  order: 9
+---
+
+`bind:table` gives the instance, and `createHeadlessTable` builds one without the UI so you can render your own
+markup with Svelte Headless Table's view model.
+
+```svelte
+<script lang="ts">
+  let table = $state<HeadlessTableInstance<Person>>();
+</script>
+
+<ShadcnHeadlessTable bind:table {columns} {data} enableRowSelection />
+
+<p>{table?.state.sorting.length} sort keys, {table?.selectedRows.length} rows selected</p>
+```
+
+`table.state` has `sorting`, `columnFilters`, `globalFilter`, `pageIndex`, `pageSize`, `selectedRows`, `hiddenColumns`,
+`expandedRows` and `density`.
+
+| Method | |
+| ------ | - |
+| `setSorting(id, event?)`, `clearSorting(id)`, `sortOrder(id)` | Sort |
+| `setColumnFilter(id, value)`, `setGlobalFilter(text)`, `resetFilters()` | Filter |
+| `setPageIndex(i)`, `setPageSize(n)` | Paging |
+| `toggleRow(id, on?)`, `toggleAllRows(on?)`, `isRowSelected(id)` | Selection |
+| `toggleColumn(id, visible?)`, `isColumnVisible(id)` | Columns |
+| `toggleExpanded(id, on?)`, `isExpanded(id)`, `setDensity(d)` | Panels and density |
+
+`table.viewModel` is the Svelte Headless Table view model (`table.viewModel.current.rows`, `.visibleColumns` and so
+on), and `table.rows` / `table.filteredRows` are the rows on the page and after filtering.

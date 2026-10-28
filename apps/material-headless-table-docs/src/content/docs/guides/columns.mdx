@@ -1,0 +1,38 @@
+---
+title: "Columns"
+description: "Define what each column shows."
+sidebar:
+  order: 1
+---
+
+A column is a plain object. Only `accessor` and `header` are required.
+
+```ts
+const columns: HeadlessColumnDef<Person>[] = [
+  { accessor: 'name', header: 'Name' },
+  // a function accessor needs an id
+  { accessor: (row) => `${row.first} ${row.last}`, id: 'full', header: 'Full name' },
+  { accessor: 'age', header: 'Age', align: 'end', width: 100, footer: 'Average' },
+];
+```
+
+| Option | What it does |
+| ------ | ------------ |
+| `accessor`, `id` | A key of the row, or a function. Functions need an `id`. |
+| `header`, `footer` | The text. The footer row shows when any column has a footer. |
+| `cell` | A snippet that renders the cell. It gets `{ value, row, rowId }`. |
+| `align` | `start`, `center` or `end`. |
+| `width`, `minWidth`, `maxWidth` | Pixel sizes. Columns without a width share the free space. |
+| `enableSorting`, `enableHiding`, `enableResizing`, `enableGlobalFilter` | Turn a feature off for one column. |
+| `filterVariant`, `filterOptions` | The column filter. See [Filtering](/guides/filtering/). |
+| `sortValue`, `searchValue` | Map the value to what sorting and search compare. |
+
+## Custom cells
+
+```svelte
+{#snippet price({ value })}
+  <strong>{value.toLocaleString('en', { style: 'currency', currency: 'USD' })}</strong>
+{/snippet}
+
+<MaterialHeadlessTable columns={[{ accessor: 'price', header: 'Price', cell: price }]} {data} />
+```
