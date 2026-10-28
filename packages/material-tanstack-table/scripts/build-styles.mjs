@@ -2,7 +2,7 @@
 //
 // SMUI 9 only exposes its Sass entry points through `exports`, so the CSS cannot
 // be imported by name. The files are on disk, though, so they are read directly
-// and concatenated into one stylesheet that ships as `material-svelte-table/styles.css`.
+// and concatenated into one stylesheet that ships as `material-svelte-tanstack-table/styles.css`.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,7 +38,7 @@ const header = `/*
  *
  * Import this once in your app:
  *
- *   import 'material-svelte-table/styles.css';
+ *   import 'material-svelte-tanstack-table/styles.css';
  *
  * The components read the standard Material theme variables with sensible
  * fallbacks, so you can theme the table by defining any of these on :root (or

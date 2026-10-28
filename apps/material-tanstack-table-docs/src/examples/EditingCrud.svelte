@@ -7,7 +7,7 @@
     type MRT_ColumnDef,
     type MRT_Row,
     type MRT_TableInstance,
-  } from 'material-svelte-table';
+  } from 'material-svelte-tanstack-table';
   import { type Person, makeData, states } from '../data/makeData';
 
   let data = $state(makeData(12));

@@ -752,7 +752,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
    * Changes which kind of CSS layout is used to render the table. `semantic` uses default semantic HTML elements, while `grid` adds CSS grid and flexbox styles
    */
   layoutMode?: 'grid' | 'grid-no-grow' | 'semantic';
-  /** A locale imported from `material-svelte-table/locales/*` or a custom locale object. */
+  /** A locale imported from `material-svelte-tanstack-table/locales/*` or a custom locale object. */
   localization?: Partial<MRT_Localization>;
   /** Override MRT's theme colors. Defaults are derived from SMUI/Material CSS variables. */
   mrtTheme?: Partial<MRT_Theme>;

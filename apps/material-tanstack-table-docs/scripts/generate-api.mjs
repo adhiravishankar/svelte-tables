@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const lib = join(root, '../../packages/material-svelte-table/src/lib');
+const lib = join(root, '../../packages/material-tanstack-table/src/lib');
 const outDir = join(root, 'src/content/docs/api');
 mkdirSync(outDir, { recursive: true });
 

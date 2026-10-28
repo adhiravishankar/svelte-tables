@@ -4,7 +4,7 @@
  *
  * Import this once in your app:
  *
- *   import 'material-svelte-table/styles.css';
+ *   import 'material-svelte-tanstack-table/styles.css';
  *
  * The components read the standard Material theme variables with sensible
  * fallbacks, so you can theme the table by defining any of these on :root (or

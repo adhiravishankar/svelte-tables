@@ -11,7 +11,10 @@
     "build": "astro build",
     "preview": "astro preview --port 4000",
     "check": "astro check && svelte-check --tsconfig ./tsconfig.json",
-    "astro": "astro"
+    "astro": "astro",
+    "build:cloudflare": "npm run build -w shadcn-svelte-tanstack-table && astro build",
+    "deploy": "npm run build:cloudflare && wrangler pages deploy",
+    "preview:cloudflare": "wrangler pages dev ./dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",

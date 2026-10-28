@@ -9,12 +9,13 @@ import { fileURLToPath } from 'node:url';
 const useLibrarySource = process.argv.includes('dev');
 const lib = (path) =>
   fileURLToPath(
-    new URL(`../../packages/material-svelte-table/${path}`, import.meta.url),
+    new URL(`../../packages/material-tanstack-table/${path}`, import.meta.url),
   );
 
 export default defineConfig({
   // Set SITE_URL when deploying; it enables the sitemap and canonical URLs.
-  site: process.env.SITE_URL,
+  // Cloudflare Pages provides CF_PAGES_URL (the URL of the current deployment).
+  site: process.env.SITE_URL ?? process.env.CF_PAGES_URL,
   integrations: [
     svelte(),
     starlight({
@@ -24,11 +25,11 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       editLink: {
         baseUrl:
-          'https://github.com/adhiravishankar/material-svelte-table/edit/main/apps/material-svelte-table-docs/',
+          'https://github.com/adhiravishankar/svelte-tables/edit/main/apps/material-tanstack-table-docs/',
       },
       social: [
         {
-          href: 'https://github.com/adhiravishankar/material-svelte-table',
+          href: 'https://github.com/adhiravishankar/svelte-tables',
           icon: 'github',
           label: 'GitHub',
         },
@@ -60,18 +61,18 @@ export default defineConfig({
     // for the prerender.
     environments: {
       prerender: {
-        resolve: { noExternal: [/^@smui\//, 'material-svelte-table'] },
+        resolve: { noExternal: [/^@smui\//, 'material-svelte-tanstack-table'] },
       },
     },
     resolve: useLibrarySource
       ? {
           alias: [
             {
-              find: /^material-svelte-table\/styles\.css$/,
+              find: /^material-svelte-tanstack-table\/styles\.css$/,
               replacement: lib('src/lib/styles.css'),
             },
             {
-              find: /^material-svelte-table$/,
+              find: /^material-svelte-tanstack-table$/,
               replacement: lib('src/lib/index.ts'),
             },
           ],

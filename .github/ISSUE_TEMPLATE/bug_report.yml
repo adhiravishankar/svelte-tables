@@ -7,18 +7,18 @@ body:
         Thank you for reporting an issue :pray:
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
-        - material-svelte-table's [Open Issues](https://github.com/adhiravishankar/material-svelte-table/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
-        - material-svelte-table's [Closed Issues](https://github.com/adhiravishankar/material-svelte-table/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
+        - material-svelte-tanstack-table's [Open Issues](https://github.com/adhiravishankar/svelte-tables/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+        - material-svelte-tanstack-table's [Closed Issues](https://github.com/adhiravishankar/svelte-tables/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
 
         The more information you fill in, the better the community can help you.
 
   - type: input
     id: mrt-library-version
     attributes:
-      label: material-svelte-table version
+      label: material-svelte-tanstack-table version
       description: |
-        - Please let us know the exact version of material-svelte-table you were using when the issue occurred. If you are using an older version, check to see if your bug has already been solved in the latest version. 
-        - The latest version is <img alt="" src="https://badgen.net/npm/v/material-svelte-table" />
+        - Please let us know the exact version of material-svelte-tanstack-table you were using when the issue occurred. If you are using an older version, check to see if your bug has already been solved in the latest version. 
+        - The latest version is <img alt="" src="https://badgen.net/npm/v/material-svelte-tanstack-table" />
       placeholder: |
         e.g. v1.3.4
     validations:

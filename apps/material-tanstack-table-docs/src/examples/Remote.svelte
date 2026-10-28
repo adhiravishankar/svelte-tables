@@ -5,7 +5,7 @@
     type MRT_ColumnFiltersState,
     type MRT_PaginationState,
     type MRT_SortingState,
-  } from 'material-svelte-table';
+  } from 'material-svelte-tanstack-table';
   import { fetchPeople } from '../data/fakeApi';
   import type { Person } from '../data/makeData';
 

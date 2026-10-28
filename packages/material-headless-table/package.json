@@ -1,6 +1,6 @@
 {
   "name": "material-svelte-headless-table",
-  "version": "4.0.0-alpha.0",
+  "version": "0.1.0",
   "license": "MIT",
   "description": "A Material Design data table for Svelte 5, built on Svelte Headless Table, Svelte Virtual List and Svelte Material UI.",
   "author": "Adhi Ravishankar",
@@ -15,7 +15,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/adhiravishankar/svelte-tables"
+    "url": "git+https://github.com/adhiravishankar/svelte-tables.git",
+    "directory": "packages/material-headless-table"
+  },
+  "homepage": "https://github.com/adhiravishankar/svelte-tables/tree/main/packages/material-headless-table",
+  "bugs": {
+    "url": "https://github.com/adhiravishankar/svelte-tables/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "sideEffects": [
@@ -49,7 +57,8 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
-    "styles": "node scripts/build-styles.mjs"
+    "styles": "node scripts/build-styles.mjs",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

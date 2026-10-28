@@ -3,7 +3,7 @@
  * to Starlight's, so the live tables follow the site's colors and its
  * light/dark switch.
  */
-@import 'material-svelte-table/styles.css';
+@import 'material-svelte-tanstack-table/styles.css';
 
 :root {
   --mdc-theme-primary: var(--sl-color-accent);

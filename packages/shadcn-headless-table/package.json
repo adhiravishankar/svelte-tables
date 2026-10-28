@@ -1,6 +1,6 @@
 {
   "name": "shadcn-svelte-headless-table",
-  "version": "4.0.0-alpha.0",
+  "version": "0.1.0",
   "license": "MIT",
   "description": "A shadcn-svelte data table for Svelte 5, built on Svelte Headless Table and Svelte Virtual List.",
   "author": "Adhi Ravishankar",
@@ -15,7 +15,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/adhiravishankar/svelte-tables"
+    "url": "git+https://github.com/adhiravishankar/svelte-tables.git",
+    "directory": "packages/shadcn-headless-table"
+  },
+  "homepage": "https://github.com/adhiravishankar/svelte-tables/tree/main/packages/shadcn-headless-table",
+  "bugs": {
+    "url": "https://github.com/adhiravishankar/svelte-tables/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "sideEffects": [
@@ -48,7 +56,8 @@
     "build": "svelte-package -i src/lib -o dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "svelte": "^5.0.0",

@@ -1,6 +1,6 @@
 {
-  "name": "material-svelte-table",
-  "version": "4.0.0-alpha.0",
+  "name": "material-svelte-tanstack-table",
+  "version": "0.1.0",
   "license": "MIT",
   "description": "A fully featured Svelte Material UI (SMUI) implementation of TanStack Table V9 for Svelte 5, written from the ground up in TypeScript.",
   "author": "Adhi Ravishankar",
@@ -15,7 +15,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/adhiravishankar/material-svelte-table"
+    "url": "git+https://github.com/adhiravishankar/svelte-tables.git",
+    "directory": "packages/material-tanstack-table"
+  },
+  "homepage": "https://github.com/adhiravishankar/svelte-tables/tree/main/packages/material-tanstack-table",
+  "bugs": {
+    "url": "https://github.com/adhiravishankar/svelte-tables/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "sideEffects": [
@@ -51,7 +59,8 @@
     "test:watch": "vitest",
     "storybook": "node scripts/build-styles.mjs && storybook dev -p 6006",
     "build-storybook": "node scripts/build-styles.mjs && storybook build",
-    "styles": "node scripts/build-styles.mjs"
+    "styles": "node scripts/build-styles.mjs",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

@@ -13,7 +13,8 @@ const lib = (path) =>
 
 export default defineConfig({
   // Set SITE_URL when deploying; it enables the sitemap and canonical URLs.
-  site: process.env.SITE_URL,
+  // Cloudflare Pages provides CF_PAGES_URL (the URL of the current deployment).
+  site: process.env.SITE_URL ?? process.env.CF_PAGES_URL,
   integrations: [
     svelte(),
     starlight({

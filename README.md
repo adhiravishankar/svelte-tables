@@ -7,7 +7,7 @@ and snippets) and differ in two choices: where the table logic comes from, and w
 
 |                                                 | **TanStack Table V9** logic                        | **Svelte Headless Table** logic                         |
 | ----------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
-| **Material** ([Svelte Material UI](https://sveltematerialui.com)) | [`material-svelte-table`](packages/material-tanstack-table) | [`material-svelte-headless-table`](packages/material-headless-table) |
+| **Material** ([Svelte Material UI](https://sveltematerialui.com)) | [`material-svelte-tanstack-table`](packages/material-tanstack-table) | [`material-svelte-headless-table`](packages/material-headless-table) |
 | **shadcn** ([shadcn-svelte](https://shadcn-svelte.com), bits-ui and Tailwind CSS 4) | [`shadcn-svelte-tanstack-table`](packages/shadcn-tanstack-table) | [`shadcn-svelte-headless-table`](packages/shadcn-headless-table) |
 
 The TanStack packages are Svelte 5 ports of [Material React Table](https://github.com/KevinVandy/material-react-table)
@@ -101,18 +101,18 @@ All packages need **Svelte 5**. The shadcn packages also need **Tailwind CSS 4**
 ### TanStack, Material
 
 ```bash
-npm install material-svelte-table
+npm install material-svelte-tanstack-table
 ```
 
 Import the stylesheet once (SMUI only publishes Sass, so the library ships its styles pre-compiled):
 
 ```ts
-import 'material-svelte-table/styles.css';
+import 'material-svelte-tanstack-table/styles.css';
 ```
 
 ```svelte
 <script lang="ts">
-  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-table';
+  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-tanstack-table';
 
   type Person = { name: string; age: number };
 
@@ -212,8 +212,34 @@ npm run dev   -w shadcn-svelte-headless-table-docs   # a docs site on :3000
 npm run build -w shadcn-svelte-headless-table-docs   # build a docs site (build the library first)
 ```
 
-The workspace names are `material-svelte-table`, `shadcn-svelte-tanstack-table`, `material-svelte-headless-table` and
+The workspace names are `material-svelte-tanstack-table`, `shadcn-svelte-tanstack-table`, `material-svelte-headless-table` and
 `shadcn-svelte-headless-table`, each with a `-docs` site.
+
+## Deploy the docs to Cloudflare Pages
+
+Each docs site is a static Astro build, so it deploys to Cloudflare Pages as is. Create one Pages project per site
+from this repository, with the repository root as the root directory:
+
+| Site | Build command | Build output directory |
+| ---- | ------------- | ---------------------- |
+| Material TanStack | `npm ci && npm run build:cloudflare -w material-svelte-tanstack-table-docs` | `apps/material-tanstack-table-docs/dist` |
+| shadcn TanStack | `npm ci && npm run build:cloudflare -w shadcn-svelte-tanstack-table-docs` | `apps/shadcn-tanstack-table-docs/dist` |
+| Material headless | `npm ci && npm run build:cloudflare -w material-svelte-headless-table-docs` | `apps/material-headless-table-docs/dist` |
+| shadcn headless | `npm ci && npm run build:cloudflare -w shadcn-svelte-headless-table-docs` | `apps/shadcn-headless-table-docs/dist` |
+
+- `build:cloudflare` builds the library first, then the site, because the site uses the built package.
+- The repository has a `.node-version` file (Node 22), which Pages reads. Set `NODE_VERSION` in the project settings
+  if you prefer.
+- The site's URL for the sitemap and canonical links comes from `SITE_URL`, or from `CF_PAGES_URL` when that is not set.
+  Set `SITE_URL` to the custom domain.
+- Each site has a `wrangler.jsonc` and a `public/_headers` file (security headers, long caching for `/_astro/*`).
+
+To deploy from your machine instead, run `npx wrangler login` once, then:
+
+```bash
+npm run deploy -w shadcn-svelte-headless-table-docs
+npm run preview:cloudflare -w shadcn-svelte-headless-table-docs   # serve the build locally with wrangler
+```
 
 ## Contributing
 

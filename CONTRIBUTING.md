@@ -6,14 +6,14 @@
 
 ## Suggesting New Features or Bug Fixes
 
-Before making large PRs, please discuss your proposal on the [GitHub Issues](https://github.com/adhiravishankar/material-svelte-table/issues) page.
+Before making large PRs, please discuss your proposal on the [GitHub Issues](https://github.com/adhiravishankar/svelte-tables/issues) page.
 
 ## Running the project locally
 
 This project uses npm workspaces and Vite+ (`vp run`) with 2 projects:
 
-- The library in `/packages/material-svelte-table`, which also contains the Storybook site used for local development
-- The docs site in `/apps/material-svelte-table-docs` (Astro + Starlight, with Svelte islands for the live examples)
+- The library in `/packages/material-tanstack-table`, which also contains the Storybook site used for local development
+- The docs site in `/apps/material-tanstack-table-docs` (Astro + Starlight, with Svelte islands for the live examples)
 
 ### 1. Fork and clone the project
 
@@ -33,7 +33,7 @@ npm install
 npm run storybook
 ```
 
-Storybook opens on port 6006. Every feature has stories under `packages/material-svelte-table/stories`; add one when
+Storybook opens on port 6006. Every feature has stories under `packages/material-tanstack-table/stories`; add one when
 you add or fix a feature.
 
 #### Docs
@@ -42,9 +42,9 @@ you add or fix a feature.
 npm run docs:dev
 ```
 
-The docs site opens on port 3000. In development it imports the library straight from `packages/material-svelte-table/src/lib`,
+The docs site opens on port 3000. In development it imports the library straight from `packages/material-tanstack-table/src/lib`,
 so changes show up without rebuilding. The API reference pages are generated from the library's types
-(`apps/material-svelte-table-docs/scripts/generate-api.mjs`) every time the docs are started or built.
+(`apps/material-tanstack-table-docs/scripts/generate-api.mjs`) every time the docs are started or built.
 
 #### Tests and type checks
 

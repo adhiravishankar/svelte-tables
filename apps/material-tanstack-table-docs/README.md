@@ -1,12 +1,12 @@
 # Material Svelte Table docs
 
-The documentation site for `material-svelte-table`, built with [Astro](https://astro.build) and
+The documentation site for `material-svelte-tanstack-table`, built with [Astro](https://astro.build) and
 [Starlight](https://starlight.astro.build). Every table on the site is a Svelte 5 island, rendered on the server and
 hydrated in the browser (`client:load`).
 
 ## Commands
 
-Run from this folder (or with `npm run <script> -w material-svelte-table-docs`):
+Run from this folder (or with `npm run <script> -w material-svelte-tanstack-table-docs`):
 
 | Command          | What it does                                                                 |
 | ---------------- | ---------------------------------------------------------------------------- |
@@ -15,7 +15,7 @@ Run from this folder (or with `npm run <script> -w material-svelte-table-docs`):
 | `npm run preview`   | Serves `dist/` on :4000                                                      |
 | `npm run check`     | Type-checks the `.astro` pages and the Svelte examples                       |
 
-`npm run build` needs the library built first (`npm run build -w material-svelte-table`); Vite+ does this for you
+`npm run build` needs the library built first (`npm run build -w material-svelte-tanstack-table`); Vite+ does this for you
 when you run `npm run build` from the repository root.
 
 Set `SITE_URL` when deploying to enable the sitemap and canonical URLs.
@@ -34,7 +34,7 @@ scripts/generate-api.mjs   builds the API reference from the library's types
 
 ### Adding an example
 
-1. Create `src/examples/MyExample.svelte`. Import from `'material-svelte-table'`, as a consumer would.
+1. Create `src/examples/MyExample.svelte`. Import from `'material-svelte-tanstack-table'`, as a consumer would.
 2. Create a page under `src/content/docs/examples/`:
 
    ```mdx
@@ -59,7 +59,7 @@ The code on the page is read from the example file, so it can never drift from w
 ### The API reference
 
 `api/table-options.mdx`, `api/column-options.mdx` and `api/state.mdx` are **generated** (and git-ignored) from
-`packages/material-svelte-table/src/lib/types.ts` and its JSDoc, plus the defaults in `tableOptions.ts`. They run
+`packages/material-tanstack-table/src/lib/types.ts` and its JSDoc, plus the defaults in `tableOptions.ts`. They run
 automatically before `dev` and `build`. To improve a description, edit the JSDoc comment in `types.ts`.
 
 ## Notes

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-table';
+  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-tanstack-table';
   import { type Person, makeTree } from '../data/makeData';
 
   const columns: MRT_ColumnDef<Person>[] = [

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-table';
+  import { MaterialSvelteTable, type MRT_ColumnDef } from 'material-svelte-tanstack-table';
   import { type Person, makeData } from '../data/makeData';
 
   // Columns and data should be stable, so define them once.
