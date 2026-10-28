@@ -1,5 +1,7 @@
 # Shadcn Svelte Table docs
 
+[Documentation and live examples](https://shadcn-tanstack-table.pages.dev/) · [Storybook](https://shadcn-svelte-tanstack-storybook.pages.dev/)
+
 The documentation site for `shadcn-svelte-tanstack-table`, built with [Astro](https://astro.build) and
 [Starlight](https://starlight.astro.build). Every table on the site is a Svelte 5 island, rendered on the server and
 hydrated in the browser (`client:load`).

@@ -1,5 +1,7 @@
 # shadcn-svelte-headless-table
 
+[Documentation and live examples](https://shadcn-headless-table.pages.dev/) · [Storybook](https://shadcn-svelte-headless-storybook.pages.dev/)
+
 A shadcn-svelte data table for Svelte 5, built on Svelte Headless Table. Every feature is one of its plugins, and rows are virtualized with Svelte Virtual List.
 
 ## Install

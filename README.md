@@ -22,12 +22,12 @@ by Kevin Vandy, which they are based on (MIT licensed). The headless packages ar
 
 Each library has a documentation site (Astro + Starlight, with live Svelte examples).
 
-| Library | Docs site |
-| ------- | --------- |
-| [`packages/material-tanstack-table`](packages/material-tanstack-table), with Storybook (400+ stories) and tests | [`apps/material-tanstack-table-docs`](apps/material-tanstack-table-docs) |
-| [`packages/shadcn-tanstack-table`](packages/shadcn-tanstack-table), with Storybook and tests | [`apps/shadcn-tanstack-table-docs`](apps/shadcn-tanstack-table-docs) |
-| [`packages/material-headless-table`](packages/material-headless-table), with tests | [`apps/material-headless-table-docs`](apps/material-headless-table-docs) |
-| [`packages/shadcn-headless-table`](packages/shadcn-headless-table), with tests | [`apps/shadcn-headless-table-docs`](apps/shadcn-headless-table-docs) |
+| Library | Docs site | Storybook |
+| ------- | --------- | --------- |
+| [`packages/material-tanstack-table`](packages/material-tanstack-table), with Storybook (400+ stories) and tests | [`apps/material-tanstack-table-docs`](apps/material-tanstack-table-docs) · [Live docs](https://material-tanstack-svelte-table.pages.dev/) | [Storybook](https://material-svelte-tanstack-storybook.pages.dev/) |
+| [`packages/shadcn-tanstack-table`](packages/shadcn-tanstack-table), with Storybook and tests | [`apps/shadcn-tanstack-table-docs`](apps/shadcn-tanstack-table-docs) · [Live docs](https://shadcn-tanstack-table.pages.dev/) | [Storybook](https://shadcn-svelte-tanstack-storybook.pages.dev/) |
+| [`packages/material-headless-table`](packages/material-headless-table), with Storybook and tests | [`apps/material-headless-table-docs`](apps/material-headless-table-docs) · [Live docs](https://material-headless-table-docs.pages.dev/) | [Storybook](https://material-svelte-headless-storybook.pages.dev/) |
+| [`packages/shadcn-headless-table`](packages/shadcn-headless-table), with Storybook and tests | [`apps/shadcn-headless-table-docs`](apps/shadcn-headless-table-docs) · [Live docs](https://shadcn-headless-table.pages.dev/) | [Storybook](https://shadcn-svelte-headless-storybook.pages.dev/) |
 
 ## Which one?
 
@@ -198,6 +198,8 @@ This repository uses npm workspaces and Vite+.
 npm install
 npm run docs:dev        # Material TanStack docs on :3000 (uses the library source directly)
 npm run storybook       # Material TanStack Storybook on :6006
+npm run storybook:shadcn-headless    # shadcn headless Storybook on :6006
+npm run storybook:material-headless  # Material headless Storybook on :6006
 npm run test            # unit and component tests
 npm run check           # svelte-check and astro check
 npm run build           # build the library, then the docs

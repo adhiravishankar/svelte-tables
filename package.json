@@ -20,6 +20,8 @@
     "lib:test": "npm run test -w material-svelte-tanstack-table",
     "storybook": "npm run storybook -w material-svelte-tanstack-table",
     "storybook:build": "npm run build-storybook -w material-svelte-tanstack-table",
+    "storybook:shadcn-headless": "npm run storybook -w shadcn-svelte-headless-table",
+    "storybook:material-headless": "npm run storybook -w material-svelte-headless-table",
     "format": "vp fmt",
     "format:check": "vp fmt --check",
     "publish:all": "node scripts/publish.mjs",

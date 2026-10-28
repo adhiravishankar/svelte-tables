@@ -1,5 +1,7 @@
 # shadcn-svelte-tanstack-table
 
+[Documentation and live examples](https://shadcn-tanstack-table.pages.dev/) · [Storybook](https://shadcn-svelte-tanstack-storybook.pages.dev/)
+
 A fully featured shadcn-svelte data table for Svelte 5, built on TanStack Table v9. A port of Material React Table with a runes and snippets API.
 
 ## Install
