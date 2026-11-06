@@ -1,6 +1,6 @@
 {
   "name": "material-svelte-headless-table",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "A Material Design data table for Svelte 5, built on Svelte Headless Table, Svelte Virtual List and Svelte Material UI.",
   "author": "Adhi Ravishankar",
@@ -44,6 +44,7 @@
     }
   },
   "files": [
+    "src",
     "dist",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"

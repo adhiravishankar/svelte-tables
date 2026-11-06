@@ -1,6 +1,6 @@
 {
   "name": "material-svelte-tanstack-table",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "A fully featured Svelte Material UI (SMUI) implementation of TanStack Table V9 for Svelte 5, written from the ground up in TypeScript.",
   "author": "Adhi Ravishankar",
@@ -44,6 +44,7 @@
     }
   },
   "files": [
+    "src",
     "dist",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
