@@ -53,7 +53,9 @@ Theme the table with the Material `--mdc-theme-*` CSS variables.
 
 ## Docs
 
-The documentation site is in [`apps/material-tanstack-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/material-tanstack-table-docs).
+The documentation site is in [`apps/material-tanstack-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/material-tanstack-table-docs),
+live at [material-tanstack-svelte-table.pages.dev](https://material-tanstack-svelte-table.pages.dev/), with a
+[Storybook](https://material-svelte-tanstack-storybook.pages.dev/) alongside it.
 This package is one of four table libraries in the
 [svelte-tables](https://github.com/adhiravishankar/svelte-tables) repository.
 

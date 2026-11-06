@@ -7,7 +7,7 @@ import {
 } from './types';
 import { getMRTTheme } from './utils/theme.utils';
 
-export const MRT_DefaultColumn = {
+const MRT_DefaultColumn = {
   filterVariant: 'text',
   maxSize: 1000,
   minSize: 40,

@@ -88,7 +88,7 @@ export const showRowSpacerColumn = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
 ): boolean => tableOptions.layoutMode === 'grid-no-grow';
 
-export const getLeadingDisplayColumnIds = <TData extends MRT_RowData>(
+const getLeadingDisplayColumnIds = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
 ) =>
   [
@@ -104,7 +104,7 @@ export const getLeadingDisplayColumnIds = <TData extends MRT_RowData>(
     showRowNumbersColumn(tableOptions) && 'mrt-row-numbers',
   ].filter(Boolean) as MRT_DisplayColumnIds[];
 
-export const getTrailingDisplayColumnIds = <TData extends MRT_RowData>(
+const getTrailingDisplayColumnIds = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
 ) =>
   [

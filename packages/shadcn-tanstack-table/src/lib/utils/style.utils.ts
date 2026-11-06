@@ -30,7 +30,7 @@ const kebab = (key: string) =>
     : key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 
 /** Serializes a style object (camelCase or kebab-case keys) to a style attribute. */
-export const styleToString = (style: StyleObject): string =>
+const styleToString = (style: StyleObject): string =>
   Object.entries(style)
     .filter(
       ([, value]) => value !== undefined && value !== null && value !== false,

@@ -3,7 +3,7 @@ import type { HeadlessColumnDef, RowData } from '../types';
 export const SELECT_COLUMN_WIDTH = 48;
 
 /** `{ width: '10px' }` -> `width: 10px`. Strings pass through. */
-export const styleToString = (style: unknown): string =>
+const styleToString = (style: unknown): string =>
   typeof style === 'string'
     ? style
     : Object.entries((style ?? {}) as Record<string, string | number>)

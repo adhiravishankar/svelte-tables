@@ -109,7 +109,7 @@ export const getCanRankRows = <TData extends MRT_RowData>(
   );
 };
 
-export const getIsRankingRows = <TData extends MRT_RowData>(
+const getIsRankingRows = <TData extends MRT_RowData>(
   table: MRT_TableInstance<TData>,
 ) => {
   const globalFilter = table.atoms.globalFilter.get();

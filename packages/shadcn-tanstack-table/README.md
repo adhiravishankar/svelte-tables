@@ -54,7 +54,9 @@ Define your own shadcn tokens after that import to theme the table.
 
 ## Docs
 
-The documentation site is in [`apps/shadcn-tanstack-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/shadcn-tanstack-table-docs).
+The documentation site is in [`apps/shadcn-tanstack-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/shadcn-tanstack-table-docs),
+live at [shadcn-tanstack-table.pages.dev](https://shadcn-tanstack-table.pages.dev/), with a
+[Storybook](https://shadcn-svelte-tanstack-storybook.pages.dev/) alongside it.
 This package is one of four table libraries in the
 [svelte-tables](https://github.com/adhiravishankar/svelte-tables) repository.
 

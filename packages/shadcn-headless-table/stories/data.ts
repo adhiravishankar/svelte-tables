@@ -32,10 +32,10 @@ export const makeData = (count = 50): Person[] =>
   Array.from({ length: count }, makePerson);
 
 /** People with nested `subRows`, for tree examples. */
-export const makeTree = (count = 8): Person[] =>
+const makeTree = (count = 8): Person[] =>
   makeData(count).map((manager) => ({
     ...manager,
     subRows: makeData(3).map((report) => ({ ...report, subRows: makeData(2) })),
   }));
 
-export const states = [...new Set(makeData(80).map((p) => p.state))].sort();
+const states = [...new Set(makeData(80).map((p) => p.state))].sort();

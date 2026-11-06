@@ -43,7 +43,9 @@ Add `enableVirtualization height={480}` to render only the rows in view.
 
 ## Docs
 
-The documentation site is in [`apps/material-headless-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/material-headless-table-docs).
+The documentation site is in [`apps/material-headless-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/material-headless-table-docs),
+live at [material-headless-table-docs.pages.dev](https://material-headless-table-docs.pages.dev/), with a
+[Storybook](https://material-svelte-headless-storybook.pages.dev/) alongside it.
 This package is one of four table libraries in the
 [svelte-tables](https://github.com/adhiravishankar/svelte-tables) repository.
 

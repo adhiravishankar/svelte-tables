@@ -44,7 +44,9 @@ Add `enableVirtualization height={480}` to render only the rows in view.
 
 ## Docs
 
-The documentation site is in [`apps/shadcn-headless-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/shadcn-headless-table-docs).
+The documentation site is in [`apps/shadcn-headless-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/shadcn-headless-table-docs),
+live at [shadcn-headless-table.pages.dev](https://shadcn-headless-table.pages.dev/), with a
+[Storybook](https://shadcn-svelte-headless-storybook.pages.dev/) alongside it.
 This package is one of four table libraries in the
 [svelte-tables](https://github.com/adhiravishankar/svelte-tables) repository.
 
