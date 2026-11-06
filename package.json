@@ -28,6 +28,7 @@
     "build:pages": "node scripts/build-pages.mjs"
   },
   "devDependencies": {
+    "@emnapi/runtime": "^1.11.3",
     "vite-plus": "^1.5.0",
     "wrangler": "^4.158.0"
   },

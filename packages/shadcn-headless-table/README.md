@@ -1,6 +1,8 @@
 # shadcn-svelte-headless-table
 
-[Documentation and live examples](https://shadcn-headless-table.pages.dev/) · [Storybook](https://shadcn-svelte-headless-storybook.pages.dev/)
+[![npm](https://img.shields.io/npm/v/shadcn-svelte-headless-table)](https://www.npmjs.com/package/shadcn-svelte-headless-table)
+[![Docs](https://img.shields.io/badge/docs-shadcn--headless--table.pages.dev-blue)](https://shadcn-headless-table.pages.dev/)
+[![Storybook](https://img.shields.io/badge/storybook-shadcn--svelte--headless--storybook.pages.dev-ff4785)](https://shadcn-svelte-headless-storybook.pages.dev/)
 
 A shadcn-svelte data table for Svelte 5, built on Svelte Headless Table. Every feature is one of its plugins, and rows are virtualized with Svelte Virtual List.
 

@@ -1,6 +1,8 @@
 # material-svelte-headless-table
 
-[Documentation and live examples](https://material-headless-table-docs.pages.dev/) · [Storybook](https://material-svelte-headless-storybook.pages.dev/)
+[![npm](https://img.shields.io/npm/v/material-svelte-headless-table)](https://www.npmjs.com/package/material-svelte-headless-table)
+[![Docs](https://img.shields.io/badge/docs-material--headless--table--docs.pages.dev-blue)](https://material-headless-table-docs.pages.dev/)
+[![Storybook](https://img.shields.io/badge/storybook-material--svelte--headless--storybook.pages.dev-ff4785)](https://material-svelte-headless-storybook.pages.dev/)
 
 A Svelte Material UI data table for Svelte 5, built on Svelte Headless Table. Every feature is one of its plugins, and rows are virtualized with Svelte Virtual List.
 

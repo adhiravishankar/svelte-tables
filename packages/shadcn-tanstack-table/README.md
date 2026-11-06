@@ -1,6 +1,8 @@
 # shadcn-svelte-tanstack-table
 
-[Documentation and live examples](https://shadcn-tanstack-table.pages.dev/) · [Storybook](https://shadcn-svelte-tanstack-storybook.pages.dev/)
+[![npm](https://img.shields.io/npm/v/shadcn-svelte-tanstack-table)](https://www.npmjs.com/package/shadcn-svelte-tanstack-table)
+[![Docs](https://img.shields.io/badge/docs-shadcn--tanstack--table.pages.dev-blue)](https://shadcn-tanstack-table.pages.dev/)
+[![Storybook](https://img.shields.io/badge/storybook-shadcn--svelte--tanstack--storybook.pages.dev-ff4785)](https://shadcn-svelte-tanstack-storybook.pages.dev/)
 
 A fully featured shadcn-svelte data table for Svelte 5, built on TanStack Table v9. A port of Material React Table with a runes and snippets API.
 

@@ -17,38 +17,39 @@ import Trigger from "./dropdown-menu-trigger.svelte";
 import Root from "./dropdown-menu.svelte";
 
 export {
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	Root,
+	Trigger,
+	Content,
+	Item,
+	CheckboxGroup,
+	CheckboxItem,
+	RadioGroup,
+	RadioItem,
+	Label,
+	Separator,
+	Shortcut,
+	Sub,
+	SubContent,
+	SubTrigger,
+	Group,
+	GroupHeading,
+	Portal,
+	//
+	Root as DropdownMenu,
+	Trigger as DropdownMenuTrigger,
+	Content as DropdownMenuContent,
+	Item as DropdownMenuItem,
+	CheckboxGroup as DropdownMenuCheckboxGroup,
+	CheckboxItem as DropdownMenuCheckboxItem,
+	RadioGroup as DropdownMenuRadioGroup,
+	RadioItem as DropdownMenuRadioItem,
+	Label as DropdownMenuLabel,
 	Separator as DropdownMenuSeparator,
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	Shortcut as DropdownMenuShortcut,
+	Sub as DropdownMenuSub,
+	SubContent as DropdownMenuSubContent,
+	SubTrigger as DropdownMenuSubTrigger,
+	Group as DropdownMenuGroup,
+	GroupHeading as DropdownMenuGroupHeading,
+	Portal as DropdownMenuPortal,
 };
