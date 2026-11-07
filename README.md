@@ -202,6 +202,8 @@ npm run storybook:shadcn-headless    # shadcn headless Storybook on :6006
 npm run storybook:material-headless  # Material headless Storybook on :6006
 npm run test            # unit and component tests
 npm run check           # svelte-check and astro check
+npm run lint            # oxlint
+npm run format          # oxfmt (format:check to verify only)
 npm run build           # build the library, then the docs
 ```
 
@@ -281,6 +283,11 @@ npm run preview:cloudflare -w shadcn-svelte-headless-table-docs   # serve the bu
 
 PRs are welcome. For large changes please open an issue first. See the [Contributing Guide](CONTRIBUTING.md) for how to
 run the project.
+
+### Working with AI coding agents
+
+[`AGENTS.md`](AGENTS.md) describes the repository layout, commands, conventions and pre-finish checklist for AI coding
+agents. [`CLAUDE.md`](CLAUDE.md) imports it for Claude Code. Keep both in sync with the scripts above when they change.
 
 ## License
 
