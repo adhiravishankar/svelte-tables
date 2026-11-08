@@ -18,7 +18,8 @@
       "DOM.Iterable"
     ],
     "types": [
-      "svelte"
+      "svelte",
+      "vite/client"
     ]
   },
   "include": [

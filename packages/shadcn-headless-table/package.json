@@ -1,6 +1,6 @@
 {
   "name": "shadcn-svelte-headless-table",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "A shadcn-svelte data table for Svelte 5, built on Svelte Headless Table and Svelte Virtual List.",
   "author": "Adhi Ravishankar",

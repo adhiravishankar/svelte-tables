@@ -1,6 +1,6 @@
 {
   "name": "shadcn-svelte-tanstack-table",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "A fully featured shadcn-svelte implementation of TanStack Table V9 for Svelte 5, written from the ground up in TypeScript.",
   "author": "Adhi Ravishankar",
