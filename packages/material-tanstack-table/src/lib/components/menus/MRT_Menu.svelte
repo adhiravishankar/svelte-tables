@@ -25,21 +25,34 @@
 
   const dense = $derived(table.mrtState.density === 'compact');
   const open = $derived(!!anchorEl);
+
+  /**
+   * Moves the menu out of the table DOM and into `document.body`. Inside the
+   * table it is trapped in the sticky header's stacking context and drawn
+   * underneath body cells.
+   */
+  function portal(node: HTMLElement) {
+    document.body.appendChild(node);
+    return () => node.remove();
+  }
 </script>
 
 {#if anchorEl}
-  <Menu
-    {open}
-    fixed
-    anchorElement={anchorEl}
-    anchorCorner="BOTTOM_START"
-    onSMUIMenuSurfaceClosed={onclose}
-    onclick={(event: MouseEvent) => event.stopPropagation()}
-    style="background-color: {table.options.mrtTheme.menuBackgroundColor}"
-    {...rest}
-  >
-    <List {dense}>
-      {@render children()}
-    </List>
-  </Menu>
+  <div {@attach portal}>
+    <Menu
+      {open}
+      fixed
+      anchorElement={anchorEl}
+      anchorCorner="BOTTOM_START"
+      onSMUIMenuSurfaceClosed={onclose}
+      onclick={(event: MouseEvent) => event.stopPropagation()}
+      style="background-color: {table.options.mrtTheme
+        .menuBackgroundColor}; z-index: 1400"
+      {...rest}
+    >
+      <List {dense}>
+        {@render children()}
+      </List>
+    </Menu>
+  </div>
 {/if}

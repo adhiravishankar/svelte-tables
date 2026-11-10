@@ -1,6 +1,6 @@
 <script lang="ts" generics="TData extends MRT_RowData">
-  import highlightWords from 'highlight-words';
   import type { MRT_Cell, MRT_RowData, MRT_TableInstance } from '../../types';
+  import { highlightWords } from '../../utils/highlightWords';
 
   let {
     cell,
@@ -53,7 +53,7 @@
     ) {
       return undefined;
     }
-    const result = highlightWords?.({
+    const result = highlightWords({
       matchExactly:
         (filterValue ? columnDef._filterFn : table.mrtState.globalFilterFn) !==
         'fuzzy',
