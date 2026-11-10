@@ -3,6 +3,7 @@
   import {
     ShadcnSvelteTable,
     MRT_Default_Icons,
+    MRT_IconButton,
     type MRT_ColumnDef,
     type MRT_Row,
     type MRT_TableInstance,
@@ -116,6 +117,68 @@
   </div>
 {/snippet}
 
+{#snippet iconButtonActions(ctx: { table: MRT_TableInstance<Employee> })}
+  <MRT_IconButton
+    label="Reset filters"
+    onclick={() => ctx.table.resetColumnFilters()}
+  >
+    <MRT_Default_Icons.FilterListOffIcon />
+  </MRT_IconButton>
+  <MRT_IconButton label="Clear sorting" onclick={() => ctx.table.resetSorting()}>
+    <MRT_Default_Icons.ClearAllIcon />
+  </MRT_IconButton>
+{/snippet}
+
+{#snippet internalActions(ctx: { table: MRT_TableInstance<Employee> })}
+  {@const isFullScreen = ctx.table.mrtState.isFullScreen}
+  <MRT_IconButton
+    label="Toggle density"
+    onclick={() =>
+      ctx.table.setDensity((d) =>
+        d === 'comfortable' ? 'compact' : d === 'compact' ? 'spacious' : 'comfortable',
+      )}
+  >
+    <MRT_Default_Icons.DensityMediumIcon />
+  </MRT_IconButton>
+  <MRT_IconButton
+    label="Toggle full screen"
+    onclick={() => ctx.table.setIsFullScreen(!isFullScreen)}
+  >
+    {#if isFullScreen}
+      <MRT_Default_Icons.FullscreenExitIcon />
+    {:else}
+      <MRT_Default_Icons.FullscreenIcon />
+    {/if}
+  </MRT_IconButton>
+  <span style="align-items: center; display: inline-flex; gap: 0.25rem; padding: 0 0.5rem">
+    <MRT_Default_Icons.DynamicFeedIcon style="font-size: 1rem" />
+    <small>{ctx.table.getRowModel().rows.length} rows</small>
+  </span>
+{/snippet}
+
+{#snippet customTopToolbar(ctx: { table: MRT_TableInstance<Employee> })}
+  <div
+    style="align-items: center; display: flex; gap: 0.5rem; justify-content: space-between; padding: 0.5rem 1rem"
+  >
+    <span style="align-items: center; display: inline-flex; gap: 0.5rem">
+      <MRT_Default_Icons.FilterAltIcon />
+      <strong>Employees</strong>
+      <small style="opacity: 0.6">custom toolbar</small>
+    </span>
+    <span>
+      <MRT_IconButton label="Clear sorting" onclick={() => ctx.table.resetSorting()}>
+        <MRT_Default_Icons.ClearAllIcon />
+      </MRT_IconButton>
+      <MRT_IconButton
+        label="More"
+        onclick={() => alert('More actions')}
+      >
+        <MRT_Default_Icons.MoreVertIcon />
+      </MRT_IconButton>
+    </span>
+  </div>
+{/snippet}
+
 <Story name="Default Icons In Custom Headers">
   <ShadcnSvelteTable options={{ columns: headerColumns, data }} />
 </Story>
@@ -161,4 +224,25 @@
       topToolbarCustomActions: toolbarActions,
     }}
   />
+</Story>
+
+<Story name="Default Icons In Toolbar Icon Buttons">
+  <ShadcnSvelteTable
+    options={{
+      columns: headerColumns,
+      data,
+      enableColumnFilters: true,
+      topToolbarCustomActions: iconButtonActions,
+    }}
+  />
+</Story>
+
+<Story name="Default Icons In Toolbar Internal Actions">
+  <ShadcnSvelteTable
+    options={{ columns: headerColumns, data, toolbarInternalActions: internalActions }}
+  />
+</Story>
+
+<Story name="Default Icons In Custom Top Toolbar">
+  <ShadcnSvelteTable options={{ columns: headerColumns, data, topToolbar: customTopToolbar }} />
 </Story>

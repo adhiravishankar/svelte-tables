@@ -25,7 +25,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "shadcn-svelte-tanstack-table": "*",
-    "svelte": "^5.57.2",
+    "svelte": "^5.57.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   },

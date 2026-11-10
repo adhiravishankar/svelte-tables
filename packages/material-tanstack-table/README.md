@@ -53,6 +53,37 @@ Theme the table with the Material `--mdc-theme-*` CSS variables.
 />
 ```
 
+## Icons
+
+Every icon the table renders can be replaced with the `icons` option. Pass only the ones you want to change; the rest
+keep their defaults. An icon is a Svelte component that takes optional `class` and `style` props.
+
+```svelte
+<script lang="ts">
+  import { MaterialSvelteTable, MRT_Default_Icons } from 'material-svelte-tanstack-table';
+  import MyFilterIcon from './MyFilterIcon.svelte';
+</script>
+
+<MaterialSvelteTable options={{ columns, data, icons: { FilterAltIcon: MyFilterIcon } }} />
+```
+
+`MRT_Default_Icons` also exports the built-in icons, so you can use them in your own snippets next to custom markup, for
+example in a `Header`, `Cell`, `Footer`, `rowActions` or `topToolbarCustomActions` snippet:
+
+```svelte
+{#snippet nameHeader()}
+  <span><MRT_Default_Icons.EditIcon /> <strong>First Name</strong></span>
+{/snippet}
+```
+
+See the **Features / Icons With Custom HTML** stories in [Storybook](https://material-svelte-tanstack-storybook.pages.dev/) for headers, cells, footers, row actions and
+toolbar examples.
+
+## Dependencies
+
+Matching text in cells is highlighted by a small built-in helper. The table doesn't depend on `highlight-words` or any
+other highlighting package.
+
 ## Docs
 
 The documentation site is in [`apps/material-tanstack-table-docs`](https://github.com/adhiravishankar/svelte-tables/tree/main/apps/material-tanstack-table-docs),

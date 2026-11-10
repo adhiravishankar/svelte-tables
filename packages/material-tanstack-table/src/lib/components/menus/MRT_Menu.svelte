@@ -42,6 +42,7 @@
     <Menu
       {open}
       fixed
+      anchor={false}
       anchorElement={anchorEl}
       anchorCorner="BOTTOM_START"
       onSMUIMenuSurfaceClosed={onclose}

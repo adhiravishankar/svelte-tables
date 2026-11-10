@@ -21,7 +21,7 @@
     "@faker-js/faker": "^10.6.0",
     "astro": "^7.4.2",
     "material-svelte-headless-table": "*",
-    "svelte": "^5.57.2",
+    "svelte": "^5.57.3",
     "typescript": "^6.0.3"
   },
   "engines": {

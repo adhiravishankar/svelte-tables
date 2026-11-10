@@ -25,7 +25,7 @@
     "@smui/button": "^9.0.6",
     "astro": "^7.4.2",
     "material-svelte-tanstack-table": "*",
-    "svelte": "^5.57.2",
+    "svelte": "^5.57.3",
     "typescript": "^6.0.3"
   },
   "engines": {
