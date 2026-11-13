@@ -6,7 +6,13 @@ export type { MRT_Localization as HeadlessLocalization };
 export type RowData = Record<string, any>;
 export type Density = 'comfortable' | 'compact' | 'spacious';
 export type FilterVariant = 'text' | 'select' | 'range' | 'checkbox';
-export type AggregateFn = 'count' | 'max' | 'mean' | 'min' | 'sum' | ((values: any[]) => unknown);
+export type AggregateFn =
+  | 'count'
+  | 'max'
+  | 'mean'
+  | 'min'
+  | 'sum'
+  | ((values: any[]) => unknown);
 
 export interface FilterOption {
   label: string;
@@ -124,7 +130,10 @@ export interface HeadlessTableOptions<TData extends RowData> {
   onSelectionChange?: (selectedRows: TData[]) => void;
   /** Class names for the parts. */
   classes?: Partial<
-    Record<'bottomToolbar' | 'cell' | 'container' | 'headerCell' | 'row' | 'toolbar', string>
+    Record<
+      'bottomToolbar' | 'cell' | 'container' | 'headerCell' | 'row' | 'toolbar',
+      string
+    >
   >;
 }
 

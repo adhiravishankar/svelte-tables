@@ -71,5 +71,3 @@ export const MRT_Default_Icons: MRT_Icons = {
   ViewColumnIcon,
   VisibilityOffIcon,
 };
-
-;

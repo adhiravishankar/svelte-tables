@@ -20,7 +20,11 @@ export function cellStyle<TData extends RowData>(
 ): string {
   const resized = styleToString(attrsStyle);
   const align =
-    column?.align === 'end' ? 'justify-content: flex-end' : column?.align === 'center' ? 'justify-content: center' : '';
+    column?.align === 'end'
+      ? 'justify-content: flex-end'
+      : column?.align === 'center'
+        ? 'justify-content: center'
+        : '';
   let sizing: string;
   if (resized) {
     sizing = `${resized}; flex: 0 0 auto`;

@@ -90,7 +90,10 @@ describe('createHeadlessTable', () => {
     const table = setup();
     table.toggleColumn('age', false);
     flushSync();
-    expect(table.visibleColumns.map((column: any) => column.id)).toEqual(['name', 'city']);
+    expect(table.visibleColumns.map((column: any) => column.id)).toEqual([
+      'name',
+      'city',
+    ]);
   });
 });
 
@@ -106,7 +109,6 @@ describe('createHeadlessTable: more features', () => {
     expect(table.state.columnOrder).toEqual(['city', 'name', 'age']);
   });
 
-
   it('groups rows and aggregates', () => {
     const table = setup({
       columns: [
@@ -120,7 +122,9 @@ describe('createHeadlessTable: more features', () => {
     flushSync();
     const groups = table.rows.filter((row: any) => !row.isData());
     expect(groups).toHaveLength(3);
-    const paris = groups.find((row: any) => row.cellForId.city.value === 'Paris') as any;
+    const paris = groups.find(
+      (row: any) => row.cellForId.city.value === 'Paris',
+    ) as any;
     expect(paris.cellForId.age.value).toBe(35.5);
     expect(table.rows).toHaveLength(3);
     table.toggleGroupRow(paris.id);
@@ -128,6 +132,4 @@ describe('createHeadlessTable: more features', () => {
     expect(table.rows).toHaveLength(5);
     expect(table.isGroupExpanded(paris.id)).toBe(true);
   });
-
-
 });

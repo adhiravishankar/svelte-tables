@@ -29,26 +29,40 @@ import type {
 
 export const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
 
-const includesText = ({ filterValue, value }: { filterValue: unknown; value: unknown }) =>
+const includesText = ({
+  filterValue,
+  value,
+}: {
+  filterValue: unknown;
+  value: unknown;
+}) =>
   String(value ?? '')
     .toLowerCase()
     .includes(String(filterValue).toLowerCase());
 
-const equals = ({ filterValue, value }: { filterValue: unknown; value: unknown }) =>
-  String(value) === String(filterValue);
+const equals = ({
+  filterValue,
+  value,
+}: {
+  filterValue: unknown;
+  value: unknown;
+}) => String(value) === String(filterValue);
 
 const aggregators: Record<string, (values: any[]) => unknown> = {
   count: (values) => values.length,
   max: (values) => Math.max(...values.map(Number)),
-  mean: (values) => values.reduce((sum, value) => sum + Number(value), 0) / (values.length || 1),
+  mean: (values) =>
+    values.reduce((sum, value) => sum + Number(value), 0) /
+    (values.length || 1),
   min: (values) => Math.min(...values.map(Number)),
   sum: (values) => values.reduce((sum, value) => sum + Number(value), 0),
 };
 const getAggregator = (aggregate: AggregateFn) =>
   typeof aggregate === 'function' ? aggregate : aggregators[aggregate];
 
-export const getColumnId = <TData extends RowData>(column: HeadlessColumnDef<TData>) =>
-  column.id ?? String(column.accessor);
+export const getColumnId = <TData extends RowData>(
+  column: HeadlessColumnDef<TData>,
+) => column.id ?? String(column.accessor);
 
 /** The distinct values of a column, as options for a `select` filter. */
 export function getSelectOptions<TData extends RowData>(
@@ -63,10 +77,13 @@ export function getSelectOptions<TData extends RowData>(
   const values = new Set<string | number | boolean>();
   for (const row of data) {
     const value = read(row);
-    if (value !== undefined && value !== null && value !== '') values.add(value);
+    if (value !== undefined && value !== null && value !== '')
+      values.add(value);
   }
   return [...values]
-    .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }))
+    .sort((a, b) =>
+      String(a).localeCompare(String(b), undefined, { numeric: true }),
+    )
     .map((value) => ({ label: String(value), value }));
 }
 
@@ -115,11 +132,15 @@ export function createHeadlessTable<TData extends RowData>(
     });
   }
   if (groupable) {
-    plugins.group = addGroupBy({ initialGroupByIds: initialState.grouping ?? [] });
+    plugins.group = addGroupBy({
+      initialGroupByIds: initialState.grouping ?? [],
+    });
     plugins.expand = addExpandedRows();
   }
   if (orderable) {
-    plugins.order = addColumnOrder({ initialColumnIdOrder: initialState.columnOrder ?? [] });
+    plugins.order = addColumnOrder({
+      initialColumnIdOrder: initialState.columnOrder ?? [],
+    });
   }
   plugins.hide = addHiddenColumns({
     initialHiddenColumnIds: initialState.hiddenColumns ?? [],
@@ -135,7 +156,10 @@ export function createHeadlessTable<TData extends RowData>(
   if (paginated) {
     plugins.page = addPagination({
       initialPageIndex: initialState.pageIndex ?? 0,
-      initialPageSize: initialState.pageSize ?? initial.pageSizes?.[0] ?? DEFAULT_PAGE_SIZES[0],
+      initialPageSize:
+        initialState.pageSize ??
+        initial.pageSizes?.[0] ??
+        DEFAULT_PAGE_SIZES[0],
     });
   }
 
@@ -170,12 +194,15 @@ export function createHeadlessTable<TData extends RowData>(
         };
       }
       if (groupable) {
-        const aggregator = def.aggregate ? getAggregator(def.aggregate) : undefined;
+        const aggregator = def.aggregate
+          ? getAggregator(def.aggregate)
+          : undefined;
         columnPlugins.group = {
           disable: def.enableGrouping === false,
           getAggregateValue: aggregator,
           cell: aggregator
-            ? ({ value }: any) => (def.aggregateFormat ? def.aggregateFormat(value) : String(value))
+            ? ({ value }: any) =>
+                def.aggregateFormat ? def.aggregateFormat(value) : String(value)
             : undefined,
         };
       }
@@ -206,7 +233,9 @@ export function createHeadlessTable<TData extends RowData>(
   );
 
   const vm = table.createViewModel(columns, {
-    rowDataId: getRowId ? (item, index) => getRowId(item as TData, index) : undefined,
+    rowDataId: getRowId
+      ? (item, index) => getRowId(item as TData, index)
+      : undefined,
   });
   const states = vm.pluginStates as Record<string, any>;
 
@@ -218,13 +247,17 @@ export function createHeadlessTable<TData extends RowData>(
 
   const selectedIds = $derived<string[]>(
     selectable
-      ? Object.entries(states.select.selectedDataIds.current as Record<string, boolean>)
+      ? Object.entries(
+          states.select.selectedDataIds.current as Record<string, boolean>,
+        )
           .filter(([, selected]) => selected)
           .map(([id]) => id)
       : [],
   );
   const selectedRows = $derived(
-    dataRows.filter((row: any) => selectedIds.includes(row.dataId)).map((row: any) => row.original as TData),
+    dataRows
+      .filter((row: any) => selectedIds.includes(row.dataId))
+      .map((row: any) => row.original as TData),
   );
 
   if (selectable && initial.onSelectionChange) {
@@ -248,17 +281,23 @@ export function createHeadlessTable<TData extends RowData>(
     },
     get state() {
       return {
-        columnFilters: filterable ? { ...states.filter.filterValues.current } : {},
+        columnFilters: filterable
+          ? { ...states.filter.filterValues.current }
+          : {},
         columnOrder: orderable ? [...states.order.columnIdOrder.current] : [],
         density,
-        globalFilter: searchable ? (states.search.filterValue.current as string) : '',
+        globalFilter: searchable
+          ? (states.search.filterValue.current as string)
+          : '',
         grouping: groupable ? [...states.group.groupByIds.current] : [],
         hiddenColumns: [...states.hide.hiddenColumnIds.current],
         pageIndex: paginated ? states.page.pageIndex.current : 0,
         pageSize: paginated ? states.page.pageSize.current : allRows.length,
         selectedRows: selectedIds,
         sorting: sortable
-          ? (states.sort.sortKeys.current as { id: string; order: string }[]).map(({ id, order }) => ({
+          ? (
+              states.sort.sortKeys.current as { id: string; order: string }[]
+            ).map(({ id, order }) => ({
               desc: order === 'desc',
               id,
             }))
@@ -281,10 +320,17 @@ export function createHeadlessTable<TData extends RowData>(
       return selectedRows;
     },
     get allSelected() {
-      return selectable && dataRows.length > 0 && selectedIds.length >= dataRows.length;
+      return (
+        selectable &&
+        dataRows.length > 0 &&
+        selectedIds.length >= dataRows.length
+      );
     },
     get someSelected() {
-      return selectedIds.length > 0 && !(selectable && selectedIds.length >= dataRows.length);
+      return (
+        selectedIds.length > 0 &&
+        !(selectable && selectedIds.length >= dataRows.length)
+      );
     },
 
     setSorting(id, event) {
@@ -298,13 +344,16 @@ export function createHeadlessTable<TData extends RowData>(
     },
     sortOrder(id) {
       return sortable
-        ? states.sort.sortKeys.current.find((key: { id: string }) => key.id === id)?.order
+        ? states.sort.sortKeys.current.find(
+            (key: { id: string }) => key.id === id,
+          )?.order
         : undefined;
     },
     setColumnFilter(id, value) {
       if (!filterable) return;
       const next = { ...states.filter.filterValues.current };
-      if (value === undefined || value === '' || value === null) delete next[id];
+      if (value === undefined || value === '' || value === null)
+        delete next[id];
       else next[id] = value;
       states.filter.filterValues.current = next;
       if (paginated) states.page.pageIndex.current = 0;
@@ -316,7 +365,10 @@ export function createHeadlessTable<TData extends RowData>(
     },
     setPageIndex(index) {
       if (paginated) {
-        states.page.pageIndex.current = Math.max(0, Math.min(index, states.page.pageCount.current - 1));
+        states.page.pageIndex.current = Math.max(
+          0,
+          Math.min(index, states.page.pageCount.current - 1),
+        );
       }
     },
     setPageSize(size) {
@@ -335,7 +387,9 @@ export function createHeadlessTable<TData extends RowData>(
     toggleAllRows(value) {
       if (!selectable) return;
       const set = states.select.selectedDataIds;
-      const next = value ?? !(dataRows.length > 0 && selectedIds.length >= dataRows.length);
+      const next =
+        value ??
+        !(dataRows.length > 0 && selectedIds.length >= dataRows.length);
       const ids = (paginated ? rows : dataRows)
         .filter((row: any) => row.isData())
         .map((row: any) => row.dataId as string);
@@ -348,7 +402,9 @@ export function createHeadlessTable<TData extends RowData>(
     toggleColumn(id, visible) {
       const hidden: string[] = states.hide.hiddenColumnIds.current;
       const show = visible ?? hidden.includes(id);
-      states.hide.hiddenColumnIds.current = show ? hidden.filter((h) => h !== id) : [...hidden, id];
+      states.hide.hiddenColumnIds.current = show
+        ? hidden.filter((h) => h !== id)
+        : [...hidden, id];
     },
     isColumnVisible(id) {
       return !(states.hide.hiddenColumnIds.current as string[]).includes(id);

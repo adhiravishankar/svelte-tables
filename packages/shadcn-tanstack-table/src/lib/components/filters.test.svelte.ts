@@ -198,7 +198,9 @@ describe('select filters', () => {
     root.querySelector<HTMLButtonElement>('thead .mrt-select-trigger')!.click();
     flushSync();
     const items = Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     );
     expect(items.map((i) => i.textContent?.trim())).toEqual([
       'Paris',
@@ -351,7 +353,9 @@ describe('filter modes', () => {
       .click();
     flushSync();
     const items = Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     );
     const startsWith = items.find((i) =>
       i.textContent?.includes('Starts With'),
@@ -381,7 +385,9 @@ describe('filter modes', () => {
       .click();
     flushSync();
     const notEmpty = Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     ).find((i) => i.textContent?.includes('Not Empty'))!;
     notEmpty.click();
     flushSync();
@@ -404,7 +410,9 @@ describe('filter modes', () => {
       .click();
     flushSync();
     const labels = Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     ).map((i) => i.textContent?.replace(/\s+/g, ' ').trim());
     expect(labels.some((l) => l?.includes('Fuzzy'))).toBe(true);
     expect(labels.some((l) => l?.includes('Contains'))).toBe(true);

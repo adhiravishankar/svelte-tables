@@ -71,12 +71,16 @@ describe('story helpers', () => {
   it('Manual Selection follows the state it owns', () => {
     const root = render(ManualSelection);
     expect(
-      root.querySelectorAll('tbody button[role="checkbox"][aria-checked="true"]'),
+      root.querySelectorAll(
+        'tbody button[role="checkbox"][aria-checked="true"]',
+      ),
     ).toHaveLength(2);
     root.querySelector<HTMLButtonElement>('p button')!.click();
     flushSync();
     expect(
-      root.querySelectorAll('tbody button[role="checkbox"][aria-checked="true"]'),
+      root.querySelectorAll(
+        'tbody button[role="checkbox"][aria-checked="true"]',
+      ),
     ).toHaveLength(0);
   });
 

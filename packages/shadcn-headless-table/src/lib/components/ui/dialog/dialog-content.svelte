@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Dialog as DialogPrimitive } from "bits-ui";
-	import XIcon from '@lucide/svelte/icons/x';
+	import XIcon from '../icons/x-icon.svelte';
 	import { Button } from "../button/index.js";
 	import { cn, type WithoutChildrenOrChild } from "../../../utils/cn.js";
 	import * as Dialog from "./index.js";

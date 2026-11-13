@@ -25,7 +25,12 @@ const render = (options: Partial<HeadlessTableOptions<Person>> = {}) => {
   target = document.createElement('div');
   document.body.appendChild(target);
   app = mount(MaterialHeadlessTable<Person>, {
-    props: { columns, data: people, getRowId: (row: Person) => row.name, ...options },
+    props: {
+      columns,
+      data: people,
+      getRowId: (row: Person) => row.name,
+      ...options,
+    },
     target,
   });
   flushSync();
@@ -58,8 +63,8 @@ const rows = (root: HTMLElement) =>
   );
 const names = (root: HTMLElement) => rows(root).map((row) => row.split('|')[0]);
 const header = (root: HTMLElement, text: string) =>
-  Array.from(root.querySelectorAll<HTMLElement>('.hdt-head-cell')).find((cell) =>
-    cell.textContent?.includes(text),
+  Array.from(root.querySelectorAll<HTMLElement>('.hdt-head-cell')).find(
+    (cell) => cell.textContent?.includes(text),
   )!;
 const type = (input: HTMLInputElement, value: string) => {
   input.value = value;
@@ -70,12 +75,17 @@ const type = (input: HTMLInputElement, value: string) => {
 describe('MaterialHeadlessTable', () => {
   it('renders headers, rows and the footer', () => {
     const root = render();
-    expect(Array.from(root.querySelectorAll('.hdt-head-cell')).map((c) => c.textContent?.trim())).toEqual([
-      'Name',
-      'Age',
-      'City',
+    expect(
+      Array.from(root.querySelectorAll('.hdt-head-cell')).map((c) =>
+        c.textContent?.trim(),
+      ),
+    ).toEqual(['Name', 'Age', 'City']);
+    expect(rows(root)).toEqual([
+      'Carol|30|Paris',
+      'Alice|25|Rome',
+      'Bob|41|Paris',
+      'Dave|19|Oslo',
     ]);
-    expect(rows(root)).toEqual(['Carol|30|Paris', 'Alice|25|Rome', 'Bob|41|Paris', 'Dave|19|Oslo']);
     expect(root.querySelector('.hdt-foot-row')?.textContent).toContain('Total');
   });
 
@@ -92,26 +102,40 @@ describe('MaterialHeadlessTable', () => {
 
   it('searches every column', () => {
     const root = render();
-    type(root.querySelector<HTMLInputElement>('input[aria-label="Search"]')!, 'rom');
+    type(
+      root.querySelector<HTMLInputElement>('input[aria-label="Search"]')!,
+      'rom',
+    );
     expect(names(root)).toEqual(['Alice']);
-    type(root.querySelector<HTMLInputElement>('input[aria-label="Search"]')!, 'zzz');
-    expect(root.querySelector('.hdt-empty')?.textContent).toContain('No results found');
+    type(
+      root.querySelector<HTMLInputElement>('input[aria-label="Search"]')!,
+      'zzz',
+    );
+    expect(root.querySelector('.hdt-empty')?.textContent).toContain(
+      'No results found',
+    );
   });
 
   it('filters columns with text, select and range filters', () => {
     const root = render({ enableColumnFilters: true });
-    const name = root.querySelector<HTMLInputElement>('input[aria-label="Filter by Name"]')!;
+    const name = root.querySelector<HTMLInputElement>(
+      'input[aria-label="Filter by Name"]',
+    )!;
     type(name, 'a');
     expect(names(root)).toEqual(['Carol', 'Alice', 'Dave']);
     type(name, '');
 
-    const city = root.querySelector<HTMLSelectElement>('select[aria-label="Filter by City"]')!;
+    const city = root.querySelector<HTMLSelectElement>(
+      'select[aria-label="Filter by City"]',
+    )!;
     city.value = 'Paris';
     city.dispatchEvent(new Event('change', { bubbles: true }));
     flushSync();
     expect(names(root)).toEqual(['Carol', 'Bob']);
 
-    const [min] = root.querySelectorAll<HTMLInputElement>('input[type="number"]');
+    const [min] = root.querySelectorAll<HTMLInputElement>(
+      'input[type="number"]',
+    );
     type(min, '35');
     expect(names(root)).toEqual(['Bob']);
   });
@@ -119,11 +143,17 @@ describe('MaterialHeadlessTable', () => {
   it('pages', () => {
     const root = render({ initialState: { pageSize: 3 }, pageSizes: [3, 10] });
     expect(names(root)).toEqual(['Carol', 'Alice', 'Bob']);
-    expect(root.querySelector('.hdt-pagination-range')?.textContent).toBe('1–3 of 4');
-    root.querySelector<HTMLElement>('button[aria-label="Go to next page"]')!.click();
+    expect(root.querySelector('.hdt-pagination-range')?.textContent).toBe(
+      '1–3 of 4',
+    );
+    root
+      .querySelector<HTMLElement>('button[aria-label="Go to next page"]')!
+      .click();
     flushSync();
     expect(names(root)).toEqual(['Dave']);
-    expect(root.querySelector('.hdt-pagination-range')?.textContent).toBe('4–4 of 4');
+    expect(root.querySelector('.hdt-pagination-range')?.textContent).toBe(
+      '4–4 of 4',
+    );
   });
 
   it('selects rows', async () => {
@@ -132,13 +162,22 @@ describe('MaterialHeadlessTable', () => {
       enableRowSelection: true,
       onSelectionChange: (rows) => selected.push(rows.map((row) => row.name)),
     });
-    const boxes = () => Array.from(root.querySelectorAll<HTMLInputElement>('.hdt-body-row input[type="checkbox"]'));
+    const boxes = () =>
+      Array.from(
+        root.querySelectorAll<HTMLInputElement>(
+          '.hdt-body-row input[type="checkbox"]',
+        ),
+      );
     boxes()[1].click();
     flushSync();
     await settle();
     expect(boxes()[1].checked).toBe(true);
-    expect(root.querySelector('.hdt-selected-count')?.textContent).toContain('1 of 4');
-    root.querySelector<HTMLElement>('.hdt-head input[type="checkbox"]')!.click();
+    expect(root.querySelector('.hdt-selected-count')?.textContent).toContain(
+      '1 of 4',
+    );
+    root
+      .querySelector<HTMLElement>('.hdt-head input[type="checkbox"]')!
+      .click();
     flushSync();
     await settle();
     expect(boxes().every((box) => box.checked)).toBe(true);
@@ -150,7 +189,6 @@ describe('MaterialHeadlessTable', () => {
     expect(rows(root)[0]).toBe('Carol|Paris');
     expect(root.querySelectorAll('.hdt-head-cell')).toHaveLength(2);
   });
-
 
   it('shows the loading bar', () => {
     const root = render({ isLoading: true });
@@ -167,22 +205,26 @@ describe('MaterialHeadlessTable', () => {
 
   it('orders columns by dragging a header onto another', () => {
     const root = render({ enableColumnOrdering: true });
-    const [name, age] = Array.from(root.querySelectorAll<HTMLElement>('.hdt-head-cell'));
+    const [name, age] = Array.from(
+      root.querySelectorAll<HTMLElement>('.hdt-head-cell'),
+    );
     expect(name.getAttribute('draggable')).toBe('true');
     name.dispatchEvent(new Event('dragstart', { bubbles: true }));
     flushSync();
     age.dispatchEvent(new Event('drop', { bubbles: true, cancelable: true }));
     flushSync();
-    expect(Array.from(root.querySelectorAll('.hdt-head-cell')).map((c) => c.textContent?.trim())).toEqual([
-      'Age',
-      'Name',
-      'City',
-    ]);
+    expect(
+      Array.from(root.querySelectorAll('.hdt-head-cell')).map((c) =>
+        c.textContent?.trim(),
+      ),
+    ).toEqual(['Age', 'Name', 'City']);
   });
 
   it('groups rows from the header button', () => {
     const root = render({ enableGrouping: true, enablePagination: false });
-    root.querySelector<HTMLElement>('button[aria-label="Group by City"]')!.click();
+    root
+      .querySelector<HTMLElement>('button[aria-label="Group by City"]')!
+      .click();
     flushSync();
     const groups = root.querySelectorAll('.hdt-group-row');
     expect(groups).toHaveLength(3);

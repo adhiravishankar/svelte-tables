@@ -56,7 +56,9 @@ const firstColumn = (root: HTMLElement) =>
   );
 const menuItems = () =>
   Array.from(
-    document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+    document.body.querySelectorAll<HTMLElement>(
+      '[data-slot="dropdown-menu-item"]',
+    ),
   );
 const itemText = (el: HTMLElement) =>
   el.textContent?.replace(/\s+/g, ' ').trim();
@@ -95,7 +97,9 @@ describe('column actions menu', () => {
     expect(labels).toContain('Sort by Name ascending');
     clickItem('Sort by Name ascending');
     expect(firstColumn(root)).toEqual(['Alice', 'Bob', 'Carol']);
-    expect(document.body.querySelector('[data-slot="dropdown-menu-content"]')).toBeNull();
+    expect(
+      document.body.querySelector('[data-slot="dropdown-menu-content"]'),
+    ).toBeNull();
     openActions(root, 0);
     clickItem('Sort by Name descending');
     expect(firstColumn(root)).toEqual(['Carol', 'Bob', 'Alice']);
@@ -188,9 +192,7 @@ describe('show/hide columns menu', () => {
   };
 
   const switches = () =>
-    Array.from(
-      document.body.querySelectorAll<HTMLElement>('[role="switch"]'),
-    );
+    Array.from(document.body.querySelectorAll<HTMLElement>('[role="switch"]'));
 
   it('lists the columns with switches', () => {
     render2();

@@ -10,7 +10,9 @@ import rehypeBase from '../../scripts/rehype-base.mjs';
 // what consumers get (its exports, types and `styles.css`).
 const useLibrarySource = process.argv.includes('dev');
 const lib = (path) =>
-  fileURLToPath(new URL(`../../packages/shadcn-headless-table/${path}`, import.meta.url));
+  fileURLToPath(
+    new URL(`../../packages/shadcn-headless-table/${path}`, import.meta.url),
+  );
 
 export default defineConfig({
   // Set SITE_URL when deploying; it enables the sitemap and canonical URLs.
@@ -62,7 +64,13 @@ export default defineConfig({
     // as is, so Vite has to bundle them for the prerender.
     environments: {
       prerender: {
-        resolve: { noExternal: [/^bits-ui/, /^@humanspeak\//, 'shadcn-svelte-headless-table'] },
+        resolve: {
+          noExternal: [
+            /^bits-ui/,
+            /^@humanspeak\//,
+            'shadcn-svelte-headless-table',
+          ],
+        },
       },
     },
     resolve: useLibrarySource

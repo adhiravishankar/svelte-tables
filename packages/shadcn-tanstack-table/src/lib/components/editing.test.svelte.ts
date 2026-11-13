@@ -211,14 +211,16 @@ describe('modal editing', () => {
       enableEditing: true,
       onEditingRowSave,
     });
-    expect(document.body.querySelector('[data-slot="dialog-content"]')).toBeNull();
+    expect(
+      document.body.querySelector('[data-slot="dialog-content"]'),
+    ).toBeNull();
     button(root, 'Edit').click();
     flushSync();
     const dialog = document.body.querySelector('[data-slot="dialog-content"]')!;
     expect(dialog).not.toBeNull();
-    expect(dialog.querySelector('[data-slot="dialog-title"]')?.textContent).toContain(
-      'Edit',
-    );
+    expect(
+      dialog.querySelector('[data-slot="dialog-title"]')?.textContent,
+    ).toContain('Edit');
     const inputs = Array.from(
       dialog.querySelectorAll<HTMLInputElement>('input'),
     );
@@ -230,7 +232,9 @@ describe('modal editing', () => {
     flushSync();
     expect(onEditingRowSave.mock.calls[0][0].values.name).toBe('Caroline');
     expect(table.mrtState.editingRow).toBe(null);
-    expect(document.body.querySelector('[data-slot="dialog-content"]')).toBeNull();
+    expect(
+      document.body.querySelector('[data-slot="dialog-content"]'),
+    ).toBeNull();
   });
 
   it('lets a snippet replace the dialog content', () => {
@@ -245,7 +249,9 @@ describe('modal editing', () => {
     button(root, 'Edit').click();
     flushSync();
     expect(document.body.querySelector('.custom-dialog')).not.toBeNull();
-    expect(document.body.querySelector('[data-slot="dialog-title"]')).toBeNull();
+    expect(
+      document.body.querySelector('[data-slot="dialog-title"]'),
+    ).toBeNull();
   });
 });
 
@@ -375,11 +381,15 @@ describe('cell action menu', () => {
     flushSync();
     expect(table.mrtState.actionCell?.id).toBeTruthy();
     const items = Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     ).map((i) => i.textContent?.trim());
     expect(items).toEqual(['Copy', 'Edit']);
     Array.from(
-      document.body.querySelectorAll<HTMLElement>('[data-slot="dropdown-menu-item"]'),
+      document.body.querySelectorAll<HTMLElement>(
+        '[data-slot="dropdown-menu-item"]',
+      ),
     )[0].click();
     flushSync();
     expect(writeText).toHaveBeenCalledWith('Carol');

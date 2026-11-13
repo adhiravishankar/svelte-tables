@@ -65,7 +65,9 @@ describe('select column', async () => {
     rowCheckboxes(root)[1].click();
     flushSync();
     await settle();
-    expect(rowCheckboxes(root)[1].getAttribute('aria-checked') === 'true').toBe(true);
+    expect(rowCheckboxes(root)[1].getAttribute('aria-checked') === 'true').toBe(
+      true,
+    );
     expect(
       root
         .querySelector('tbody tr:nth-child(2)')
@@ -79,11 +81,19 @@ describe('select column', async () => {
     selectAll(root).click();
     flushSync();
     await settle();
-    expect(rowCheckboxes(root).every((c) => c.getAttribute('aria-checked') === 'true')).toBe(true);
+    expect(
+      rowCheckboxes(root).every(
+        (c) => c.getAttribute('aria-checked') === 'true',
+      ),
+    ).toBe(true);
     selectAll(root).click();
     flushSync();
     await settle();
-    expect(rowCheckboxes(root).some((c) => c.getAttribute('aria-checked') === 'true')).toBe(false);
+    expect(
+      rowCheckboxes(root).some(
+        (c) => c.getAttribute('aria-checked') === 'true',
+      ),
+    ).toBe(false);
   });
 
   it('selects a range with shift-click', async () => {
@@ -100,14 +110,9 @@ describe('select column', async () => {
     );
     flushSync();
     await settle();
-    expect(rowCheckboxes(root).map((c) => c.getAttribute('aria-checked') === 'true')).toEqual([
-      false,
-      true,
-      true,
-      true,
-      true,
-      false,
-    ]);
+    expect(
+      rowCheckboxes(root).map((c) => c.getAttribute('aria-checked') === 'true'),
+    ).toEqual([false, true, true, true, true, false]);
   });
 
   it('renders radios for single selection', async () => {
