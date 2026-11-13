@@ -1,0 +1,19 @@
+---
+title: "Resizable Columns"
+description: "Drag the edge of a header to resize it."
+sidebar:
+  order: 5
+---
+
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Resizable from '../../../examples/Resizable.svelte';
+
+Turn on `enableColumnResizing`. Drag the edge of a header, or double click it to reset the width.
+
+<Example>
+  <Resizable client:load />
+</Example>
+
+<ExampleSource name="Resizable" />

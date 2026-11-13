@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Logs in to npm if needed, then builds, tests and publishes the four libraries.
+// Logs in to npm if needed, then builds, tests and publishes the six libraries.
 //
 //   npm run publish:all                      publish every library
 //   npm run publish:all -- --dry-run         do everything except upload
@@ -19,8 +19,10 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const LIBRARIES = [
   'material-tanstack-table',
   'shadcn-tanstack-table',
+  'bootstrap-tanstack-table',
   'material-headless-table',
   'shadcn-headless-table',
+  'bootstrap-headless-table',
 ];
 
 const args = process.argv.slice(2);
@@ -34,22 +36,33 @@ const skipChecks = flag('--skip-checks');
 const otp = option('--otp');
 const tag = option('--tag');
 const wanted = args.filter(
-  (arg, index) => !arg.startsWith('--') && !['--otp', '--tag'].includes(args[index - 1]),
+  (arg, index) =>
+    !arg.startsWith('--') && !['--otp', '--tag'].includes(args[index - 1]),
 );
 
 const libraries = LIBRARIES.map((folder) => {
-  const pkg = JSON.parse(readFileSync(join(root, 'packages', folder, 'package.json'), 'utf8'));
+  const pkg = JSON.parse(
+    readFileSync(join(root, 'packages', folder, 'package.json'), 'utf8'),
+  );
   return { folder, name: pkg.name, version: pkg.version };
-}).filter((library) => wanted.length === 0 || wanted.includes(library.name) || wanted.includes(library.folder));
+}).filter(
+  (library) =>
+    wanted.length === 0 ||
+    wanted.includes(library.name) ||
+    wanted.includes(library.folder),
+);
 
 if (libraries.length === 0) {
-  console.error(`No library matches ${wanted.join(', ')}. Choose from: ${LIBRARIES.join(', ')}`);
+  console.error(
+    `No library matches ${wanted.join(', ')}. Choose from: ${LIBRARIES.join(', ')}`,
+  );
   process.exit(1);
 }
 
 // `npm` is npm.cmd on Windows, which needs a shell.
 const command = (npmArgs) => ['npm', ...npmArgs].join(' ');
-const npm = (npmArgs) => spawnSync(command(npmArgs), { cwd: root, shell: true, stdio: 'inherit' });
+const npm = (npmArgs) =>
+  spawnSync(command(npmArgs), { cwd: root, shell: true, stdio: 'inherit' });
 const npmQuiet = (npmArgs) =>
   spawnSync(command(npmArgs), { cwd: root, encoding: 'utf8', shell: true });
 
@@ -76,14 +89,20 @@ if (dryRun) {
 
 // ---- what is already published
 const published = (library) => {
-  const result = npmQuiet(['view', `${library.name}@${library.version}`, 'version']);
+  const result = npmQuiet([
+    'view',
+    `${library.name}@${library.version}`,
+    'version',
+  ]);
   return result.status === 0 && result.stdout.trim() === library.version;
 };
 
 const todo = [];
 for (const library of libraries) {
   if (published(library)) {
-    console.log(`- ${library.name}@${library.version} is already on npm, skipping`);
+    console.log(
+      `- ${library.name}@${library.version} is already on npm, skipping`,
+    );
   } else {
     todo.push(library);
   }
@@ -97,13 +116,16 @@ if (todo.length === 0) {
 for (const library of todo) {
   const spec = `${library.name}@${library.version}`;
   step(`${spec}: build`);
-  if (npm(['run', 'build', '-w', library.name]).status !== 0) fail(`The build of ${library.name} failed.`);
+  if (npm(['run', 'build', '-w', library.name]).status !== 0)
+    fail(`The build of ${library.name} failed.`);
 
   if (!skipChecks) {
     step(`${spec}: svelte-check`);
-    if (npm(['run', 'check', '-w', library.name]).status !== 0) fail(`svelte-check of ${library.name} failed.`);
+    if (npm(['run', 'check', '-w', library.name]).status !== 0)
+      fail(`svelte-check of ${library.name} failed.`);
     step(`${spec}: tests`);
-    if (npm(['run', 'test', '-w', library.name]).status !== 0) fail(`The tests of ${library.name} failed.`);
+    if (npm(['run', 'test', '-w', library.name]).status !== 0)
+      fail(`The tests of ${library.name} failed.`);
   }
 }
 
@@ -117,4 +139,6 @@ for (const library of todo) {
   if (npm(publishArgs).status !== 0) fail(`Publishing ${spec} failed.`);
 }
 
-console.log(`\n\u001b[32m${dryRun ? 'Dry run finished' : 'Published'}: ${todo.map((l) => `${l.name}@${l.version}`).join(', ')}\u001b[0m`);
+console.log(
+  `\n\u001b[32m${dryRun ? 'Dry run finished' : 'Published'}: ${todo.map((l) => `${l.name}@${l.version}`).join(', ')}\u001b[0m`,
+);

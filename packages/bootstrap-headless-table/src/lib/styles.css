@@ -1,0 +1,56 @@
+/*
+ * Theme tokens for bootstrap-svelte-headless-table.
+ *
+ * Import this once in your app, after Bootstrap:
+ *
+ *   @import 'bootstrap/dist/css/bootstrap.css';
+ *   @import 'bootstrap-svelte-headless-table/styles.css';
+ *
+ * It bridges the library's internal tokens to Bootstrap 5's own CSS
+ * variables, so the table follows whatever theme/colors the app already has
+ * configured for Bootstrap. If your app uses Bootstrap's own color mode
+ * attribute (`data-bs-theme="dark"` on `<html>` or an ancestor), the
+ * `--bs-*` variables already flip and this bridge follows along for free.
+ *
+ * `data-theme="dark"` is also supported directly on the table (or an
+ * ancestor) for apps that use that convention instead - the same one the
+ * material and shadcn flavors of this library use.
+ */
+
+:root {
+  --background: var(--bs-body-bg);
+  --foreground: var(--bs-body-color);
+  --card: var(--bs-body-bg);
+  --card-foreground: var(--bs-body-color);
+  --popover: var(--bs-body-bg);
+  --popover-foreground: var(--bs-body-color);
+  --primary: var(--bs-primary);
+  --primary-foreground: var(--bs-white, #fff);
+  --secondary: var(--bs-secondary-bg);
+  --secondary-foreground: var(--bs-body-color);
+  --muted: var(--bs-secondary-bg);
+  --muted-foreground: var(--bs-secondary-color);
+  --accent: var(--bs-tertiary-bg);
+  --accent-foreground: var(--bs-emphasis-color);
+  --destructive: var(--bs-danger);
+  --border: var(--bs-border-color);
+  --input: var(--bs-border-color);
+  --ring: var(--bs-primary);
+}
+
+/*
+ * Same values Bootstrap's own `[data-bs-theme='dark']` assigns, duplicated
+ * under `data-theme` so the table goes dark without requiring the host app
+ * to adopt Bootstrap's attribute name too.
+ */
+[data-theme='dark'] {
+  --bs-body-color: #dee2e6;
+  --bs-body-bg: #212529;
+  --bs-emphasis-color: #fff;
+  --bs-secondary-color: rgba(222, 226, 230, 0.75);
+  --bs-secondary-bg: #343a40;
+  --bs-tertiary-color: rgba(222, 226, 230, 0.5);
+  --bs-tertiary-bg: #2b3035;
+  --bs-border-color: #495057;
+  --bs-heading-color: inherit;
+}

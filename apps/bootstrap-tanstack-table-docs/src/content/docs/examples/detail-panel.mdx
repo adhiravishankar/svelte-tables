@@ -1,0 +1,18 @@
+---
+title: "Detail Panel"
+description: "Expand a row to show more detail."
+sidebar:
+  order: 6
+---
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import DetailPanel from '../../../examples/DetailPanel.svelte';
+
+Pass a `detailPanel` snippet and every row gets an expand button. The snippet receives the `row` and the `table`.
+
+<Example>
+  <DetailPanel client:load />
+</Example>
+
+<ExampleSource name="DetailPanel" />

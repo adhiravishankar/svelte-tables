@@ -1,0 +1,27 @@
+---
+/**
+ * Shows the real source of an example from `src/examples`, so the code on the
+ * page is always exactly what runs above it.
+ */
+import { Code } from '@astrojs/starlight/components';
+
+interface Props {
+  /** The example's file name, without `.svelte`. */
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const sources = import.meta.glob('../examples/*.svelte', {
+  eager: true,
+  import: 'default',
+  query: '?raw',
+}) as Record<string, string>;
+
+const code = sources[`../examples/${name}.svelte`];
+if (code === undefined) throw new Error(`There is no example named "${name}".`);
+---
+
+<div class="example-source">
+  <Code code={code.trim()} lang="svelte" title={`${name}.svelte`} />
+</div>

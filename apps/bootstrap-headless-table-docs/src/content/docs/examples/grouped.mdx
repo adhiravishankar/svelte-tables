@@ -1,0 +1,19 @@
+---
+title: "Grouping and Ordering"
+description: "Group rows with aggregated values, and drag headers to reorder."
+sidebar:
+  order: 4
+---
+
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import Grouped from '../../../examples/Grouped.svelte';
+
+Turn on `enableGrouping` for a group button in each header and `enableColumnOrdering` to drag headers. Click a group row to expand it. `aggregate` on a column shows a sum, mean, min, max, count or your own function on the group rows.
+
+<Example>
+  <Grouped client:load />
+</Example>
+
+<ExampleSource name="Grouped" />

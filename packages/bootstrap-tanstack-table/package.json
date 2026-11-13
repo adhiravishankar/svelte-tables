@@ -1,0 +1,95 @@
+{
+  "name": "bootstrap-svelte-tanstack-table",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "A fully featured Bootstrap 5 implementation of TanStack Table V9 for Svelte 5, written from the ground up in TypeScript.",
+  "author": "Adhi Ravishankar",
+  "keywords": [
+    "svelte",
+    "svelte5",
+    "svelte-table",
+    "bootstrap",
+    "bootstrap5",
+    "tanstack table",
+    "data table"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adhiravishankar/svelte-tables.git",
+    "directory": "packages/bootstrap-tanstack-table"
+  },
+  "homepage": "https://github.com/adhiravishankar/svelte-tables/tree/main/packages/bootstrap-tanstack-table",
+  "bugs": {
+    "url": "https://github.com/adhiravishankar/svelte-tables/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./locales/*": {
+      "types": "./dist/locales/*.d.ts",
+      "default": "./dist/locales/*.js"
+    }
+  },
+  "files": [
+    "src",
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "svelte-package -i src/lib -o dist",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "bootstrap": "^5.3.0",
+    "svelte": "^5.0.0"
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.12.4",
+    "@tanstack/match-sorter-utils": "9.2.6",
+    "@tanstack/svelte-table": "9.3.1",
+    "@tanstack/virtual-core": "^3.19.8",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@storybook/addon-a11y": "^10.6.5",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-svelte-csf": "^5.1.5",
+    "@storybook/addon-themes": "^10.6.5",
+    "@storybook/svelte-vite": "^10.6.5",
+    "@sveltejs/package": "^3.0.1",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.5",
+    "bootstrap": "^5.3.3",
+    "jsdom": "^30.1.3",
+    "storybook": "^10.6.5",
+    "svelte": "^5.57.3",
+    "svelte-check": "^4.7.7",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

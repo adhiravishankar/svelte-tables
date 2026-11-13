@@ -1,0 +1,59 @@
+---
+title: Install
+description: Install Bootstrap Headless Table and load its styles.
+---
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Bootstrap Headless Table needs **Svelte 5** and **Bootstrap 5**. Everything else it uses (Svelte Headless Table and
+Svelte Virtual List) is installed with it.
+
+<Steps>
+
+1. Install the package.
+
+   <Tabs syncKey="pm">
+     <TabItem label="npm">
+       ```sh
+       npm install bootstrap-svelte-headless-table bootstrap
+       ```
+     </TabItem>
+     <TabItem label="pnpm">
+       ```sh
+       pnpm add bootstrap-svelte-headless-table bootstrap
+       ```
+     </TabItem>
+     <TabItem label="yarn">
+       ```sh
+       yarn add bootstrap-svelte-headless-table bootstrap
+       ```
+     </TabItem>
+   </Tabs>
+
+2. Import the stylesheet once, after Bootstrap, in your global CSS. It bridges the library's tokens onto
+   Bootstrap's own `--bs-*` CSS variables.
+
+   ```css
+   @import 'bootstrap/dist/css/bootstrap.css';
+   @import 'bootstrap-svelte-headless-table/styles.css';
+   ```
+
+3. Optionally, define your own Bootstrap tokens after that import. If your app already has a Bootstrap 5 theme
+   (including Bootstrap's own `data-bs-theme="dark"` color mode), the table follows it automatically. See
+   [Theming](/guides/theming/).
+
+</Steps>
+
+## SvelteKit and Astro
+
+The package ships `.svelte` files, so a bundler that understands Svelte is needed. SvelteKit, Vite with
+`@sveltejs/vite-plugin-svelte`, and Astro with `@astrojs/svelte` all do. In Astro, render the table in an island with
+a client directive (this site uses `client:load`).
+
+## Requirements
+
+| Requirement | Version |
+| ----------- | ------- |
+| Svelte      | 5.30+   |
+| Bootstrap   | 5.x     |
+| Node        | 20+     |

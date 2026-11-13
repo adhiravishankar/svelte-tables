@@ -1,0 +1,19 @@
+---
+title: "Filter Variants"
+description: "Text, select, range and checkbox column filters."
+sidebar:
+  order: 2
+---
+
+
+import Example from '../../../components/Example.astro';
+import ExampleSource from '../../../components/ExampleSource.astro';
+import FilterVariants from '../../../examples/FilterVariants.svelte';
+
+Turn on `enableColumnFilters`. Each column gets a filter under its header; pick the kind with `filterVariant`.
+
+<Example>
+  <FilterVariants client:load />
+</Example>
+
+<ExampleSource name="FilterVariants" />

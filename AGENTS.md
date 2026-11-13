@@ -5,14 +5,16 @@ Guidance for AI coding agents working in this repository. Humans should read [RE
 
 ## What this repo is
 
-An npm-workspaces monorepo of four Svelte 5 data table libraries and their docs sites. Version `4.0.0-alpha`.
+An npm-workspaces monorepo of six Svelte 5 data table libraries and their docs sites. Version `4.0.0-alpha`.
 
 | Library (`packages/`) | Table logic | Components | Docs site (`apps/`) |
 | --- | --- | --- | --- |
 | `material-tanstack-table` | TanStack Table V9 | Svelte Material UI | `material-tanstack-table-docs` |
 | `shadcn-tanstack-table` | TanStack Table V9 | shadcn-svelte, bits-ui, Tailwind 4 | `shadcn-tanstack-table-docs` |
+| `bootstrap-tanstack-table` | TanStack Table V9 | Bootstrap 5 (plain markup/classes) | `bootstrap-tanstack-table-docs` |
 | `material-headless-table` | `@humanspeak/svelte-headless-table` | Svelte Material UI | `material-headless-table-docs` |
 | `shadcn-headless-table` | `@humanspeak/svelte-headless-table` | shadcn-svelte, bits-ui, Tailwind 4 | `shadcn-headless-table-docs` |
+| `bootstrap-headless-table` | `@humanspeak/svelte-headless-table` | Bootstrap 5 (plain markup/classes) | `bootstrap-headless-table-docs` |
 
 The TanStack packages are Svelte 5 ports of Material React Table v3 (MIT, Kevin Vandy). Keep API names close to it
 unless the port needs a Svelte idiom (snippets instead of `renderX`, getters instead of changing option values).
@@ -51,7 +53,7 @@ packages/<name>/
     components/     # Svelte components
     types/ types.ts # public types
     locales/        # 39 built in locales
-    styles.css      # shipped stylesheet (Material: pre-compiled Sass; shadcn: Tailwind scan + tokens)
+    styles.css      # shipped stylesheet (Material: pre-compiled Sass; shadcn: Tailwind scan + tokens; bootstrap: --bs-* bridge)
   stories/          # Storybook stories (TanStack Material has 400+)
 ```
 
@@ -72,11 +74,15 @@ and `public/_headers`. Docs API reference pages are generated from library types
 - TypeScript, fully typed with generics. No `any` in public types.
 - Formatting (oxfmt): single quotes, semicolons, 2 space indent, LF, sorted imports. Run `npm run format` rather than
   styling by hand.
-- Material and shadcn flavors of the same engine should stay feature-equivalent. When you change one, check its sibling
-  (`material-tanstack` / `shadcn-tanstack`, `material-headless` / `shadcn-headless`).
+- Material, shadcn and Bootstrap flavors of the same engine should stay feature-equivalent. When you change one, check
+  its siblings (`material-tanstack` / `shadcn-tanstack` / `bootstrap-tanstack`, `material-headless` / `shadcn-headless` /
+  `bootstrap-headless`).
 - Feature set differs by engine on purpose. Headless packages do not have column pinning, in-table editing, fuzzy search,
   facet counts or detail panels, because they are not Svelte Headless Table plugins. Do not add them there.
-- Theming: Material uses `--mdc-theme-*` variables; shadcn uses its tokens. Do not mix them.
+- Theming: Material uses `--mdc-theme-*` variables; shadcn uses its tokens; Bootstrap bridges the same internal tokens to
+  Bootstrap's own `--bs-*` variables. Do not mix them.
+- Bootstrap packages use plain Bootstrap 5 markup/classes (no bits-ui, no component wrapper library). Anchored menus and
+  popovers (`floatingAnchor.ts`) are hand-rolled with `getBoundingClientRect` rather than Popper/Floating UI.
 - Add or update a Storybook story and a test when you add or fix a feature. Keep docs pages in
   `apps/*/src/content/docs` in sync with API changes.
 - Do not bump versions or publish. `npm run publish:all` is for the maintainer.

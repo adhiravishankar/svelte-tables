@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// Builds the four docs sites for GitHub Pages and puts them in one folder:
+// Builds the six docs sites for GitHub Pages and puts them in one folder:
 //
 //   _site/index.html                  a landing page that links to the sites
 //   _site/material-tanstack/          each site, built with its own base path
 //   _site/shadcn-tanstack/
+//   _site/bootstrap-tanstack/
 //   _site/material-headless/
 //   _site/shadcn-headless/
+//   _site/bootstrap-headless/
 //
 // The sites are served from https://<owner>.github.io/<repository>/<site>/, so each one is built with
 // BASE_PATH=/<repository>/<site>. Environment variables:
@@ -39,6 +41,14 @@ const SITES = [
     folder: 'shadcn-tanstack-table-docs',
   },
   {
+    slug: 'bootstrap-tanstack',
+    title: 'Bootstrap TanStack',
+    text: 'Bootstrap 5 on TanStack Table v9. The full feature set.',
+    docs: 'bootstrap-svelte-tanstack-table-docs',
+    lib: 'bootstrap-svelte-tanstack-table',
+    folder: 'bootstrap-tanstack-table-docs',
+  },
+  {
     slug: 'material-headless',
     title: 'Material headless',
     text: 'Svelte Material UI on Svelte Headless Table. Plugin based and smaller.',
@@ -53,6 +63,14 @@ const SITES = [
     docs: 'shadcn-svelte-headless-table-docs',
     lib: 'shadcn-svelte-headless-table',
     folder: 'shadcn-headless-table-docs',
+  },
+  {
+    slug: 'bootstrap-headless',
+    title: 'Bootstrap headless',
+    text: 'Bootstrap 5 on Svelte Headless Table. Plugin based and smaller.',
+    docs: 'bootstrap-svelte-headless-table-docs',
+    lib: 'bootstrap-svelte-headless-table',
+    folder: 'bootstrap-headless-table-docs',
   },
 ];
 
@@ -71,7 +89,8 @@ const run = (command, env = {}) => {
 
 // empty the folder rather than delete it: Windows refuses to delete a folder that a shell has open
 mkdirSync(out, { recursive: true });
-for (const entry of readdirSync(out)) rmSync(join(out, entry), { force: true, recursive: true });
+for (const entry of readdirSync(out))
+  rmSync(join(out, entry), { force: true, recursive: true });
 
 for (const site of SITES) {
   console.log(`\n== ${site.title}`);
@@ -80,7 +99,9 @@ for (const site of SITES) {
     BASE_PATH: `/${repo}/${site.slug}`,
     SITE_URL: siteUrl,
   });
-  cpSync(join(root, 'apps', site.folder, 'dist'), join(out, site.slug), { recursive: true });
+  cpSync(join(root, 'apps', site.folder, 'dist'), join(out, site.slug), {
+    recursive: true,
+  });
 }
 
 const cards = SITES.map(
@@ -98,7 +119,7 @@ writeFileSync(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Svelte Tables</title>
-    <meta name="description" content="Data tables for Svelte 5 in four flavors." />
+    <meta name="description" content="Data tables for Svelte 5 in six flavors." />
     <style>
       :root { color-scheme: light dark; --bg: #fff; --fg: #1a1a1a; --muted: #666; --border: #ddd; --accent: #3b6df0; }
       @media (prefers-color-scheme: dark) { :root { --bg: #111; --fg: #eee; --muted: #aaa; --border: #333; --accent: #7ea2ff; } }
@@ -118,7 +139,7 @@ writeFileSync(
   <body>
     <main>
       <h1>Svelte Tables</h1>
-      <p class="lead">Data tables for Svelte 5, with Material or shadcn-svelte components, on TanStack Table or Svelte Headless Table.</p>
+      <p class="lead">Data tables for Svelte 5, with Material, shadcn-svelte or Bootstrap components, on TanStack Table or Svelte Headless Table.</p>
       <div class="grid">
 ${cards}
       </div>

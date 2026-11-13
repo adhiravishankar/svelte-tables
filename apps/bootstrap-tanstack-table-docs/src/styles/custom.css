@@ -1,0 +1,69 @@
+/*
+ * Bootstrap, imported into its own cascade layer so its reboot/base styles
+ * sit below anything Starlight declares at equal specificity, plus the
+ * library's styles, which bridge its tokens onto Bootstrap's own `--bs-*`
+ * variables.
+ *
+ * Cascade layers only protect Starlight where Starlight has a rule of its
+ * own to win with. Bootstrap's reboot also resets a few bare-tag defaults
+ * (`body`, `a`, `button`, `input`) that Starlight's chrome may rely on
+ * browser defaults for instead - those are put back explicitly below with
+ * unlayered rules (which always beat a layered one, regardless of layer
+ * order), scoped to everywhere outside the live table demos.
+ *
+ * The `--bs-*` overrides point Bootstrap's own variables at Starlight's
+ * colors, so both the live tables and Bootstrap's own components (buttons,
+ * menus, the edit modal) follow the site's theme and its light/dark switch.
+ */
+@layer bootstrap;
+@import 'bootstrap/dist/css/bootstrap.css' layer(bootstrap);
+@import 'bootstrap-svelte-tanstack-table/styles.css';
+
+:root,
+[data-theme='dark'],
+[data-theme='light'] {
+  --bs-body-bg: var(--sl-color-bg);
+  --bs-body-color: var(--sl-color-text);
+  --bs-emphasis-color: var(--sl-color-text);
+  --bs-secondary-bg: var(--sl-color-gray-5);
+  --bs-secondary-color: var(--sl-color-gray-2);
+  --bs-tertiary-bg: var(--sl-color-gray-6);
+  --bs-tertiary-color: var(--sl-color-gray-2);
+  --bs-border-color: var(--sl-color-gray-5);
+  --bs-primary: var(--sl-color-accent);
+  --bs-link-color: var(--sl-color-accent);
+  --bs-link-hover-color: var(--sl-color-accent-high);
+}
+
+/* Undo Bootstrap's reboot outside the live demos - see the note above. */
+body {
+  background-color: var(--sl-color-bg);
+  color: var(--sl-color-text);
+}
+a:not(.example a, .mrt-paper a) {
+  color: var(--sl-color-text-accent);
+  text-decoration: inherit;
+}
+button:not(.example button, .mrt-paper button) {
+  border-radius: inherit;
+  font: inherit;
+}
+
+/* Starlight styles bare tables in prose; the live tables are not prose. */
+.example {
+  margin: 1.5rem 0;
+}
+.example :where(table) {
+  display: table;
+  margin: 0;
+}
+.example-source {
+  margin-top: 0.5rem;
+}
+.example-controls {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
